@@ -17,6 +17,8 @@ class SiteController extends BaseController
 
     public function actionAuth()
     {
+        $admin = new Admin();
+        $admin = $admin->getById(1);
         $this->render('verification');
     }
 }

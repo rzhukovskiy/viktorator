@@ -8,7 +8,9 @@
  */
 class BaseModel
 {
-    public $pdo;
+    protected $pdo;
+    protected $nameTable;
+    protected $data;
 
     public function __construct()
     {
@@ -16,10 +18,47 @@ class BaseModel
         $user = 'root';
         $password = 'vBghJk';
 
-        try {
-            $this->pdo = new PDO($dsn, $user, $password);
-        } catch (PDOException $e) {
-            echo 'Подключение не удалось: ' . $e->getMessage();
-        }
+        $opt = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+
+        $this->pdo = new PDO($dsn, $user, $password, $opt);
+    }
+
+    public function __get($name)
+    {
+        return $this->data[$name];
+    }
+
+    public function __set($name, $value)
+    {
+        $this->data[$name] = $value;
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @param $id int
+     * @return BaseModel
+     */
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM :table WHERE id = :id');
+        $stmt->execute([
+            'table' => $this->nameTable,
+            'id'    => $id
+        ]);
+
+        $nameClass = get_class();
+        /** @var BaseModel $model */
+        $model = new $nameClass();
+        $model->setData($stmt);
+
+        return $model;
     }
 }
