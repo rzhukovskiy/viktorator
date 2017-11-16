@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Mediastog::auth</title>
+    <title>Mediastog</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
@@ -33,13 +33,9 @@
                 <div class="block__body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>Привет!</h2>
-                            <p>Я тебя не знаю. Так что давай аторизуйся</p>
+                            <h2>Добро пожаловать!</h2>
+                            <p>Привет, <?= $username ?>! Но тебя нет в админах, сорян. Жди апрува.</p>
 
-                        </div>
-                        <div class="col-md-12">
-                            <p class="text-center"><a class="btn btn-primary" href="<?= $link ?>" role="button">Login
-                                    VK</a></p>
                         </div>
                     </div>
                 </div>

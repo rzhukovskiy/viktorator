@@ -1,0 +1,43 @@
+CREATE TABLE `viktorator`.`admin` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `social_id` INT NOT NULL,
+  `name` VARCHAR(255) NULL,
+  `token` VARCHAR(255) NULL,
+  `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `is_bot` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
+
+CREATE TABLE `viktorator`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `social_id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `scores` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
+
+CREATE TABLE `viktorator`.`activity` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `description` VARCHAR(45) NOT NULL,
+  `price` INT UNSIGNED NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `viktorator`.`action` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `social_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `user_social_id` INT NOT NULL,
+  `activity_id` INT NOT NULL,
+  `content` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `viktorator`.`config` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `value` VARCHAR(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC));
+
+INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_id', '6253298');
+INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_secret', 'eH3T0i8mYSmcIoHqGppB');
+INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('redirect_uri', 'http://mediastog.ru/site/auth');

@@ -45,7 +45,8 @@ class Router
         $action     = 'action' . ucfirst($action);
 
         try {
-            $controllerObject = new $controller();
+            /** @var BaseController $controllerObject */
+            $controllerObject = new $controller($action);
             $controllerObject->$action();
         } catch (Exception $e) {
             http_response_code(404);

@@ -10,12 +10,12 @@ class BaseModel
 {
     protected $pdo;
     protected $nameTable;
-    protected $data;
 
     public function __construct()
     {
         $dsn = 'mysql:dbname=viktorator;host=127.0.0.1';
         $user = 'root';
+        //$password = '';
         $password = 'vBghJk';
 
         $opt = [
@@ -23,42 +23,31 @@ class BaseModel
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-
         $this->pdo = new PDO($dsn, $user, $password, $opt);
     }
 
-    public function __get($name)
+    public function save($params)
     {
-        return $this->data[$name];
-    }
+        if (empty($params['id'])) {
+            $columns = implode("`, `", array_keys($params));
+            $values  = implode("', '", array_values($params));
 
-    public function __set($name, $value)
-    {
-        $this->data[$name] = $value;
-    }
+            $stmt = $this->pdo->prepare("INSERT INTO $this->nameTable (`$columns`) VALUES ('$values')");
+            $stmt->execute();
 
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
+            return $this->pdo->lastInsertId();
+        } else {
+            $values = [];
+            foreach ($params as $name => $value) {
+                $values[] = "`$name` = '$value'";
+            }
+            $values = implode(", ", $values);
+            $stmt = $this->pdo->prepare("UPDATE $this->nameTable SET $values WHERE id = :id");
+            $stmt->execute([
+                ':id' => $params['id'],
+            ]);
 
-    /**
-     * @param $id int
-     * @return BaseModel
-     */
-    public function getById($id)
-    {
-        $stmt = $this->pdo->prepare('SELECT * FROM :table WHERE id = :id');
-        $stmt->execute([
-            'table' => $this->nameTable,
-            'id'    => $id
-        ]);
-
-        $nameClass = get_class();
-        /** @var BaseModel $model */
-        $model = new $nameClass();
-        $model->setData($stmt);
-
-        return $model;
+            return $params['id'];
+        }
     }
 }

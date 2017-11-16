@@ -11,8 +11,9 @@ class Autoloader
     private static $listPath = [
         'app/',
         'controllers/',
-        'models/',
+        'entities/',
         'lib/',
+        'models/',
     ];
 
     private static $lastLoadedFilename;
