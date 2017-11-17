@@ -13,7 +13,7 @@ class VkSdk
 
     private static function callApi($method, $params)
     {
-        $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . 'v=' . self::API_VERSION;
+        $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
         $data = json_decode(file_get_contents($url), true);
 
         if (empty($infoUser['error'])) {
@@ -73,72 +73,91 @@ class VkSdk
         }
     }
 
-    public static function getWallContent($user_id, $token)
+    public static function getWallContent($owner_id, $token, $offset)
     {
         $params = array(
-            'owner_id'     => $user_id,
+            'owner_id'     => $owner_id,
             'access_token' => $token,
+            'filter'       => 'owner',
+            'offset'       => $offset,
         );
 
         $data = self::callApi('wall.get', $params);
 
         if ($data) {
-            unset($data['response'][0]);
-            return $data['response'];
+            return $data['response']['items'];
         } else {
             return false;
         }
     }
 
-    public static function getLikeList($user_id, $item_id, $type, $token)
+    public static function getLikeList($owner_id, $token, $item_id, $type, $offset)
     {
         $params = array(
-            'owner_id' => $user_id,
-            'item_id'  => $item_id,
-            'type'     => $type,
-            'access_token' => $token,
+            'owner_id'      => $owner_id,
+            'item_id'       => $item_id,
+            'type'          => $type,
+            'access_token'  => $token,
+            'offset'        => $offset,
         );
 
-        $response = json_decode(file_get_contents('https://api.vk.com/method/likes.getList' . '?' . urldecode(http_build_query($params))), true);
+        $data = self::callApi('likes.getList', $params);
 
-        if (empty($response['error'])) {
-            return $response['response']['users'];
+        if (empty($data['error'])) {
+            return $data['response']['items'];
         } else {
             return false;
         }
     }
 
-    public static function getCommentList($user_id, $item_id, $token)
+    public static function getCommentList($owner_id, $token, $post_id, $offset)
     {
         $params = array(
-            'owner_id' => $user_id,
-            'post_id'  => $item_id,
-            'access_token' => $token,
-            'start_comment_id' => 0,
+            'owner_id'          => $owner_id,
+            'post_id'           => $post_id,
+            'access_token'      => $token,
+            'start_comment_id'  => 0,
+            'offset'            => $offset,
         );
 
-        $response = json_decode(file_get_contents('https://api.vk.com/method/wall.getComments' . '?' . urldecode(http_build_query($params))), true);
+        $data = self::callApi('wall.getComments', $params);
 
-        if (empty($response['error']) && $response['response'][0]) {
-            unset($response['response'][0]);
-            return $response['response'];
+        if (empty($data['error'])) {
+            return $data['response']['items'];
         } else {
             return false;
         }
     }
 
-    public static function getRepostList($user_id, $item_id, $token)
+    public static function getRepostList($owner_id, $token, $post_id, $offset)
     {
         $params = array(
-            'owner_id' => $user_id,
-            'post_id'  => $item_id,
+            'owner_id'      => $owner_id,
+            'post_id'       => $post_id,
+            'access_token'  => $token,
+            'offset'        => $offset,
+        );
+
+        $data = self::callApi('wall.getReposts', $params);
+
+        if (empty($data['error'])) {
+            return $data['response']['items'];
+        } else {
+            return false;
+        }
+    }
+
+    public static function getUser($user_ids, $token)
+    {
+        $params = array(
+            'user_ids' => $user_ids,
             'access_token' => $token,
         );
 
-        $response = json_decode(file_get_contents('https://api.vk.com/method/wall.getReposts' . '?' . urldecode(http_build_query($params))), true);
+        $data = self::callApi('users.get', $params);
 
-        if (empty($response['error'])) {
-            return $response['response']['items'];
+        if (empty($data['error'])) {
+            return $data['response'][0];
         } else {
             return false;
         }
@@ -151,7 +170,12 @@ class VkSdk
             'user_id'  => $user_id,
         );
 
-        $response = json_decode(file_get_contents('https://api.vk.com/method/groups.isMember' . '?' . urldecode(http_build_query($params))), true);
-        return $response['response'];
+        $data = self::callApi('groups.isMember', $params);
+
+        if (empty($data['error'])) {
+            return $data['response'];
+        } else {
+            return false;
+        }
     }
 }

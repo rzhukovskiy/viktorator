@@ -13,6 +13,12 @@
  */
 class UserEntity extends BaseEntity
 {
+    public function addScores($amount)
+    {
+        $this->scores = max(0, $this->scores + $amount);
+        $this->save();
+    }
+    
     public function save()
     {
         $model = new UserModel();

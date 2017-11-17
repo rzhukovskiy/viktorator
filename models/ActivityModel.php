@@ -10,7 +10,7 @@ class ActivityModel extends BaseModel
 {
     protected $nameTable = 'activity';
 
-    public function getIdByName($name)
+    public function getByName($name)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE description = :name");
         $stmt->execute([
@@ -19,7 +19,22 @@ class ActivityModel extends BaseModel
 
         if ($stmt->rowCount()) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $row['id'];
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row;
         } else {
             return false;
         }

@@ -6,7 +6,7 @@
  * Date: 10.11.2017
  * Time: 17:38
  */
-class UserController extends BaseController
+class ActionController extends BaseController
 {
     /** @var $admin AdminEntity  */
     private $admin = null;
@@ -35,9 +35,18 @@ class UserController extends BaseController
 
     public function actionList()
     {
-        $userModel = new UserModel();
-        $this->render('user/list', [
-            'listUser' => $userModel->getAll(),
+        $actionModel = new ActionModel();
+        $this->render('action/list', [
+            'listAction' => $actionModel->getByUser($_GET['user_id']),
         ]);
+    }
+
+    public function actionDeactivate()
+    {
+        $actionModel = new ActionModel();
+        $actionEntity = $actionModel->getById($_GET['id']);
+        $actionEntity->deactivate();
+
+        $this->redirect('action/list?user_id=' . $actionEntity->user_id);
     }
 }

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Mediastog::settings</title>
+    <title>Bootstrap 101 Template</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
@@ -16,7 +16,6 @@
 
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link href="../node_modules/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i,900,900i&amp;subset=cyrillic"
           rel="stylesheet">
 
@@ -51,7 +50,7 @@
                             <a class="nav-link" href="/site/admin">Админы</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/collect">Пользователи</a>
+                            <a class="nav-link" href="/user/list">Пользователи</a>
                         </li>
                     </ul>
                 </div>
@@ -117,10 +116,8 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-<script src="/js/jquery.scrollbar.js"></script>
 
 </body>
 </html>

@@ -25,10 +25,13 @@ CREATE TABLE `viktorator`.`activity` (
 CREATE TABLE `viktorator`.`action` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `social_id` INT NOT NULL,
+  `parent_social_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   `user_social_id` INT NOT NULL,
   `activity_id` INT NOT NULL,
   `content` VARCHAR(255) NULL,
+  `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  `scores` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`));
 
 CREATE TABLE `viktorator`.`config` (

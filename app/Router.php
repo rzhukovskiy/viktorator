@@ -31,7 +31,14 @@ class Router
 
     public function handleRequest()
     {
-        list($uri, $query) = explode('?', $_SERVER['REQUEST_URI']);
+        if (isset($_GET['r'])) {
+            $uri = $_GET['r'];
+            unset($_GET['r']);
+            $query = http_build_query($_GET);
+        } else {
+            list($uri, $query) = explode('?', $_SERVER['REQUEST_URI']);
+        }
+
         $_SERVER['REQUEST_URI'] = $query;
         list($controller, $action) = explode('/', trim($uri, '/'));
         if (empty($controller)) {

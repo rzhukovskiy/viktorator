@@ -8,17 +8,29 @@
  *
  * @property integer    $id
  * @property integer    $social_id
+ * @property integer    $parent_social_id
  * @property integer    $user_id
  * @property integer    $user_social_id
  * @property integer    $activity_id
+ * @property integer    $scores
+ * @property integer    $is_active
  * @property string     $content
+ * @property string     $activity
  */
 class ActionEntity extends BaseEntity
 {
     public function __construct($data)
     {
         $activityModel = new ActivityModel();
-        $data['activity_id'] = $activityModel->getIdByName($data['activity_id']);
+        
+        if(empty($data['activity_id'])) {
+            $row = $activityModel->getByName($data['activity']);
+            $data['activity_id'] = $row['id'];
+            $data['scores']      = $row['price'];
+        } else {
+            $row = $activityModel->getById($data['activity_id']);
+            $data['activity'] = $row['description'];
+        }
         
         parent::__construct($data);
     }
@@ -30,7 +42,30 @@ class ActionEntity extends BaseEntity
             return;
         }
         
+        unset($this->data['activity']);        
         $id = $model->save($this->data);
+        
+        $userModel = new UserModel();
+        $userEntity = $userModel->findBySocialId($this->user_social_id);
+        if ($userEntity) {
+            $userEntity->addScores($this->scores);
+        }
+        
         $this->id = $id;
+    }
+
+    public function deactivate()
+    {
+        $this->is_active = 0;
+        
+        $model = new ActionModel();
+        unset($this->data['activity']);
+        $model->save($this->data);
+
+        $userModel = new UserModel();
+        $userEntity = $userModel->findBySocialId($this->user_social_id);
+        if ($userEntity) {
+            $userEntity->addScores(-1 * $this->scores);
+        }        
     }
 }
