@@ -7,6 +7,7 @@
  * Time: 10:20
  *
  * @property integer    $id
+ * @property integer    $group_id
  * @property integer    $social_id
  * @property integer    $parent_social_id
  * @property integer    $user_id
@@ -31,6 +32,8 @@ class ActionEntity extends BaseEntity
             $row = $activityModel->getById($data['activity_id']);
             $data['activity'] = $row['description'];
         }
+
+        $data['group_id'] = Globals::$config->group_id;
         
         parent::__construct($data);
     }

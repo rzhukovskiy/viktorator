@@ -23,7 +23,7 @@ class ScoreModel
 
         $totalScores = 0;
         $userModel = new UserModel();
-        $date = 1510531200;
+        $date = strtotime('last Monday', time()) + 3*3600;
 
         $break = false;
         $postOffset = 0;
@@ -51,24 +51,9 @@ class ScoreModel
                     }
 
                     foreach ($listLikes as $user_id) {
-                        $userEntity = $userModel->findBySocialId($user_id);
-
-                        if (!$userEntity ) {
-                            if (!VkSdk::isMember(Globals::$config->group_id, $user_id)) {
-                                continue;
-                            }
-                            $infoUser = VkSdk::getUser($user_id, self::$token);
-
-                            if (!$infoUser) {
-                                continue;
-                            }
-                            $userEntity = new UserEntity([
-                                'social_id' => $user_id,
-                                'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
-                                'scores'    => 0,
-                            ]);
-
-                            $userEntity->save();
+                        $userEntity = $userModel->createFromSocialId($user_id);
+                        if (!$userEntity) {
+                            break;
                         }
 
                         $activity = 'like';
@@ -100,24 +85,9 @@ class ScoreModel
                     }
 
                     foreach ($listComments as $comment) {
-                        $userEntity = $userModel->findBySocialId($comment['from_id']);
-
+                        $userEntity = $userModel->createFromSocialId($user_id);
                         if (!$userEntity) {
-                            if (!VkSdk::isMember(Globals::$config->group_id, $comment['from_id'])) {
-                                continue;
-                            }
-                            $infoUser = VkSdk::getUser($comment['from_id'], self::$token);
-
-                            if (!$infoUser) {
-                                continue;
-                            }
-                            $userEntity = new UserEntity([
-                                'social_id' => $comment['from_id'],
-                                'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
-                                'scores'    => 0,
-                            ]);
-
-                            $userEntity->save();
+                            break;
                         }
 
                         $actionEntity = new ActionEntity([
@@ -142,24 +112,9 @@ class ScoreModel
                     }
 
                     foreach ($listRepost as $repost) {
-                        $userEntity = $userModel->findBySocialId($repost['from_id']);
-
+                        $userEntity = $userModel->createFromSocialId($user_id);
                         if (!$userEntity) {
-                            if (!VkSdk::isMember(Globals::$config->group_id, $repost['from_id'])) {
-                                continue;
-                            }
-                            $infoUser = VkSdk::getUser($repost['from_id'], self::$token);
-
-                            if (!$infoUser) {
-                                continue;
-                            }
-                            $userEntity = new UserEntity([
-                                'social_id' => $repost['from_id'],
-                                'name' => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
-                                'scores' => 0,
-                            ]);
-
-                            $userEntity->save();
+                            break;
                         }
 
                         $actionEntity = new ActionEntity([

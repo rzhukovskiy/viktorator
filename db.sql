@@ -24,6 +24,7 @@ CREATE TABLE `viktorator`.`activity` (
 
 CREATE TABLE `viktorator`.`action` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
   `parent_social_id` INT NOT NULL,
   `user_id` INT NOT NULL,

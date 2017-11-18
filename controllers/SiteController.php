@@ -110,4 +110,21 @@ class SiteController extends BaseController
             'config' => Globals::$config,
         ]);
     }
+
+    public function actionActivity()
+    {
+        if (!empty($_POST['Activity'])) {
+            foreach ($_POST['Activity'] as $data) {
+                $activityEntity = new ActivityEntity($data);
+                $activityEntity->save();
+            }
+
+            $this->redirect('site/activity');
+        }
+
+        $activityModel = new ActivityModel();
+        $this->render('activity', [
+            'listActivity' => $activityModel->getAll(),
+        ]);
+    }
 }

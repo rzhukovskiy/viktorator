@@ -39,4 +39,20 @@ class ActivityModel extends BaseModel
             return false;
         }
     }
+
+    public function getAll()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
+        $stmt->execute();
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new UserEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
 }

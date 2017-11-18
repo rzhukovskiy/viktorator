@@ -28,6 +28,41 @@ class UserModel extends BaseModel
         }
     }
 
+    /**
+     * @param string $socialId
+     * @return UserEntity
+     */
+    public function createFromSocialId($socialId)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE social_id = :social_id");
+        $stmt->execute([
+            'social_id' => $socialId,
+        ]);
+
+        $userEntity = null;
+        if ($stmt->rowCount()) {
+            $userEntity = new UserEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            if (!VkSdk::isMember(Globals::$config->group_id, $socialId)) {
+                return null;
+            }
+            $infoUser = VkSdk::getUser($socialId, self::$token);
+
+            if (!$infoUser) {
+                return null;
+            }
+            $userEntity = new UserEntity([
+                'social_id' => $socialId,
+                'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
+                'scores'    => 0,
+            ]);
+
+            $userEntity->save();
+        }
+
+        return $userEntity;
+    }
+
     public function getAll()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
