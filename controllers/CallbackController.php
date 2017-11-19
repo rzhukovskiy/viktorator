@@ -6,7 +6,7 @@
  * Date: 19.11.2017
  * Time: 18:30
  */
-class CallbackController extends BotController
+class CallbackController extends BaseController
 {
     private $secret = 'qwAFwe12Qwefh';
 
