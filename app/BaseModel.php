@@ -15,8 +15,8 @@ class BaseModel
     {
         $dsn = 'mysql:dbname=viktorator;host=127.0.0.1';
         $user = 'root';
-        $password = '';
-        //$password = 'vBghJk';
+        //$password = '';
+        $password = 'vBghJk';
 
         $opt = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
