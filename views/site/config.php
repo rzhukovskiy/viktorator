@@ -9,9 +9,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="Config[group_key]" class="col-sm-2 col-form-label">Ключ группы</label>
+                    <label for="Config[topic_id]" class="col-sm-2 col-form-label">Ключ группы</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="Config[group_key]" id="Config[group_key]" placeholder="ключ группы" value="<?= $config->group_key?>">
+                        <input type="text" class="form-control" name="Config[topic_id]" id="Config[topic_id]" placeholder="ID топика с конкурсом" value="<?= $config->group_key?>">
                     </div>
                 </div>
                 <div class="form-group row">

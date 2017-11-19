@@ -7,7 +7,7 @@
  * Time: 10:20
  *
  * @property string    $group_id
- * @property string    $group_key
+ * @property string    $topic_id
  * @property string    $app_id
  * @property string    $app_secret
  * @property string    $redirect_uri

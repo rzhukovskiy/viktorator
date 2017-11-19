@@ -23,13 +23,29 @@ class VkSdk
         }
     }
 
+    public static function addComment($token, $user_id)
+    {
+        $params = [
+            'group_id'     => Globals::$config->group_id,
+            'topic_id'     => Globals::$config->group_id,
+            'from_group'   => 1,
+            'access_token' => $token,
+            'message'      => 'Привет! ' . $user_id,
+        ];
+
+        $method = 'board.createComment';
+        $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
+        $data = json_decode(file_get_contents($url), true);
+
+    }
+
     public static function getAuthUrl()
     {
         $params = [
             'client_id'     => Globals::$config->app_id,
             'redirect_uri'  => Globals::$config->redirect_uri,
             'response_type' => 'code',
-            'scope'         => 'offline,wall,notify,friends'
+            'scope'         => 'offline,wall,notify,friends,groups',
         ];
         return 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
     }
