@@ -71,7 +71,7 @@
                             $i++;?>
                         <div class="form-group row">
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="Activity[<?=$i?>][id]" value="<?= $activity->id?>">
+                                <input type="hidden" class="form-control" name="Activity[<?=$i?>][id]" value="<?= $activity->id?>">
                                 <input type="text" class="form-control" name="Activity[<?=$i?>][description]" placeholder="description"
                                        value="<?= $activity->description ?>">
                             </div>
