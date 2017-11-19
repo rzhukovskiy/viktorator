@@ -29,8 +29,8 @@ class CallbackController extends BaseController
         }
 
         $data = json_decode(file_get_contents('php://input'));
-        if ($data->type == 'board_post_new' && $data->secret == $this->secret) {
-            VkSdk::addComment($this->bot->getToken(), $data->object->from_id);
+        if ($data['type'] == 'board_post_new' && $data['secret'] == $this->secret) {
+            VkSdk::addComment($this->bot->getToken(), $data['object']['from_id']);
         }
 
         echo 'ok';
