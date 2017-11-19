@@ -44,7 +44,7 @@
                 <div class="form-group row">
                     <label for="Config[standalone_token]" class="col-sm-2 col-form-label">Token standalone приложения</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="Config[standalone_token]" placeholder="айдишник моего приложения" value="<?= $config->standalone_token?>">
+                        <input type="text" class="form-control" name="Config[standalone_token]" placeholder="токен моего приложения" value="<?= $config->standalone_token?>">
                     </div>
                 </div>
                 <div class="form-group row">

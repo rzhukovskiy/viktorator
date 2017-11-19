@@ -57,12 +57,10 @@ class VkSdk
 
     public static function getStandaloneAuthUrl()
     {
-        $params = [
-            'client_id'     => Globals::$config->standalone_id,
-            'response_type' => 'code',
-            'scope'         => 'offline,wall,notify,friends,groups',
-        ];
-        return 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
+        return 'https://oauth.vk.com/authorize?client_id=' .
+            Globals::$config->standalone_id .
+            '&display=page&redirect_uri=https://oauth.vk.com/blank.html&' .
+            'scope=offline,wall,notify,friends,groups&response_type=token&v=5.69';
     }
 
     /**
