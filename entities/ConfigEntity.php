@@ -7,10 +7,13 @@
  * Time: 10:20
  *
  * @property string    $group_id
+ * @property string    $group_secret
  * @property string    $topic_id
  * @property string    $app_id
  * @property string    $app_secret
  * @property string    $redirect_uri
+ * @property string    $standalone_id
+ * @property string    $standalone_token
  */
 class ConfigEntity extends BaseEntity
 {
