@@ -27,7 +27,7 @@ class VkSdk
     {
         $params = [
             'group_id'     => Globals::$config->group_id,
-            'topic_id'     => Globals::$config->group_id,
+            'topic_id'     => Globals::$config->topic_id,
             'from_group'   => 1,
             'access_token' => $token,
             'message'      => 'Привет! ' . $user_id,
