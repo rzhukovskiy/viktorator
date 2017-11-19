@@ -9,7 +9,7 @@
 class VkSdk
 {
     const API_URL       = 'https://api.vk.com/method/';
-    const API_VERSION   = '5.59';
+    const API_VERSION   = '5.69';
 
     private static function callApi($method, $params)
     {

@@ -73,6 +73,7 @@ class ScoreModel
                         ]);
                         $actionEntity->save();
                         $totalScores += $actionEntity->scores;
+                        $likeCount++;
                     }
                     $offset += 100;
                 }
