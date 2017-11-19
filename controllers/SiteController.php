@@ -38,13 +38,13 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         if ($this->admin->is_active) {
-            $this->render('main', [
+            $this->render('site/main', [
                 'username'  => $this->admin->name,
                 'bot'       => $this->bot->isActive(),
                 'botname'   => $this->bot->getOwnerName(),
             ]);
         } else {
-            $this->render('greet', [
+            $this->render('site/greet', [
                 'username' => $this->admin->name
             ]);
         }
@@ -82,7 +82,7 @@ class SiteController extends BaseController
             $this->redirect('site/index');
         }
 
-        $this->render('auth', [
+        $this->render('site/auth', [
             'link' => VkSdk::getAuthUrl(),
         ]);
     }
@@ -103,7 +103,7 @@ class SiteController extends BaseController
             $this->redirect('site/config');
         }
 
-        $this->render('config', [
+        $this->render('site/config', [
             'config' => Globals::$config,
         ]);
     }
@@ -120,7 +120,7 @@ class SiteController extends BaseController
         }
 
         $activityModel = new ActivityModel();
-        $this->render('activity', [
+        $this->render('site/activity', [
             'listActivity' => $activityModel->getAll(),
         ]);
     }

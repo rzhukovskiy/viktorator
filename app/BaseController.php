@@ -23,7 +23,7 @@ class BaseController
 
     public function redirect($destination)
     {
-        $url = 'Location: http://mediastog.ru/' . ltrim($destination, '/');
+        $url = 'Location: /' . ltrim($destination, '/');
         header($url);
         exit;
     }
