@@ -9,6 +9,7 @@
 class BaseController
 {
     protected $action = null;
+    protected $template = 'main';
     
     public function __construct($action)
     {
@@ -29,9 +30,14 @@ class BaseController
 
     public function render($view, $params = null)
     {
+        ob_start();
         if (is_array($params)) {
             extract($params);
         }
         require 'views/' . $view . '.php';
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        require 'views/templates/' . $this->template . '.php';
     }
 }

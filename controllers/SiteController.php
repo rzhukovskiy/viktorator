@@ -23,7 +23,7 @@ class SiteController extends BaseController
         }
 
         if(!$this->admin || !$this->admin->is_active) {
-            if ($this->action != 'actionLogin' && $this->action != 'actionAuth') {
+            if ($this->action != 'actionLogin') {
                 $this->redirect('site/login');
             }
         }
@@ -52,13 +52,8 @@ class SiteController extends BaseController
 
     public function actionLogin()
     {
-        $this->render('auth', [
-            'link' => VkSdk::getAuthUrl(),
-        ]);
-    }
+        $this->template = 'login';
 
-    public function actionAuth()
-    {
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
         if ($code) {
             $infoToken = VkSdk::getTokenByCode($code);
@@ -85,9 +80,11 @@ class SiteController extends BaseController
             setcookie('social_id', $adminEntity->social_id, null, '/');
 
             $this->redirect('site/index');
-        } else {
-            $this->render('decline');
         }
+
+        $this->render('auth', [
+            'link' => VkSdk::getAuthUrl(),
+        ]);
     }
 
     public function actionConfig()
