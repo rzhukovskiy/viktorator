@@ -10,6 +10,20 @@ class AdminModel extends BaseModel
 {
     protected $nameTable = 'admin';
 
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return new AdminEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }
+    }
+
     public function findBySocialId($socialId)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE social_id = :social_id");
@@ -19,6 +33,22 @@ class AdminModel extends BaseModel
         
         if ($stmt->rowCount()) {
             return new AdminEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }
+    }
+
+    public function getAll()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
+        $stmt->execute();
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new AdminEntity($row);
+            }
+            return $res;
         } else {
             return false;
         }

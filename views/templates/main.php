@@ -41,13 +41,13 @@
                             <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/admin/list">Админы</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/site/config">Настройки</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/site/activity">Активности</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/site/admin">Админы</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/user/list">Пользователи</a>
