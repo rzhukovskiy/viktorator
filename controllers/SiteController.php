@@ -44,6 +44,8 @@ class SiteController extends BaseController
                 'botname'   => $this->bot->getOwnerName(),
             ]);
         } else {
+            $this->template = 'login';
+
             $this->render('site/greet', [
                 'username' => $this->admin->name
             ]);
