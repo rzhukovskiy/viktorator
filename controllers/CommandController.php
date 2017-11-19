@@ -13,6 +13,9 @@ class CommandController extends BaseController
 
     public function init()
     {
+        if (ENV != 'console') {
+            exit();
+        }
         $this->bot = new BotEntity();
 
         parent::init();

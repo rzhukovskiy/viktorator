@@ -46,6 +46,7 @@ class AdminController extends BaseController
         $model = new AdminModel();
         $entity = $model->getById($_GET['id']);
         $entity->is_active = $entity->is_active ? 0 : 1;
+        $entity->save();
 
         $this->redirect('admin/list');
     }
