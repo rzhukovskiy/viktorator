@@ -24,11 +24,8 @@ class CallbackController extends BaseController
     public function actionVk()
     {
         $data = json_decode(file_get_contents('php://input'));
-        $fp = fopen('log.txt', 'r+');
-        fwrite($fp, $data->type);
-        fclose($fp);
 
-        if ($data->type == 'board_post_new') {
+        if ($data->type == 'board_post_new' && $data->object->from_id != ('-' . Globals::$config->group_id)) {
             VkSdk::addComment('1c33a02babbbe8ea15635e3abb8fd8c617cd471c2aaaf7e038aca18020224bf5ab4c698ab433f591e2f00', $data->object->from_id);
         }
 

@@ -31,12 +31,17 @@ class VkSdk
             'from_group'   => 1,
             'access_token' => $token,
             'message'      => 'Привет! ' . $user_id,
+            'v'			   => '5.59',
         ];
 
-        $method = 'board.createComment';
-        $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
-        $data = json_decode(file_get_contents($url), true);
-
+        $url = 'https://api.vk.com/method/board.createComment';
+        $result = file_get_contents($url, false, stream_context_create(array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query($params)
+            )
+        )));
     }
 
     public static function getAuthUrl()
