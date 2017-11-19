@@ -34,9 +34,11 @@ class UserModel extends BaseModel
      */
     public function createFromSocialId($socialId)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE social_id = :social_id");
+        $stmt = $this->pdo
+            ->prepare("SELECT * FROM $this->nameTable WHERE social_id = :social_id AND group_id = :group_id");
         $stmt->execute([
             'social_id' => $socialId,
+            'group_id'  => Globals::$config->group_id,
         ]);
 
         $userEntity = null;
@@ -65,8 +67,10 @@ class UserModel extends BaseModel
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
-        $stmt->execute();
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE group_id = :group_id");
+        $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+        ]);
 
         if ($stmt->rowCount()) {
             $res = [];

@@ -10,6 +10,7 @@ CREATE TABLE `viktorator`.`admin` (
 
 CREATE TABLE `viktorator`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
   `scores` INT NOT NULL DEFAULT 0,
