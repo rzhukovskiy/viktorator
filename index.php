@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 if (!empty($argv)) {
     parse_str(implode('&', array_slice($argv, 1)), $_GET);
 }
