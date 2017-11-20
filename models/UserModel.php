@@ -30,9 +30,10 @@ class UserModel extends BaseModel
 
     /**
      * @param string $socialId
+     * @param string $token
      * @return UserEntity
      */
-    public function createFromSocialId($socialId)
+    public function createFromSocialId($socialId, $token)
     {
         $stmt = $this->pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
@@ -48,7 +49,7 @@ class UserModel extends BaseModel
             if (!VkSdk::isMember(Globals::$config->group_id, $socialId)) {
                 return null;
             }
-            $infoUser = VkSdk::getUser($socialId, self::$token);
+            $infoUser = VkSdk::getUser($socialId, $token);
 
             if (!$infoUser) {
                 return null;

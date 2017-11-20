@@ -51,7 +51,7 @@ class ScoreModel
                     }
 
                     foreach ($listLikes as $user_id) {
-                        $userEntity = $userModel->createFromSocialId($user_id);
+                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
                         if (!$userEntity) {
                             break;
                         }
@@ -86,7 +86,7 @@ class ScoreModel
                     }
 
                     foreach ($listComments as $comment) {
-                        $userEntity = $userModel->createFromSocialId($user_id);
+                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
                         if (!$userEntity) {
                             break;
                         }
@@ -113,7 +113,7 @@ class ScoreModel
                     }
 
                     foreach ($listRepost as $repost) {
-                        $userEntity = $userModel->createFromSocialId($user_id);
+                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
                         if (!$userEntity) {
                             break;
                         }
