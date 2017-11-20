@@ -28,7 +28,18 @@ class CallbackController extends BaseController
             && $data->secret == Globals::$config->group_secret
             && $data->object->from_id != ('-' . Globals::$config->group_id)
         ) {
-            VkSdk::addComment(Globals::$config->standalone_token, $data->object->from_id);
+            $userModel = new UserModel();
+            $userEntity = $userModel->findBySocialId($data->object->from_id);
+            $model = new ActionModel();
+            $data = $model->getScores($userEntity->id);
+
+            $message = "[id$userEntity->id|$userEntity->name], ваши очки:\n"
+                . " - за лайки постов - {$data['like']['scores']}\n"
+                . " - за лайки в числе первых - {$data['ten_like']['scores']}\n"
+                . " - за первый лайк - {$data['first_like']['scores']}\n"
+                . " - за коментарии постов - {$data['comment']['scores']}\n"
+                . " - за репосты - {$data['repost']['scores']}\n";
+            VkSdk::addComment(Globals::$config->standalone_token, $message);
 
             echo 'ok';
             exit();

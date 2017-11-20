@@ -47,7 +47,7 @@ class ActionModel extends BaseModel
     public function getScores($user_id)
     {
         $stmt = $this->pdo
-            ->prepare("SELECT SUM(scores) as scores, description FROM " .
+            ->prepare("SELECT description, SUM(scores) as scores FROM " .
                 self::$nameTable . ", " . ActivityModel::$nameTable .
                 " as activity WHERE user_id = :user_id AND activity_id = activity.id GROUP BY activity_id");
         $stmt->execute([
@@ -55,7 +55,7 @@ class ActionModel extends BaseModel
         ]);
 
         if ($stmt->rowCount()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR );
         } else {
             return false;
         }

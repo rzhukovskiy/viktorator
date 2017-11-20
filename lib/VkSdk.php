@@ -23,14 +23,14 @@ class VkSdk
         }
     }
 
-    public static function addComment($token, $user_id)
+    public static function addComment($token, $message)
     {
         $params = [
             'group_id'     => Globals::$config->group_id,
             'topic_id'     => Globals::$config->topic_id,
             'from_group'   => 1,
             'access_token' => $token,
-            'message'      => 'Привет! ' . $user_id,
+            'message'      => $message,
             'v'			   => '5.69',
         ];
 

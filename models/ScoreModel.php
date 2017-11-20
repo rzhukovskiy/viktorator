@@ -113,7 +113,7 @@ class ScoreModel
                     }
 
                     foreach ($listRepost as $repost) {
-                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
+                        $userEntity = $userModel->createFromSocialId($repost['from_id'], self::$token);
                         if (!$userEntity) {
                             break;
                         }
