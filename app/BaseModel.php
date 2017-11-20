@@ -9,7 +9,7 @@
 class BaseModel
 {
     protected $pdo;
-    protected $nameTable;
+    protected static $nameTable;
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ class BaseModel
             $columns = implode("`, `", array_keys($params));
             $values  = implode("', '", array_values($params));
 
-            $stmt = $this->pdo->prepare("INSERT INTO $this->nameTable (`$columns`) VALUES ('$values')");
+            $stmt = $this->pdo->prepare("INSERT INTO " . self::$nameTable . " (`$columns`) VALUES ('$values')");
             $stmt->execute();
 
             return $this->pdo->lastInsertId();
@@ -42,7 +42,7 @@ class BaseModel
                 $values[] = "`$name` = '$value'";
             }
             $values = implode(", ", $values);
-            $stmt = $this->pdo->prepare("UPDATE $this->nameTable SET $values WHERE id = :id");
+            $stmt = $this->pdo->prepare("UPDATE " . self::$nameTable . " SET $values WHERE id = :id");
             $stmt->execute([
                 ':id' => $params['id'],
             ]);

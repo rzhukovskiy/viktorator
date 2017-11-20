@@ -8,11 +8,11 @@
  */
 class ActivityModel extends BaseModel
 {
-    protected $nameTable = 'activity';
+    public static $nameTable = 'activity';
 
     public function getByName($name)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE description = :name");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE description = :name");
         $stmt->execute([
             'name' => $name,
         ]);
@@ -27,7 +27,7 @@ class ActivityModel extends BaseModel
 
     public function getById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
         $stmt->execute([
             ':id' => $id,
         ]);
@@ -42,7 +42,7 @@ class ActivityModel extends BaseModel
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . "");
         $stmt->execute();
 
         if ($stmt->rowCount()) {

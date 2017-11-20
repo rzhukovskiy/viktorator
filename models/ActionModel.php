@@ -8,11 +8,11 @@
  */
 class ActionModel extends BaseModel
 {
-    protected $nameTable = 'action';
+    public static $nameTable = 'action';
     
     public function checkByActivity($activity_id, $social_id, $user_id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE activity_id = :activity_id AND social_id = :social_id AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE activity_id = :activity_id AND social_id = :social_id AND user_id = :user_id");
         $stmt->execute([
             'activity_id' => $activity_id,
             'social_id'   => $social_id,
@@ -28,7 +28,7 @@ class ActionModel extends BaseModel
 
     public function getByUser($user_id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id");
         $stmt->execute([
             ':user_id' => $user_id,
         ]);
@@ -44,9 +44,26 @@ class ActionModel extends BaseModel
         }
     }
 
+    public function getScores($user_id)
+    {
+        $stmt = $this->pdo
+            ->prepare("SELECT SUM(scores) as scores, description FROM " .
+                self::$nameTable . ", " . ActivityModel::$nameTable .
+                " as activity WHERE user_id = :user_id AND activity_id = activity.id GROUP BY activity_id");
+        $stmt->execute([
+            ':user_id' => $user_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+    }
+
     public function getById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
         $stmt->execute([
             'id' => $id,
         ]);

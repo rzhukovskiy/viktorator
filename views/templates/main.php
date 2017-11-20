@@ -62,10 +62,18 @@
     <div class="content">
         <?= $content ?>
     </div> <!-- /.content -->
+
+    <footer class="footer">
+        <hr>
+        <div class="container">
+            <p>© Company 2017</p>
+        </div>
+    </footer> <!-- /.footer -->
 </div> <!-- /.wrapper -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

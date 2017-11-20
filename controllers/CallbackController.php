@@ -29,9 +29,12 @@ class CallbackController extends BaseController
             && $data->object->from_id != ('-' . Globals::$config->group_id)
         ) {
             VkSdk::addComment(Globals::$config->standalone_token, $data->object->from_id);
-        }
 
-        echo 'ok';
-        exit();
+            echo 'ok';
+            exit();
+        } else {
+            echo Globals::$config->group_confirm;
+            exit();
+        }
     }
 }

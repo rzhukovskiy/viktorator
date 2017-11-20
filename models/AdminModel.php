@@ -8,11 +8,11 @@
  */
 class AdminModel extends BaseModel
 {
-    protected $nameTable = 'admin';
+    public static $nameTable = 'admin';
 
     public function getById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
         $stmt->execute([
             'id' => $id,
         ]);
@@ -26,7 +26,7 @@ class AdminModel extends BaseModel
 
     public function findBySocialId($socialId)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE social_id = :social_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id");
         $stmt->execute([
             'social_id' => $socialId,
         ]);
@@ -40,7 +40,7 @@ class AdminModel extends BaseModel
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . "");
         $stmt->execute();
 
         if ($stmt->rowCount()) {
@@ -56,7 +56,7 @@ class AdminModel extends BaseModel
 
     public function findByBotFlag()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->nameTable WHERE is_bot = :is_bot");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE is_bot = :is_bot");
         $stmt->execute([
             'is_bot' => 1,
         ]);
@@ -70,10 +70,10 @@ class AdminModel extends BaseModel
 
     public function connectToBot($id)
     {
-        $stmt = $this->pdo->prepare("UPDATE $this->nameTable SET is_bot = 0");
+        $stmt = $this->pdo->prepare("UPDATE " . self::$nameTable . " SET is_bot = 0");
         $stmt->execute();
 
-        $stmt = $this->pdo->prepare("UPDATE $this->nameTable SET is_bot = 1 WHERE id = :id");
+        $stmt = $this->pdo->prepare("UPDATE " . self::$nameTable . " SET is_bot = 1 WHERE id = :id");
         $stmt->execute([
             ':id' => $id,
         ]);

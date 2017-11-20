@@ -18,6 +18,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="Config[group_confirm]" class="col-sm-2 col-form-label">Confirm группы</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Config[group_confirm]" placeholder="строка для подтверждения callback" value="<?= $config->group_secret?>">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="Config[topic_id]" class="col-sm-2 col-form-label">Id топика</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="Config[topic_id]" placeholder="ID топика с конкурсом" value="<?= $config->topic_id?>">
