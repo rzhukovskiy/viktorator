@@ -12,7 +12,7 @@ class ConfigModel extends BaseModel
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM `" . self::$nameTable . "`");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable);
         $stmt->execute();
 
         return new ConfigEntity($stmt->fetchAll(PDO::FETCH_ASSOC));
@@ -20,7 +20,7 @@ class ConfigModel extends BaseModel
 
     public function clearAll()
     {
-        $stmt = $this->pdo->prepare("DELETE FROM `" . self::$nameTable . "` WHERE id > 0");
+        $stmt = $this->pdo->prepare("DELETE FROM " . self::$nameTable . " WHERE id > 0");
         $stmt->execute();
     }
 }
