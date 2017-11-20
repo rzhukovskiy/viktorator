@@ -23,7 +23,7 @@ class ScoreModel
 
         $totalScores = 0;
         $userModel = new UserModel();
-        $date = strtotime('last Monday', time()) + 3*3600;
+        $date = strtotime('last Monday', strtotime('next sunday')) + 3*3600;
 
         $break = false;
         $postOffset = 0;
