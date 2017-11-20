@@ -1,1 +1,1 @@
-<?= print_r($_REQUEST, true) ?>
+<a href="#" id="addWidget">жмак</a>
