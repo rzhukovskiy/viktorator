@@ -60,6 +60,8 @@ class UserModel extends BaseModel
                 'is_member' => 0,
                 'is_repost' => 0,
             ]);
+
+            $userEntity->save();
         }
 
         return $userEntity;

@@ -40,7 +40,7 @@ class CallbackController extends BaseController
             $repostScores = isset($data['repost']) ? $data['repost'] : 0;
 
             if ($userEntity->is_member && $userEntity->is_repost) {
-                $message = "[id$userEntity->id|$userEntity->name], ваши очки:\n"
+                $message = "[id$userEntity->social_id|$userEntity->name], ваши очки:\n"
                     . " - за лайки постов - $likeScores\n"
                     . " - за лайки в числе первых - $tenLikeScores\n"
                     . " - за первый лайк - $firstLikeScores\n"
