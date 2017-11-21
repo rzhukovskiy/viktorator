@@ -65,15 +65,17 @@ class CallbackController extends BaseController
             $tenLikeScores = isset($data['ten_like']) ? $data['ten_like'] : 0;
             $firstLikeScores = isset($data['first_like']) ? $data['first_like'] : 0;
             $commentScores = isset($data['comment']) ? $data['comment'] : 0;
-            $repostScores = isset($data['repost']) ? $data['repost'] : 0;
+            $commentLikeScores = isset($data['comment_like']) ? $data['comment_like'] : 0;
+            $authorLike = isset($data['author_like']) ? $data['author_like'] : 0;
 
             if ($userEntity->is_member && $userEntity->is_repost) {
-                $message = "[id$userEntity->social_id|$userEntity->name], ваши очки:\n"
-                    . " - за лайки постов - $likeScores\n"
-                    . " - за лайки в числе первых - $tenLikeScores\n"
-                    . " - за первый лайк - $firstLikeScores\n"
-                    . " - за коментарии постов - $commentScores\n"
-                    . " - за репосты - $repostScores\n";
+                $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
+                    . " - лайк поста - $likeScores\n"
+                    . " - лайк поста первым - $firstLikeScores\n"
+                    . " - лайк поста среди первых - $tenLikeScores\n"
+                    . " - комментарий по теме поста - $commentScores\n"
+                    . " - комментарий, который набирает лайки - $commentLikeScores\n"
+                    . " - лайк от автора поста - $authorLike\n";
             } elseif ($userEntity->is_member && !$userEntity->is_repost) {
                 $message = "[id$userEntity->social_id|$userEntity->name], у Вас не сделан репост записи о конкурсе. Это последний шаг:)";
             } else {
