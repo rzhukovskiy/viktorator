@@ -130,7 +130,6 @@ class VkSdk
         $params = array(
             'owner_id'     => $owner_id,
             'access_token' => $token,
-            'filter'       => 'owner',
             'offset'       => $offset,
         );
 

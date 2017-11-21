@@ -106,32 +106,6 @@ class ScoreModel
                     }
                     $offset += 100;
                 }
-
-                $offset = 0;
-                while (true) {
-                    $listRepost = VkSdk::getRepostList('-' . Globals::$config->group_id, self::$token, $post['id'], $offset);
-                    if (!$listRepost) {
-                        break;
-                    }
-
-                    foreach ($listRepost as $repost) {
-                        $userEntity = $userModel->createFromSocialId($repost['from_id'], self::$token);
-                        if (!$userEntity) {
-                            break;
-                        }
-
-                        $actionEntity = new ActionEntity([
-                            'user_id' => $userEntity->id,
-                            'user_social_id' => $userEntity->social_id,
-                            'social_id' => $repost['id'],
-                            'parent_social_id' => $post['id'],
-                            'activity' => 'repost',
-                        ]);
-                        $actionEntity->save();
-                        $totalScores += $actionEntity->scores;
-                    }
-                    $offset += 100;
-                }
             }
 
             $postOffset += 100;
