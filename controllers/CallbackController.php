@@ -29,7 +29,28 @@ class CallbackController extends BaseController
             && $data->object->from_id != ('-' . Globals::$config->group_id)
         ) {
             $userModel = new UserModel();
-            $userEntity = $userModel->findBySocialId($data->object->from_id);
+            $userEntity = $userModel->createFromSocialId($data->object->from_id);
+
+            if (!$userEntity->is_member && VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
+                $userEntity->is_member = 1;
+                $userEntity->save();
+            }
+            $offset = 0;
+            if (!$userEntity->is_repost) {
+                $listRepost = VkSdk::getRepostList('-' . $userEntity->group_id,
+                    Globals::$config->standalone_token,
+                    Globals::$config->post_id,
+                    $offset);
+
+                foreach ($listRepost as $repost) {
+                    if($repost['from_id'] == $userEntity->social_id) {
+                        $userEntity->is_repost = 1;
+                        $userEntity->save();
+                        break;
+                    }
+                }
+            }
+
             $model = new ActionModel();
             $data = $model->getScores($userEntity->id);
 
