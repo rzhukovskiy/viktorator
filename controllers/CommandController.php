@@ -24,8 +24,9 @@ class CommandController extends BaseController
     public function actionCollect()
     {
         try {
-            ScoreModel::updateTable();
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
+
+            ScoreModel::updateTable();
             $totalScores = ScoreModel::collect();
             ScoreModel::updateTable();
             echo $totalScores . "\n";
