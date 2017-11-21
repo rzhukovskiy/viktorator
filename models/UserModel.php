@@ -68,6 +68,9 @@ class UserModel extends BaseModel
         return $userEntity;
     }
 
+    /**
+     * @return UserEntity[]|bool
+     */
     public function getAll()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id");
