@@ -30,6 +30,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="Config[post_id]" class="col-sm-2 col-form-label">Id поста для репостов</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Config[post_id]" placeholder="ID поста" value="<?= $config->post_id?>">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="Config[app_id]" class="col-sm-2 col-form-label">ID приложения</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="Config[app_id]" placeholder="айдишник моего приложения" value="<?= $config->app_id?>">

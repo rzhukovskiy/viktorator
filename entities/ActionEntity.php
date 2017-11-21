@@ -17,6 +17,7 @@
  * @property integer    $is_active
  * @property string     $content
  * @property string     $activity
+ * @property integer    $created_at
  */
 class ActionEntity extends BaseEntity
 {
@@ -36,6 +37,8 @@ class ActionEntity extends BaseEntity
         $data['group_id'] = Globals::$config->group_id;
         
         parent::__construct($data);
+
+        $this->created_at = time();
     }
 
     public function save()
@@ -45,7 +48,7 @@ class ActionEntity extends BaseEntity
             return;
         }
         
-        unset($this->data['activity']);        
+        unset($this->data['activity']);
         $id = $model->save($this->data);
         
         $userModel = new UserModel();
