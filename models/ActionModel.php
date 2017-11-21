@@ -10,13 +10,15 @@ class ActionModel extends BaseModel
 {
     public static $nameTable = 'action';
     
-    public function checkByActivity($activity_id, $social_id, $user_id)
+    public function checkByActivity($activity_id, $social_id, $parent_social_id, $user_id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE activity_id = :activity_id AND social_id = :social_id AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . 
+            " WHERE activity_id = :activity_id AND social_id = :social_id AND parent_social_id = :parent_social_id AND user_id = :user_id");
         $stmt->execute([
-            'activity_id' => $activity_id,
-            'social_id'   => $social_id,
-            'user_id'     => $user_id,
+            'activity_id'       => $activity_id,
+            'social_id'         => $social_id,
+            'parent_social_id'  => $parent_social_id,
+            'user_id'           => $user_id,
         ]);
         
         if ($stmt->rowCount()) {

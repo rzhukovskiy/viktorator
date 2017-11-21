@@ -19,13 +19,13 @@
                             $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id .
                                 '?w=likes%2Fwall-' . Globals::$config->group_id . '_' . $action->parent_social_id;
                             break;
+                        case 'comment_like':
+                        case 'author_like':
+                            $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id;
+                            break;
                         case 'comment':
                         case 'first_comment':
                             $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id . '?' . $action->social_id;
-                            break;
-                        case 'repost':
-                            $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id .
-                                '?w=shares%2Fwall-' . Globals::$config->group_id . '_' . $action->parent_social_id;
                             break;
                     }
                     ?>

@@ -168,6 +168,7 @@ class VkSdk
             'post_id'           => $post_id,
             'access_token'      => $token,
             'start_comment_id'  => 0,
+            'need_likes'        => 1,
             'offset'            => $offset,
         );
 

@@ -103,6 +103,36 @@ class ScoreModel
                         ]);
                         $actionEntity->save();
                         $totalScores += $actionEntity->scores;
+
+                        if ($comment['likes']['count'] > 0) {
+                            $offset = 0;
+                            $likeCount = 0;
+                            while(true) {
+                                $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $comment['id'], 'comment', $offset);
+                                if (!$listLikes) {
+                                    break;
+                                }
+
+                                foreach ($listLikes as $user_id) {
+                                    $activity = 'comment_like';
+                                    if ($user_id == $post['from_id']) {
+                                        $activity = 'author_like';
+                                    }
+
+                                    $actionEntity = new ActionEntity([
+                                        'user_id'          => $userEntity->id,
+                                        'user_social_id'   => $userEntity->social_id,
+                                        'social_id'        => $user_id,
+                                        'parent_social_id' => $comment['id'],
+                                        'activity'         => $activity,
+                                    ]);
+                                    $actionEntity->save();
+                                    $totalScores += $actionEntity->scores;
+                                    $likeCount++;
+                                }
+                                $offset += 100;
+                            }
+                        }
                     }
                     $offset += 100;
                 }

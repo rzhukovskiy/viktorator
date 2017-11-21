@@ -41,7 +41,7 @@ class ActionEntity extends BaseEntity
     public function save()
     {
         $model = new ActionModel();
-        if ($model->checkByActivity($this->activity_id, $this->social_id, $this->user_id)) {
+        if ($model->checkByActivity($this->activity_id, $this->social_id, $this->parent_social_id, $this->user_id)) {
             return;
         }
         
