@@ -25,6 +25,7 @@ class CommandController extends BaseController
     {
         ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
         $totalScores = ScoreModel::collect();
+        ScoreModel::updateTable();
         echo $totalScores . "\n";
     }
 }

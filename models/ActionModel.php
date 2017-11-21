@@ -28,9 +28,10 @@ class ActionModel extends BaseModel
 
     public function getByUser($user_id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id AND group_id = :group_id");
         $stmt->execute([
             ':user_id' => $user_id,
+            'group_id' => Globals::$config->group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -49,13 +50,31 @@ class ActionModel extends BaseModel
         $stmt = $this->pdo
             ->prepare("SELECT description, SUM(scores) as scores FROM " .
                 self::$nameTable . ", " . ActivityModel::$nameTable .
-                " as activity WHERE user_id = :user_id AND activity_id = activity.id GROUP BY activity_id");
+                " as activity WHERE user_id = :user_id AND activity_id = activity.id AND group_id = :group_id GROUP BY activity_id");
         $stmt->execute([
             ':user_id' => $user_id,
+            'group_id'  => Globals::$config->group_id,
         ]);
 
         if ($stmt->rowCount()) {
             return $stmt->fetchAll(PDO::FETCH_KEY_PAIR );
+        } else {
+            return false;
+        }
+    }
+
+    public function getAllScores()
+    {
+        $stmt = $this->pdo
+            ->prepare("SELECT name, user_id, SUM(scores) as scores FROM " .
+                self::$nameTable . " as action, " . UserModel::$nameTable .
+                " as user WHERE user_id = user.id AND action.group_id = :group_id GROUP BY user_id");
+        $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC );
         } else {
             return false;
         }

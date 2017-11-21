@@ -44,6 +44,27 @@ class VkSdk
         )));
     }
 
+    public static function editTopic($token, $message)
+    {
+        $params = [
+            'group_id'     => Globals::$config->group_id,
+            'topic_id'     => Globals::$config->topic_id,
+            'from_group'   => 1,
+            'access_token' => $token,
+            'message'      => $message,
+            'v'			   => '5.69',
+        ];
+
+        $url = 'https://api.vk.com/method/board.editTopic';
+        $result = file_get_contents($url, false, stream_context_create(array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query($params)
+            )
+        )));
+    }
+
     public static function getAuthUrl()
     {
         $params = [
