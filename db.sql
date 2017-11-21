@@ -14,11 +14,11 @@ CREATE TABLE `viktorator`.`user` (
   `social_id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
   `scores` INT NOT NULL DEFAULT 0,
-  `is_memeber` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  `is_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   `is_repost` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
+  INDEX `social_id` (`social_id` ASC));
 
 CREATE TABLE `viktorator`.`activity` (
   `id` INT NOT NULL AUTO_INCREMENT,
