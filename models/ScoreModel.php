@@ -143,7 +143,7 @@ class ScoreModel
     public static function updateTable()
     {
         $model = new UserModel();
-        $data = $model->getAll();
+        $data = $model->getTop(12);
 
         $message = '';
         $place = 1;

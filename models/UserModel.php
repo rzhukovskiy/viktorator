@@ -88,4 +88,26 @@ class UserModel extends BaseModel
             return false;
         }
     }
+
+    /**
+     * @param int $limit
+     * @return UserEntity[]|bool
+     */
+    public function getTop($limit)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY scores DESC LIMIT $limit");
+        $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new UserEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
 }
