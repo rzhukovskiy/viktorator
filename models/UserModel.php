@@ -61,6 +61,22 @@ class UserModel extends BaseModel
                 'is_repost' => 0,
             ]);
 
+            if (VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
+                $userEntity->is_member = 1;
+            }
+            $offset = 0;
+            $listRepost = VkSdk::getRepostList('-' . $userEntity->group_id,
+                Globals::$config->standalone_token,
+                Globals::$config->post_id,
+                $offset);
+
+            foreach ($listRepost as $repost) {
+                if($repost['from_id'] == $userEntity->social_id) {
+                    $userEntity->is_repost = 1;
+                    break;
+                }
+            }
+
             $userEntity->save();
         }
 
