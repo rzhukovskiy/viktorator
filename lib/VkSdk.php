@@ -209,7 +209,7 @@ class VkSdk
         $data = self::callApi('users.get', $params);
 
         if (empty($data['error'])) {
-            return $data['response'][0];
+            return isset($data['response'][0]) ? $data['response'][0] : false;
         } else {
             return false;
         }

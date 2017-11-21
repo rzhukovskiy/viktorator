@@ -110,7 +110,8 @@ class UserModel extends BaseModel
      */
     public function getTop($limit)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY scores DESC LIMIT $limit");
+        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable .
+            " WHERE group_id = :group_id AND is_member = 1 ORDER BY scores DESC LIMIT $limit");
         $stmt->execute([
             'group_id'  => Globals::$config->group_id,
         ]);
