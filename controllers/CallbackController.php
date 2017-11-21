@@ -44,6 +44,9 @@ class CallbackController extends BaseController
                         Globals::$config->post_id,
                         $offset);
 
+                    if(!$listRepost) {
+                        break;
+                    }
                     foreach ($listRepost as $repost) {
                         if ($repost['from_id'] == $userEntity->social_id) {
                             $userEntity->is_repost = 1;
