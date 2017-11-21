@@ -62,7 +62,7 @@ class ScoreModel
                         if ($likeCount > $offset + count($listLikes) - 11) {
                             $activity = 'ten_like';
                         }
-                        if ($likeCount == $offset + count($listLikes) - 11) {
+                        if ($likeCount == $offset + count($listLikes) - 1) {
                             $activity = 'first_like';
                         }
 
