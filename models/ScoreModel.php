@@ -9,10 +9,12 @@
 class ScoreModel
 {
     private static $token = null;
+    private static $standaloneToken = null;
     
-    public static function init($token)
+    public static function init($token, $standaloneToken)
     {
         self::$token = $token;
+        self::$standaloneToken = $standaloneToken;
     }
     
     public static function collect()
@@ -80,7 +82,7 @@ class ScoreModel
 
                 $offset = 0;
                 while (true) {
-                    $listComments = VkSdk::getCommentList('-' . Globals::$config->group_id, self::$token, $post['id'], $offset);
+                    $listComments = VkSdk::getCommentList('-' . Globals::$config->group_id, self::$standaloneToken, $post['id'], $offset);
                     if (!$listComments) {
                         break;
                     }

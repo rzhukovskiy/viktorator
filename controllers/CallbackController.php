@@ -33,11 +33,11 @@ class CallbackController extends BaseController
             $model = new ActionModel();
             $data = $model->getScores($userEntity->id);
 
-            $likeScores = isset($data['like']) ? $data['like']['scores'] : 0;
-            $tenLikeScores = isset($data['ten_like']) ? $data['ten_like']['scores'] : 0;
-            $firstLikeScores = isset($data['first_like']) ? $data['first_like']['scores'] : 0;
-            $commentScores = isset($data['comment']) ? $data['comment']['scores'] : 0;
-            $repostScores = isset($data['repost']) ? $data['repost']['scores'] : 0;
+            $likeScores = isset($data['like']) ? $data['like'] : 0;
+            $tenLikeScores = isset($data['ten_like']) ? $data['ten_like'] : 0;
+            $firstLikeScores = isset($data['first_like']) ? $data['first_like'] : 0;
+            $commentScores = isset($data['comment']) ? $data['comment'] : 0;
+            $repostScores = isset($data['repost']) ? $data['repost'] : 0;
 
             $message = "[id$userEntity->id|$userEntity->name], ваши очки:\n"
                 . " - за лайки постов - $likeScores\n"
