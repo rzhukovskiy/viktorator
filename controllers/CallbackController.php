@@ -77,7 +77,8 @@ class CallbackController extends BaseController
                     . " - комментарий, который набирает лайки - $commentLikeScores\n"
                     . " - лайк от автора поста - $authorLike\n";
             } elseif ($userEntity->is_member && !$userEntity->is_repost) {
-                $message = "[id$userEntity->social_id|$userEntity->name], у Вас не сделан репост записи о конкурсе https://vk.com/stogoskol?w=wall-57874422_19933. Это последний шаг:)";
+                $message = "[id$userEntity->social_id|$userEntity->name], у Вас не сделан репост записи о конкурсе https://vk.com/stogoskol?w=wall-57874422_19933. "
+                    . "Это последний шаг, чтобы участвовать :)";
             } else {
                 $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
             }
