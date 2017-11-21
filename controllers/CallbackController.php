@@ -83,6 +83,9 @@ class CallbackController extends BaseController
 
             echo 'ok';
             exit();
+        } elseif ($data->type == 'confirm') {
+            echo Globals::$config->group_confirm;
+            exit();
         } else {
             echo 'ok';
             exit();
