@@ -34,6 +34,7 @@ class ActionEntity extends BaseEntity
             $data['activity'] = $row['description'];
         }
 
+        $data['content'] = isset($data['content']) ? substr($data['content'], 0, 255) : '';
         $data['group_id'] = Globals::$config->group_id;
         
         parent::__construct($data);
