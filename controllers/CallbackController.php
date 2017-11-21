@@ -75,9 +75,9 @@ class CallbackController extends BaseController
                     . " - за коментарии постов - $commentScores\n"
                     . " - за репосты - $repostScores\n";
             } elseif ($userEntity->is_member && !$userEntity->is_repost) {
-                $message = "У Вас не сделан репост записи о конкурсе. Это последний шаг:)";
+                $message = "[id$userEntity->social_id|$userEntity->name], у Вас не сделан репост записи о конкурсе. Это последний шаг:)";
             } else {
-                $message = "Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
+                $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
             }
             VkSdk::addComment(Globals::$config->standalone_token, $message);
 
