@@ -63,23 +63,6 @@ class ActionModel extends BaseModel
         }
     }
 
-    public function getAllScores()
-    {
-        $stmt = $this->pdo
-            ->prepare("SELECT name, user_id, SUM(scores) as scores FROM " .
-                self::$nameTable . " as action, " . UserModel::$nameTable .
-                " as user WHERE user_id = user.id AND action.group_id = :group_id GROUP BY user_id");
-        $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
-        ]);
-
-        if ($stmt->rowCount()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC );
-        } else {
-            return false;
-        }
-    }
-
     public function getById($id)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");

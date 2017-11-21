@@ -142,13 +142,13 @@ class ScoreModel
     
     public static function updateTable()
     {
-        $model = new ActionModel();
-        $data = $model->getAllScores();
+        $model = new UserModel();
+        $data = $model->getAll();
 
         $message = '';
         $place = 1;
         foreach ($data as $user) {
-            $message .= "$place. <a href='https://vk.com/id{$user['user_id']}'>{$user['name']}</a> - {$user['scores']}\n";
+            $message .= "$place. <a href='https://vk.com/id{$user['social_id']}'>{$user['name']}</a> - {$user['scores']}\n";
         }
 
         VkSdk::editTopic(self::$standaloneToken, $message);
