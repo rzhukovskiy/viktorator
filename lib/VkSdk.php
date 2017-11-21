@@ -49,13 +49,13 @@ class VkSdk
         $params = [
             'group_id'     => Globals::$config->group_id,
             'topic_id'     => Globals::$config->topic_id,
-            'comment_id'   => '36217056',
+            'comment_id'   => '2',
             'access_token' => $token,
             'message'      => $message,
             'v'			   => '5.69',
         ];
 
-        $url = 'https://api.vk.com/method/board.editTopic';
+        $url = 'https://api.vk.com/method/board.editComment';
         $result = file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',

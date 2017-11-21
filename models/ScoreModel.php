@@ -148,7 +148,7 @@ class ScoreModel
         $message = '';
         $place = 1;
         foreach ($data as $user) {
-            $message .= "$place. <a href='https://vk.com/id{$user->social_id}'>{$user->name}</a> - {$user->scores}\n";
+            $message .= "$place. [id{$user->social_id}|{$user->name}] - {$user->scores}\n";
             $place++;
         }
 
