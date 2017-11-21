@@ -86,7 +86,7 @@ class ScoreModel
                     }
 
                     foreach ($listComments as $comment) {
-                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
+                        $userEntity = $userModel->createFromSocialId($comment['from_id'], self::$token);
                         if (!$userEntity) {
                             break;
                         }
