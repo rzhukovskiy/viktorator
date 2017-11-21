@@ -14,6 +14,9 @@ CREATE TABLE `viktorator`.`user` (
   `social_id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
   `scores` INT NOT NULL DEFAULT 0,
+  `is_memeber` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  `is_repost` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
 
@@ -34,6 +37,7 @@ CREATE TABLE `viktorator`.`action` (
   `content` VARCHAR(255) NULL,
   `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   `scores` INT NOT NULL DEFAULT 0,
+  `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
 CREATE TABLE `viktorator`.`config` (

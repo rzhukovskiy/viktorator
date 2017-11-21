@@ -39,12 +39,18 @@ class CallbackController extends BaseController
             $commentScores = isset($data['comment']) ? $data['comment'] : 0;
             $repostScores = isset($data['repost']) ? $data['repost'] : 0;
 
-            $message = "[id$userEntity->id|$userEntity->name], ваши очки:\n"
-                . " - за лайки постов - $likeScores\n"
-                . " - за лайки в числе первых - $tenLikeScores\n"
-                . " - за первый лайк - $firstLikeScores\n"
-                . " - за коментарии постов - $commentScores\n"
-                . " - за репосты - $repostScores\n";
+            if ($userEntity->is_member && $userEntity->is_repost) {
+                $message = "[id$userEntity->id|$userEntity->name], ваши очки:\n"
+                    . " - за лайки постов - $likeScores\n"
+                    . " - за лайки в числе первых - $tenLikeScores\n"
+                    . " - за первый лайк - $firstLikeScores\n"
+                    . " - за коментарии постов - $commentScores\n"
+                    . " - за репосты - $repostScores\n";
+            } elseif ($userEntity->is_member && !$userEntity->is_repost) {
+                $message = "У Вас не сделан репост записи о конкурсе. Это последний шаг:)";
+            } else {
+                $message = "Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
+            }
             VkSdk::addComment(Globals::$config->standalone_token, $message);
 
             echo 'ok';

@@ -10,6 +10,7 @@
  * @property string    $group_secret
  * @property string    $group_confirm
  * @property string    $topic_id
+ * @property string    $post_id
  * @property string    $app_id
  * @property string    $app_secret
  * @property string    $redirect_uri

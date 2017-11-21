@@ -48,11 +48,7 @@ class UserModel extends BaseModel
         if ($stmt->rowCount()) {
             $userEntity = new UserEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
-            if (!VkSdk::isMember(Globals::$config->group_id, $socialId)) {
-                return null;
-            }
             $infoUser = VkSdk::getUser($socialId, $token);
-
             if (!$infoUser) {
                 return null;
             }
@@ -60,6 +56,9 @@ class UserModel extends BaseModel
                 'social_id' => $socialId,
                 'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
                 'scores'    => 0,
+                'is_active' => 1,
+                'is_member' => 0,
+                'is_repost' => 0,
             ]);
 
             $userEntity->save();
