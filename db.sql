@@ -12,7 +12,7 @@ CREATE TABLE `viktorator`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
+  `name` VARCHAR(255) NULL,
   `scores` INT NOT NULL DEFAULT 0,
   `is_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   `is_repost` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,

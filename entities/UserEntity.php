@@ -20,6 +20,7 @@ class UserEntity extends BaseEntity
     public function __construct($data)
     {
         $data['group_id'] = Globals::$config->group_id;
+        $data['name'] = isset($data['name']) ? substr($data['name'], 0, 255) : '';
         parent::__construct($data);
     }
 
