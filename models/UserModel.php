@@ -96,7 +96,7 @@ class UserModel extends BaseModel
         if ($stmt->rowCount()) {
             $res = [];
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-                $res[] = new UserEntity($row);
+                $res[$row['social_id']] = new UserEntity($row);
             }
             return $res;
         } else {

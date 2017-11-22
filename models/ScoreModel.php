@@ -26,6 +26,7 @@ class ScoreModel
         $totalScores = 0;
         $userModel = new UserModel();
         $date = strtotime('last Monday', strtotime('next sunday')) + 3*3600;
+        $listUser = $userModel->getAll();
 
         $break = false;
         $postOffset = 0;
@@ -53,10 +54,14 @@ class ScoreModel
                     }
 
                     foreach ($listLikes as $user_id) {
-                        $userEntity = $userModel->createFromSocialId($user_id, self::$token);
-                        if (!$userEntity) {
-                            break;
+                        if (!isset($listUser[$user_id])) {
+                            $userEntity = $userModel->createFromSocialId($user_id, self::$token);
+                            if (!$userEntity) {
+                                break;
+                            }
+                            $listUser[$user_id] = $userEntity;
                         }
+                        $userEntity = $listUser[$user_id];
 
                         $activity = 'like';
                         if ($likeCount > $offset + count($listLikes) - 11) {
@@ -88,10 +93,14 @@ class ScoreModel
                     }
 
                     foreach ($listComments as $comment) {
-                        $userEntity = $userModel->createFromSocialId($comment['from_id'], self::$token);
-                        if (!$userEntity) {
-                            break;
+                        if (!isset($listUser[$comment['from_id']])) {
+                            $userEntity = $userModel->createFromSocialId($comment['from_id'], self::$token);
+                            if (!$userEntity) {
+                                break;
+                            }
+                            $listUser[$comment['from_id']] = $userEntity;
                         }
+                        $userEntity = $listUser[$comment['from_id']];
 
                         $actionEntity = new ActionEntity([
                             'user_id'          => $userEntity->id,
