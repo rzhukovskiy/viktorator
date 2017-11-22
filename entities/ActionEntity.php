@@ -37,7 +37,9 @@ class ActionEntity extends BaseEntity
         
         parent::__construct($data);
 
-        $this->created_at = time();
+        if (!$this->id) {
+            $this->created_at = time();
+        }
     }
 
     public function save()
