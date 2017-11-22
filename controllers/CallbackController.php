@@ -59,18 +59,20 @@ class CallbackController extends BaseController
             
             $data = ActionModel::getScores($userEntity->id);
 
-            $likeScores = isset($data['like']) ? $data['like'] : 0;
-            $tenLikeScores = isset($data['ten_like']) ? $data['ten_like'] : 0;
-            $firstLikeScores = isset($data['first_like']) ? $data['first_like'] : 0;
-            $commentScores = isset($data['comment']) ? $data['comment'] : 0;
-            $commentLikeScores = isset($data['comment_like']) ? $data['comment_like'] : 0;
-            $authorLike = isset($data['author_like']) ? $data['author_like'] : 0;
+            $likeScores         = isset($data['like']) ? $data['like'] : 0;
+            $tenLikeScores      = isset($data['ten_like']) ? $data['ten_like'] : 0;
+            $firstLikeScores    = isset($data['first_like']) ? $data['first_like'] : 0;
+            $postLikeScores     = isset($data['post_like']) ? $data['post_like'] : 0;
+            $commentScores      = isset($data['comment']) ? $data['comment'] : 0;
+            $commentLikeScores  = isset($data['comment_like']) ? $data['comment_like'] : 0;
+            $authorLike         = isset($data['author_like']) ? $data['author_like'] : 0;
 
             if ($userEntity->is_member) {
                 $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
                     . " - лайк поста - $likeScores\n"
                     . " - лайк поста первым - $firstLikeScores\n"
                     . " - лайк поста среди первых - $tenLikeScores\n"
+                    . " - лайки ваших постов - $postLikeScores\n"
                     . " - комментарий по теме поста - $commentScores\n"
                     . " - комментарий, который набирает лайки - $commentLikeScores\n"
                     . " - лайк от автора поста - $authorLike\n";

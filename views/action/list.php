@@ -32,8 +32,8 @@
                     }
                     ?>
                     <tr>
-                        <th scope="row"><?= date("d-m-Y H:i", $action->created_at) ?></th>
-                        <th scope="row"><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></th>
+                        <th><?= date("d-m-Y&nbsp;H:i", $action->created_at) ?></th>
+                        <th><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></th>
                         <td><?= $action->scores?></td>
                         <td><?= $action->content?></td>
                         <td><a href="/action/deactivate?id=<?= $action->id ?>"><?= $action->is_active ?></td>

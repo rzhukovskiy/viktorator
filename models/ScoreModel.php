@@ -44,6 +44,12 @@ class ScoreModel
                     break;
                 }
 
+                $postAuthor = null;
+                if ($post['from_id'] != '-' . Globals::$config->group_id && !isset($listUser[$post['from_id']])) {
+                    $postAuthor = UserModel::createFromSocialId($post['from_id'], self::$token);
+                    $listUser[$post['from_id']] = $postAuthor;
+                }
+
                 $offset = 0;
                 $likeCount = 0;
                 while(true) {
@@ -79,6 +85,19 @@ class ScoreModel
                         ]);
                         $actionEntity->save();
                         $totalScores += $actionEntity->scores;
+                        
+                        if ($postAuthor && $postAuthor->id != $user_id) {
+                            $actionEntity = new ActionEntity([
+                                'user_id'          => $postAuthor->id,
+                                'user_social_id'   => $postAuthor->social_id,
+                                'social_id'        => $post['id'],
+                                'parent_social_id' => $post['id'],
+                                'activity'         => 'post_like',
+                            ]);
+                            $actionEntity->save();
+                            $totalScores += $actionEntity->scores;                            
+                        }
+                        
                         $likeCount++;
                     }
                     $offset += 100;
