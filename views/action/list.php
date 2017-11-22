@@ -7,6 +7,7 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Date</th>
                     <th scope="col">Type</th>
                     <th scope="col">Scores</th>
                     <th scope="col">Content</th>
@@ -31,6 +32,7 @@
                     }
                     ?>
                     <tr>
+                        <th scope="row"><?= date("d-m-Y H:i", $action->activity) ?></th>
                         <th scope="row"><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></th>
                         <td><?= $action->scores?></td>
                         <td><?= $action->content?></td>

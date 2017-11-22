@@ -54,7 +54,7 @@ class ScoreModel
 
                     foreach ($listLikes as $user_id) {
                         if (!isset($listUser[$user_id])) {
-                            $userEntity = $userModel->createFromSocialId($user_id, self::$token);
+                            $userEntity = UserModel::createFromSocialId($user_id, self::$token);
                             if (!$userEntity) {
                                 break;
                             }
@@ -93,7 +93,7 @@ class ScoreModel
 
                     foreach ($listComments as $comment) {
                         if (!isset($listUser[$comment['from_id']])) {
-                            $userEntity = $userModel->createFromSocialId($comment['from_id'], self::$token);
+                            $userEntity = UserModel::createFromSocialId($comment['from_id'], self::$token);
                             if (!$userEntity) {
                                 break;
                             }

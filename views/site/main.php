@@ -1,7 +1,7 @@
 <?php
 /** @var $botname string
  *  @var $bot bool
- *  @var username string
+ *  @var $username string
  */
 ?>
 <div class="container">
