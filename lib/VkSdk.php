@@ -134,6 +134,7 @@ class VkSdk
         $params = array(
             'owner_id'     => $owner_id,
             'access_token' => $token,
+            'count'        => 100,
             'offset'       => $offset,
         );
 
@@ -154,6 +155,7 @@ class VkSdk
             'type'          => $type,
             'access_token'  => $token,
             'offset'        => $offset,
+            'count'         => 100,
         );
 
         $data = self::callApi('likes.getList', $params);
@@ -174,6 +176,7 @@ class VkSdk
             'start_comment_id'  => 0,
             'need_likes'        => 1,
             'offset'            => $offset,
+            'count'             => 100,
         );
 
         $data = self::callApi('wall.getComments', $params);
@@ -192,6 +195,7 @@ class VkSdk
             'post_id'       => $post_id,
             'access_token'  => $token,
             'offset'        => $offset,
+            'count'         => 100,
         );
 
         $data = self::callApi('wall.getReposts', $params);

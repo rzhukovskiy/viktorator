@@ -60,6 +60,9 @@ class ScoreModel
                     }
 
                     foreach ($listLikes as $user_id) {
+                        if ($post['from_id'] == $user_id) {
+                            continue;
+                        }
                         if (!isset($listUser[$user_id])) {
                             $userEntity = UserModel::createFromSocialId($user_id, self::$token);
                             if (!$userEntity) {
@@ -149,6 +152,9 @@ class ScoreModel
                                 }
 
                                 foreach ($listLikes as $user_id) {
+                                    if ($comment['from_id'] == $user_id) {
+                                        continue;
+                                    }
                                     $activity = 'comment_like';
                                     if ($user_id == $post['from_id']) {
                                         $activity = 'author_like';
