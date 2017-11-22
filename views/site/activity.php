@@ -1,3 +1,6 @@
+<?php
+/** @var $listActivity ActionEntity[] */
+?>
 <div class="container">
     <div class="block">
         <div class="block__body bg-white body_main">

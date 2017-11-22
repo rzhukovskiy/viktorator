@@ -1,3 +1,9 @@
+<?php
+/** @var $botname string
+ *  @var $bot bool
+ *  @var username string
+ */
+?>
 <div class="container">
     <div class="block">
         <div class="block__body">

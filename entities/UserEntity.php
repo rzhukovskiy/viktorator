@@ -23,17 +23,10 @@ class UserEntity extends BaseEntity
         $data['name'] = isset($data['name']) ? substr($data['name'], 0, 255) : '';
         parent::__construct($data);
     }
-
-    public function addScores($amount)
-    {
-        $this->scores = max(0, $this->scores + $amount);
-        $this->save();
-    }
     
     public function save()
     {
-        $model = new UserModel();
-        $id = $model->save($this->data);
+        $id = UserModel::save($this->data);
         $this->id = $id;
     }
 }

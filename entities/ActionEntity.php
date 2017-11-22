@@ -23,14 +23,12 @@ class ActionEntity extends BaseEntity
 {
     public function __construct($data)
     {
-        $activityModel = new ActivityModel();
-        
         if(empty($data['activity_id'])) {
-            $row = $activityModel->getByName($data['activity']);
+            $row = ActivityModel::getByName($data['activity']);
             $data['activity_id'] = $row['id'];
             $data['scores']      = $row['price'];
         } else {
-            $row = $activityModel->getById($data['activity_id']);
+            $row = ActivityModel::getById($data['activity_id']);
             $data['activity'] = $row['description'];
         }
 
@@ -44,19 +42,14 @@ class ActionEntity extends BaseEntity
 
     public function save()
     {
-        $model = new ActionModel();
-        if ($model->checkByActivity($this->activity_id, $this->social_id, $this->parent_social_id, $this->user_id)) {
+        if (ActionModel::checkByActivity($this->activity_id, $this->social_id, $this->parent_social_id, $this->user_id)) {
             return;
         }
         
         unset($this->data['activity']);
-        $id = $model->save($this->data);
-        
-        $userModel = new UserModel();
-        $userEntity = $userModel->findBySocialId($this->user_social_id);
-        if ($userEntity) {
-            $userEntity->addScores($this->scores);
-        }
+        $id = ActionModel::save($this->data);
+
+        UserModel::addScores($this->user_social_id, $this->scores);
         
         $this->id = $id;
     }
@@ -64,15 +57,9 @@ class ActionEntity extends BaseEntity
     public function deactivate()
     {
         $this->is_active = 0;
-        
-        $model = new ActionModel();
-        unset($this->data['activity']);
-        $model->save($this->data);
 
-        $userModel = new UserModel();
-        $userEntity = $userModel->findBySocialId($this->user_social_id);
-        if ($userEntity) {
-            $userEntity->addScores(-1 * $this->scores);
-        }        
+        unset($this->data['activity']);
+        ActionModel::save($this->data);
+        UserModel::addScores($this->user_social_id, -1 * $this->scores);
     }
 }

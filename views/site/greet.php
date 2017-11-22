@@ -1,3 +1,6 @@
+<?php
+/** @var $username string */
+?>
 <div class="container">
     <div class="block">
         <div class="block__body">

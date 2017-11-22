@@ -14,9 +14,9 @@ class UserModel extends BaseModel
      * @param string $socialId
      * @return bool|UserEntity
      */
-    public function findBySocialId($socialId)
+    public static function findBySocialId($socialId)
     {
-        $stmt = $this->pdo
+        $stmt = self::$pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
         $stmt->execute([
             'social_id' => $socialId,
@@ -35,9 +35,9 @@ class UserModel extends BaseModel
      * @param string $token
      * @return UserEntity
      */
-    public function createFromSocialId($socialId, $token)
+    public static function createFromSocialId($socialId, $token)
     {
-        $stmt = $this->pdo
+        $stmt = self::$pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
         $stmt->execute([
             'social_id' => $socialId,
@@ -86,9 +86,9 @@ class UserModel extends BaseModel
     /**
      * @return UserEntity[]|bool
      */
-    public function getAll()
+    public static function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id");
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY scores DESC");
         $stmt->execute([
             'group_id'  => Globals::$config->group_id,
         ]);
@@ -103,14 +103,24 @@ class UserModel extends BaseModel
             return false;
         }
     }
+    
+    public static function addScores($social_id, $scores)
+    {
+        $stmt = self::$pdo->prepare("UPDATE " . self::$nameTable . " SET scores = scores + :scores WHERE group_id = :group_id AND social_id = :social_id");
+        $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+            'scores'    => $scores,
+            'social_id' => $social_id,
+        ]);        
+    }
 
     /**
      * @param int $limit
      * @return UserEntity[]|bool
      */
-    public function getTop($limit)
+    public static function getTop($limit)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable .
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
             " WHERE group_id = :group_id AND is_member = 1 ORDER BY scores DESC LIMIT $limit");
         $stmt->execute([
             'group_id'  => Globals::$config->group_id,

@@ -16,14 +16,12 @@ class AdminEntity extends BaseEntity
 {
     public function save()
     {
-        $model = new AdminModel();
-        $id = $model->save($this->data);
+        $id = AdminModel::save($this->data);
         $this->id = $id;
     }
     
     public function connectToBot()
     {
-        $model = new AdminModel();
-        $model->connectToBot($this->id);
+        AdminModel::connectToBot($this->id);
     }    
 }

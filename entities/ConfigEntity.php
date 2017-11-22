@@ -31,10 +31,9 @@ class ConfigEntity extends BaseEntity
     
     public function save()
     {
-        $model = new ConfigModel();
-        $model->clearAll();
+        ConfigModel::clearAll();
         foreach ($this->data as $name => $value) {
-            $model->save([
+            ConfigModel::save([
                 'name'  => $name,
                 'value' => $value,
             ]);

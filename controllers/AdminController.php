@@ -16,8 +16,7 @@ class AdminController extends BaseController
     public function init()
     {
         if ($_COOKIE['stoger']) {
-            $adminModel = new AdminModel();
-            $adminEntity = $adminModel->findBySocialId($_COOKIE['social_id']);
+            $adminEntity = AdminModel::findBySocialId($_COOKIE['social_id']);
 
             $this->admin = $adminEntity ? $adminEntity : null;
         }
@@ -34,17 +33,15 @@ class AdminController extends BaseController
     }
 
     public function actionList()
-    {
-        $model = new AdminModel();
+    {        
         $this->render('admin/list', [
-            'listAdmin' => $model->getAll(),
+            'listAdmin' => AdminModel::getAll(),
         ]);
     }
 
     public function actionActivate()
     {
-        $model = new AdminModel();
-        $entity = $model->getById($_GET['id']);
+        $entity = AdminModel::getById($_GET['id']);
         $entity->is_active = $entity->is_active ? 0 : 1;
         $entity->save();
 

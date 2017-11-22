@@ -28,8 +28,7 @@ class CallbackController extends BaseController
             && $data->secret == Globals::$config->group_secret
             && $data->object->from_id != ('-' . Globals::$config->group_id)
         ) {
-            $userModel = new UserModel();
-            $userEntity = $userModel->createFromSocialId($data->object->from_id);
+            $userEntity = UserModel::createFromSocialId($data->object->from_id, $this->bot->getToken());
 
             if (!$userEntity->is_member && VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
                 $userEntity->is_member = 1;
@@ -57,9 +56,8 @@ class CallbackController extends BaseController
                     $offset += 100;
                 }
             }
-
-            $model = new ActionModel();
-            $data = $model->getScores($userEntity->id);
+            
+            $data = ActionModel::getScores($userEntity->id);
 
             $likeScores = isset($data['like']) ? $data['like'] : 0;
             $tenLikeScores = isset($data['ten_like']) ? $data['ten_like'] : 0;
@@ -68,7 +66,7 @@ class CallbackController extends BaseController
             $commentLikeScores = isset($data['comment_like']) ? $data['comment_like'] : 0;
             $authorLike = isset($data['author_like']) ? $data['author_like'] : 0;
 
-            if ($userEntity->is_member /*&& $userEntity->is_repost*/) {
+            if ($userEntity->is_member) {
                 $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
                     . " - лайк поста - $likeScores\n"
                     . " - лайк поста первым - $firstLikeScores\n"
@@ -76,9 +74,6 @@ class CallbackController extends BaseController
                     . " - комментарий по теме поста - $commentScores\n"
                     . " - комментарий, который набирает лайки - $commentLikeScores\n"
                     . " - лайк от автора поста - $authorLike\n";
-            } elseif ($userEntity->is_member && !$userEntity->is_repost) {
-                $message = "[id$userEntity->social_id|$userEntity->name], у Вас не сделан репост записи о конкурсе https://vk.com/stogoskol?w=wall-57874422_19933. "
-                    . "Это последний шаг, чтобы участвовать :)";
             } else {
                 $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
             }

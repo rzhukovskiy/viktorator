@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('body').on('click','#addWidget', function(e) {
+    $('body').on('click','#addWidget', function() {
         var title       = $('#title').val();
         var text        = $('#text').val();
         var button_url  = $('#button_url').val();

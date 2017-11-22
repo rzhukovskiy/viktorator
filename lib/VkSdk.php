@@ -42,6 +42,8 @@ class VkSdk
                 'content' => http_build_query($params)
             )
         )));
+
+        return $result;
     }
 
     public static function editTopic($token, $message)
@@ -63,6 +65,8 @@ class VkSdk
                 'content' => http_build_query($params)
             )
         )));
+
+        return $result;
     }
 
     public static function getAuthUrl()

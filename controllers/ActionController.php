@@ -16,8 +16,7 @@ class ActionController extends BaseController
     public function init()
     {
         if ($_COOKIE['stoger']) {
-            $adminModel = new AdminModel();
-            $adminEntity = $adminModel->findBySocialId($_COOKIE['social_id']);
+            $adminEntity = AdminModel::findBySocialId($_COOKIE['social_id']);
 
             $this->admin = $adminEntity ? $adminEntity : null;
         }
@@ -35,16 +34,14 @@ class ActionController extends BaseController
 
     public function actionList()
     {
-        $actionModel = new ActionModel();
         $this->render('action/list', [
-            'listAction' => $actionModel->getByUser($_GET['user_id']),
+            'listAction' => ActionModel::getByUser($_GET['user_id']),
         ]);
     }
 
     public function actionDeactivate()
     {
-        $actionModel = new ActionModel();
-        $actionEntity = $actionModel->getById($_GET['id']);
+        $actionEntity = ActionModel::getById($_GET['id']);
         $actionEntity->deactivate();
 
         $this->redirect('action/list?user_id=' . $actionEntity->user_id);

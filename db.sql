@@ -40,6 +40,13 @@ CREATE TABLE `viktorator`.`action` (
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
+CREATE TABLE `viktorator`.`error` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(50) NULL,
+  `content` VARCHAR(255) NULL,
+  `created_at` INT NOT NULL,
+  PRIMARY KEY (`id`));
+
 CREATE TABLE `viktorator`.`config` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,

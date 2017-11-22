@@ -16,8 +16,7 @@ class SiteController extends BaseController
     public function init()
     {
         if ($_COOKIE['stoger']) {
-            $adminModel = new AdminModel();
-            $adminEntity = $adminModel->findBySocialId($_COOKIE['social_id']);
+            $adminEntity = AdminModel::findBySocialId($_COOKIE['social_id']);
             
             $this->admin = $adminEntity;
         }
@@ -59,8 +58,7 @@ class SiteController extends BaseController
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
         if ($code) {
             $infoToken = VkSdk::getTokenByCode($code);
-            $adminModel = new AdminModel();
-            $adminEntity = $adminModel->findBySocialId($infoToken['user_id']);
+            $adminEntity = AdminModel::findBySocialId($infoToken['user_id']);
 
             if (!$adminEntity) {
                 $infoUser = VkSdk::getUserInfoByToken($infoToken['user_id'], $infoToken['access_token']);
@@ -121,9 +119,8 @@ class SiteController extends BaseController
             $this->redirect('site/activity');
         }
 
-        $activityModel = new ActivityModel();
         $this->render('site/activity', [
-            'listActivity' => $activityModel->getAll(),
+            'listActivity' => ActivityModel::getAll(),
         ]);
     }
 }

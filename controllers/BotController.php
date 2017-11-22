@@ -14,8 +14,7 @@ class BotController extends BaseController
     public function init()
     {
         if ($_COOKIE['stoger']) {
-            $adminModel = new AdminModel();
-            $adminEntity = $adminModel->findBySocialId($_COOKIE['social_id']);
+            $adminEntity = AdminModel::findBySocialId($_COOKIE['social_id']);
 
             $this->admin = $adminEntity ? $adminEntity : null;
         }

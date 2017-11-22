@@ -24,9 +24,8 @@ class ScoreModel
         }
 
         $totalScores = 0;
-        $userModel = new UserModel();
         $date = strtotime('last Monday', strtotime('next sunday')) + 3*3600;
-        $listUser = $userModel->getAll();
+        $listUser = UserModel::getAll();
 
         $break = false;
         $postOffset = 0;
@@ -155,8 +154,7 @@ class ScoreModel
     
     public static function updateTable()
     {
-        $model = new UserModel();
-        $data = $model->getTop(12);
+        $data = UserModel::getTop(12);
 
         $message = '';
         $place = 1;

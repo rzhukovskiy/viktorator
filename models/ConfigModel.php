@@ -10,17 +10,17 @@ class ConfigModel extends BaseModel
 {
     public static $nameTable = 'config';
 
-    public function getAll()
+    public static function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . self::$nameTable);
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable);
         $stmt->execute();
 
         return new ConfigEntity($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    public function clearAll()
+    public static function clearAll()
     {
-        $stmt = $this->pdo->prepare("DELETE FROM " . self::$nameTable . " WHERE id > 0");
+        $stmt = self::$pdo->prepare("DELETE FROM " . self::$nameTable . " WHERE id > 0");
         $stmt->execute();
     }
 }

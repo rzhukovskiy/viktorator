@@ -12,8 +12,7 @@ class BotEntity
 
     public function __construct()
     {
-        $adminModel = new AdminModel();
-        $adminEntity = $adminModel->findByBotFlag();
+        $adminEntity = AdminModel::findByBotFlag();
         if ($adminEntity) {
             $this->owner = $adminEntity;
         }
