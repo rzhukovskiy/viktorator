@@ -26,10 +26,19 @@ class CommandController extends BaseController
         try {
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
 
-            //ScoreModel::updateTable();
             $totalScores = ScoreModel::collect();
-            //ScoreModel::updateTable();
             echo $totalScores . "\n";
+        } catch (Exception $ex) {
+            print_r($ex); die;
+        }
+    }
+
+    public function actionUpdate()
+    {
+        try {
+            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
+            ScoreModel::updateTable();
+            echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex); die;
         }
