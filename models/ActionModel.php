@@ -76,9 +76,10 @@ class ActionModel extends BaseModel
 
         if ($stmt->rowCount()) {
             $res = [];
-            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC )as $row) {
-                $res[$row['user_id']][$row['activity']][$row['parent_social_id'][$row['social_id']]] = new ActionEntity($row);
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[$row['user_id']][$row['activity']][$row['parent_social_id']][$row['social_id']] = $row;
             }
+            return $res;
         } else {
             return false;
         }
