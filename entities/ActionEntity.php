@@ -37,7 +37,7 @@ class ActionEntity extends BaseEntity
         
         parent::__construct($data);
 
-        if (!$this->id) {
+        if (empty($this->id)) {
             $this->created_at = time();
         }
     }
