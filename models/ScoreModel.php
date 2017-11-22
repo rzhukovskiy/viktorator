@@ -84,7 +84,7 @@ class ScoreModel
                             'parent_social_id' => $post['id'],
                             'activity'         => $activity,
                         ]);
-                        if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                        if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->parent_social_id][$actionEntity->social_id])) {
                             $actionEntity->save();
                             $totalScores += $actionEntity->scores;
                         }
@@ -98,7 +98,7 @@ class ScoreModel
                                 'parent_social_id' => $post['id'],
                                 'activity'         => $activity,
                             ]);
-                            if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                            if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->parent_social_id][$actionEntity->social_id])) {
                                 $actionEntity->save();
                                 $totalScores += $actionEntity->scores;
                             }
@@ -134,7 +134,7 @@ class ScoreModel
                             'activity'         => 'comment',
                             'content'          => $comment['text'],
                         ]);
-                        if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                        if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->parent_social_id][$actionEntity->social_id])) {
                             $actionEntity->save();
                             $totalScores += $actionEntity->scores;
                         }
@@ -161,7 +161,7 @@ class ScoreModel
                                         'parent_social_id' => $comment['id'],
                                         'activity'         => $activity,
                                     ]);
-                                    if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                                    if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->parent_social_id][$actionEntity->social_id])) {
                                         $actionEntity->save();
                                         $totalScores += $actionEntity->scores;
                                     }
