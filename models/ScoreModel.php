@@ -90,7 +90,7 @@ class ScoreModel
                             $actionEntity = new ActionEntity([
                                 'user_id'          => $postAuthor->id,
                                 'user_social_id'   => $postAuthor->social_id,
-                                'social_id'        => $post['id'],
+                                'social_id'        => $user_id,
                                 'parent_social_id' => $post['id'],
                                 'activity'         => 'post_like',
                             ]);

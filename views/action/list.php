@@ -20,6 +20,7 @@
                         case 'like':
                         case 'ten_like':
                         case 'first_like':
+                        case 'post_like':
                             $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id .
                                 '?w=likes%2Fwall-' . Globals::$config->group_id . '_' . $action->parent_social_id;
                             break;
