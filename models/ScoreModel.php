@@ -26,6 +26,7 @@ class ScoreModel
         $totalScores = 0;
         $date = strtotime('last Monday', strtotime('next sunday')) + 3*3600;
         $listUser = UserModel::getAll();
+        $listAction = ActionModel::getAll();
 
         $break = false;
         $postOffset = 0;
@@ -83,19 +84,24 @@ class ScoreModel
                             'parent_social_id' => $post['id'],
                             'activity'         => $activity,
                         ]);
-                        $actionEntity->save();
-                        $totalScores += $actionEntity->scores;
+                        if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                            $actionEntity->save();
+                            $totalScores += $actionEntity->scores;
+                        }
                         
                         if ($postAuthor && $postAuthor->id != $user_id) {
+                            $activity = 'post_like';
                             $actionEntity = new ActionEntity([
                                 'user_id'          => $postAuthor->id,
                                 'user_social_id'   => $postAuthor->social_id,
                                 'social_id'        => $user_id,
                                 'parent_social_id' => $post['id'],
-                                'activity'         => 'post_like',
+                                'activity'         => $activity,
                             ]);
-                            $actionEntity->save();
-                            $totalScores += $actionEntity->scores;                            
+                            if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                                $actionEntity->save();
+                                $totalScores += $actionEntity->scores;
+                            }
                         }
                         
                         $likeCount++;
@@ -128,8 +134,10 @@ class ScoreModel
                             'activity'         => 'comment',
                             'content'          => $comment['text'],
                         ]);
-                        $actionEntity->save();
-                        $totalScores += $actionEntity->scores;
+                        if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                            $actionEntity->save();
+                            $totalScores += $actionEntity->scores;
+                        }
 
                         if ($comment['likes']['count'] > 0) {
                             $offset = 0;
@@ -153,8 +161,10 @@ class ScoreModel
                                         'parent_social_id' => $comment['id'],
                                         'activity'         => $activity,
                                     ]);
-                                    $actionEntity->save();
-                                    $totalScores += $actionEntity->scores;
+                                    if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->social_id][$actionEntity->parent_social_id])) {
+                                        $actionEntity->save();
+                                        $totalScores += $actionEntity->scores;
+                                    }
                                     $likeCount++;
                                 }
                                 $offset += 100;

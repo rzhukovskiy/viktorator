@@ -65,6 +65,25 @@ class ActionModel extends BaseModel
         }
     }
 
+    public static function getAll()
+    {
+        $stmt = self::$pdo
+            ->prepare("SELECT action.*, description as activity FROM " . self::$nameTable . " as action, " . ActivityModel::$nameTable .
+                " as activity  WHERE group_id = :group_id AND activity.id = activity_id");
+        $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_KEY_PAIR )as $row) {
+                $res[$row['user_id']][$row['description']][$row['parent_social_id'][$row['social_id']]] = new ActionEntity($row);
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static function getById($id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
