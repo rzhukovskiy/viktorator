@@ -68,7 +68,7 @@ class CallbackController extends BaseController
             $commentLikeScores = isset($data['comment_like']) ? $data['comment_like'] : 0;
             $authorLike = isset($data['author_like']) ? $data['author_like'] : 0;
 
-            if ($userEntity->is_member && $userEntity->is_repost) {
+            if ($userEntity->is_member /*&& $userEntity->is_repost*/) {
                 $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
                     . " - лайк поста - $likeScores\n"
                     . " - лайк поста первым - $firstLikeScores\n"
