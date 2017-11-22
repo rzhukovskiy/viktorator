@@ -1,5 +1,5 @@
 <?php
-/** @var $listAction ActionEntity */
+/** @var $listAction ActionEntity[] */
 ?>
 <div class="container">
     <div class="block">
@@ -32,7 +32,7 @@
                     }
                     ?>
                     <tr>
-                        <th scope="row"><?= date("d-m-Y H:i", $action->activity) ?></th>
+                        <th scope="row"><?= date("d-m-Y H:i", $action->created_at) ?></th>
                         <th scope="row"><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></th>
                         <td><?= $action->scores?></td>
                         <td><?= $action->content?></td>
