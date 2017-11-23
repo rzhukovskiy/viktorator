@@ -14,7 +14,7 @@
                     <h2>Добро пожаловать!</h2>
                     <p>Привет, <?= $username ?>!</p>
                     <p>Бот <?= $bot ? "активен и привязан к <strong>$botname</strong>" : "не активен" ?>. Привязать на <a href='/bot/connect'>себя</a>.</p>
-                    <p>Последнее обновление очков: <?= $lastAction ? date("d-m-Y H:i", $lastAction->created_at) : 'а не было обновления' ?>.</p>
+                    <p>Последнее обновление очков: <?= $lastAction ? date("d-m-Y H:i", $lastAction->created_at + 3 * 3600) : 'а не было обновления' ?>.</p>
                 </div>
             </div>
         </div>
