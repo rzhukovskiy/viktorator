@@ -43,7 +43,7 @@ CREATE TABLE `viktorator`.`action` (
 CREATE TABLE `viktorator`.`error` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(50) NULL,
-  `content` VARCHAR(255) NULL,
+  `content` TEXT NULL,
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
