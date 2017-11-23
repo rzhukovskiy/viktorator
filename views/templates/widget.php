@@ -30,7 +30,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="content">
+    <div class="content bg-white">
         <?= $content ?>
     </div> <!-- /.content -->
 </div> <!-- /.wrapper -->
