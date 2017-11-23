@@ -39,13 +39,13 @@ class VkSdk
         ];
 
         $url = 'https://api.vk.com/method/board.createComment';
-        $result = file_get_contents($url, false, stream_context_create(array(
+        $result = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
                 'content' => http_build_query($params)
             )
-        )));
+        ))), true);
         
         if (!empty($result['error'])) {
             ErrorModel::save([
@@ -69,13 +69,13 @@ class VkSdk
         ];
 
         $url = 'https://api.vk.com/method/board.editComment';
-        $result = file_get_contents($url, false, stream_context_create(array(
+        $result = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
                 'content' => http_build_query($params)
             )
-        )));
+        ))), true);
 
         if (!empty($result['error'])) {
             ErrorModel::save([
