@@ -16,9 +16,13 @@ class VkSdk
         $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
         $data = json_decode(file_get_contents($url), true);
 
-        if (empty($infoUser['error'])) {
+        if (empty($data['error'])) {
             return $data;
         } else {
+            ErrorModel::save([
+                'type'      => 'vk',
+                'content'   => $data['error']
+            ]);
             return false;
         }
     }
@@ -42,6 +46,13 @@ class VkSdk
                 'content' => http_build_query($params)
             )
         )));
+        
+        if (!empty($result['error'])) {
+            ErrorModel::save([
+                'type'      => 'vk',
+                'content'   => $result['error']
+            ]);
+        }
 
         return $result;
     }
@@ -65,6 +76,13 @@ class VkSdk
                 'content' => http_build_query($params)
             )
         )));
+
+        if (!empty($result['error'])) {
+            ErrorModel::save([
+                'type'      => 'vk',
+                'content'   => $result['error']
+            ]);
+        }
 
         return $result;
     }
@@ -108,6 +126,10 @@ class VkSdk
         if (empty($infoToken['error'])) {
             return $infoToken;            
         } else {
+            ErrorModel::save([
+                'type'      => 'vk',
+                'content'   => $infoToken['error']
+            ]);
             return false;
         }
     }
@@ -160,7 +182,7 @@ class VkSdk
 
         $data = self::callApi('likes.getList', $params);
 
-        if (empty($data['error'])) {
+        if ($data) {
             return $data['response']['items'];
         } else {
             return false;
@@ -181,7 +203,7 @@ class VkSdk
 
         $data = self::callApi('wall.getComments', $params);
 
-        if (empty($data['error'])) {
+        if ($data) {
             return $data['response']['items'];
         } else {
             return false;
@@ -200,7 +222,7 @@ class VkSdk
 
         $data = self::callApi('wall.getReposts', $params);
 
-        if (empty($data['error'])) {
+        if ($data) {
             return $data['response']['items'];
         } else {
             return false;
@@ -216,7 +238,7 @@ class VkSdk
 
         $data = self::callApi('users.get', $params);
 
-        if (empty($data['error'])) {
+        if ($data) {
             return isset($data['response'][0]) ? $data['response'][0] : false;
         } else {
             return false;
@@ -232,7 +254,7 @@ class VkSdk
 
         $data = self::callApi('groups.isMember', $params);
 
-        if (empty($data['error'])) {
+        if ($data) {
             return $data['response'];
         } else {
             return false;
