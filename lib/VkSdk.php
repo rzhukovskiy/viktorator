@@ -21,7 +21,7 @@ class VkSdk
         } else {
             $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
-                'content'   => $data['error']
+                'content'   => print_r($data['error'], true)
             ]);
             $errorEntity->save();
             return false;
@@ -51,7 +51,7 @@ class VkSdk
         if (!empty($result['error'])) {
             $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
-                'content'   => $result['error']
+                'content'   => print_r($result['error'], true)
             ]);
             $errorEntity->save();
         }
@@ -82,7 +82,7 @@ class VkSdk
         if (!empty($result['error'])) {
             $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
-                'content'   => $result['error']
+                'content'   => print_r($result['error'], true)
             ]);
             $errorEntity->save();
         }
