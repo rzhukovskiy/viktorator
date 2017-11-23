@@ -30,6 +30,9 @@ html, body {
       -ms-flex-direction: column;
           flex-direction: column; }
 
+.tooltip-default {
+  cursor: pointer; }
+
 .block {
   padding: 1.2rem 0; }
   .block:first-child {
