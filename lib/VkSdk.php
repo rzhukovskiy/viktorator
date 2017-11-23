@@ -19,10 +19,11 @@ class VkSdk
         if (empty($data['error'])) {
             return $data;
         } else {
-            ErrorModel::save([
+            $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
                 'content'   => $data['error']
             ]);
+            $errorEntity->save();
             return false;
         }
     }
@@ -48,10 +49,11 @@ class VkSdk
         ))), true);
         
         if (!empty($result['error'])) {
-            ErrorModel::save([
+            $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
                 'content'   => $result['error']
             ]);
+            $errorEntity->save();
         }
 
         return $result;
@@ -78,10 +80,11 @@ class VkSdk
         ))), true);
 
         if (!empty($result['error'])) {
-            ErrorModel::save([
+            $errorEntity = new ErrorEntity([
                 'type'      => 'vk',
                 'content'   => $result['error']
             ]);
+            $errorEntity->save();
         }
 
         return $result;
