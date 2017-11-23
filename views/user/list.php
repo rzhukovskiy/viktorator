@@ -1,5 +1,7 @@
 <?php
-/** @var $listUser UserEntity[] */
+/** 
+ * @var $listUser UserEntity[] 
+ */
 ?>
 <div class="container">
     <div class="block">

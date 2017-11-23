@@ -9,7 +9,14 @@
 class ActionModel extends BaseModel
 {
     public static $nameTable = 'action';
-    
+
+    /**
+     * @param $activity_id
+     * @param $social_id
+     * @param $parent_social_id
+     * @param $user_id
+     * @return bool
+     */
     public static function checkByActivity($activity_id, $social_id, $parent_social_id, $user_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
@@ -28,6 +35,10 @@ class ActionModel extends BaseModel
         }        
     }
 
+    /**
+     * @param $user_id
+     * @return ActionEntity[]|bool
+     */
     public static function getByUser($user_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id AND group_id = :group_id");
@@ -47,6 +58,10 @@ class ActionModel extends BaseModel
         }
     }
 
+    /**
+     * @param $user_id
+     * @return array|bool
+     */
     public static function getScores($user_id)
     {
         $stmt = self::$pdo
@@ -65,6 +80,9 @@ class ActionModel extends BaseModel
         }
     }
 
+    /**
+     * @return array|bool
+     */
     public static function getAll()
     {
         $stmt = self::$pdo
@@ -85,11 +103,33 @@ class ActionModel extends BaseModel
         }
     }
 
+    /**
+     * @param $id
+     * @return ActionEntity|bool
+     */
     public static function getById($id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
         $stmt->execute([
             'id' => $id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return new ActionEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $user_id
+     * @return ActionEntity|bool
+     */
+    public static function getLast($user_id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY created_at DESC LIMIT 1");
+        $stmt->execute([
+            'group_id' => Globals::$config->group_id,
         ]);
 
         if ($stmt->rowCount()) {

@@ -38,9 +38,10 @@ class SiteController extends BaseController
     {
         if ($this->admin->is_active) {
             $this->render('site/main', [
-                'username'  => $this->admin->name,
-                'bot'       => $this->bot->isActive(),
-                'botname'   => $this->bot->getOwnerName(),
+                'username'   => $this->admin->name,
+                'bot'        => $this->bot->isActive(),
+                'botname'    => $this->bot->getOwnerName(),
+                'lastAction' => ActionModel::getLast(),
             ]);
         } else {
             $this->template = 'login';

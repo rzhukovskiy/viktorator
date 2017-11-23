@@ -1,7 +1,9 @@
 <?php
-/** @var $botname string
- *  @var $bot bool
- *  @var $username string
+/**
+ * @var $botname string
+ * @var $bot bool
+ * @var $username string
+ * @var $lastAction ActionEntity
  */
 ?>
 <div class="container">
@@ -12,6 +14,7 @@
                     <h2>Добро пожаловать!</h2>
                     <p>Привет, <?= $username ?>!</p>
                     <p>Бот <?= $bot ? "активен и привязан к <strong>$botname</strong>" : "не активен" ?>. Привязать на <a href='/bot/connect'>себя</a>.</p>
+                    <p>Последнее обновление очков: <?= $lastAction ? date("d-m-Y H:i", $lastAction->created_at) : 'а не было обновления' ?>.</p>
                 </div>
             </div>
         </div>

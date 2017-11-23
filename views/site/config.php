@@ -1,5 +1,7 @@
 <?php
-/** @var $config ConfigEntity */
+/** 
+ * @var $config ConfigEntity 
+ */
 ?>
 <div class="container">
     <div class="block">

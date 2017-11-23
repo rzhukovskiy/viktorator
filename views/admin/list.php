@@ -1,5 +1,7 @@
 <?php
-/** @var $listAdmin AdminEntity[] */
+/** 
+ * @var $listAdmin AdminEntity[] 
+ */
 ?>
 <div class="container">
     <div class="block">

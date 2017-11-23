@@ -1,5 +1,7 @@
 <?php
-/** @var $username string */
+/** 
+ * @var $username string 
+ */
 ?>
 <div class="container">
     <div class="block">

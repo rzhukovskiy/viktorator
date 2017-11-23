@@ -1,5 +1,7 @@
 <?php
-/** @var $link string */
+/** 
+ * @var $link string 
+ */
 ?>
 <div class="container">
     <div class="block">

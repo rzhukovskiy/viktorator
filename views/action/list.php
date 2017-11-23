@@ -1,5 +1,7 @@
 <?php
-/** @var $listAction ActionEntity[] */
+/** 
+ * @var $listAction ActionEntity[] 
+ */
 ?>
 <div class="container">
     <div class="block">
