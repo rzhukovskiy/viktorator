@@ -46,9 +46,12 @@ class ScoreModel
                 }
 
                 $postAuthor = null;
-                if ($post['from_id'] != '-' . Globals::$config->group_id && !isset($listUser[$post['from_id']])) {
-                    $postAuthor = UserModel::createFromSocialId($post['from_id'], self::$token);
-                    $listUser[$post['from_id']] = $postAuthor;
+                if ($post['from_id'] != '-' . Globals::$config->group_id) {
+                    if (!isset($listUser[$post['from_id']])) {
+                        $postAuthor = UserModel::createFromSocialId($post['from_id'], self::$token);
+                        $listUser[$post['from_id']] = $postAuthor;
+                    }
+                    $postAuthor = $listUser[$post['from_id']];
                 }
 
                 $offset = 0;
