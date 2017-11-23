@@ -6,7 +6,7 @@
 <div class="container">
     <div class="block">
         <div class="block__body">
-            <table class="table table-hover">
+            <table class="table table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
