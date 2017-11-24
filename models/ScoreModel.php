@@ -112,7 +112,7 @@ class ScoreModel
                         
                         $likeCount++;
                     }
-                    $offset += 100;
+                    $offset += 1000;
                 }
 
                 $offset = 0;

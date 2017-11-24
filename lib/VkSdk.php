@@ -194,7 +194,7 @@ class VkSdk
             'type'          => $type,
             'access_token'  => $token,
             'offset'        => $offset,
-            'count'         => 100,
+            'count'         => 1000,
         );
 
         $data = self::callApi('likes.getList', $params);
