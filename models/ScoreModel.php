@@ -197,7 +197,7 @@ class ScoreModel
         $message = '';
         $place = 1;
         foreach ($data as $user) {
-            if (!(($place - 1) % 12)) {
+            if ($place != count($data) && !($place % 12)) {
                 $message .= "----------------------------------------------\n";
             }
             $message .= "$place. [id{$user->social_id}|{$user->name}] - {$user->scores}\n";

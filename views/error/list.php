@@ -5,7 +5,7 @@
  */
 ?>
 <div class="container">
-    <?php if ($captchaError->is_active) {
+    <?php if ($captchaError->is_active && !$captchaError->response) {
         $data = unserialize($captchaError->content);
     ?>
         <div class="block">
