@@ -35,7 +35,7 @@
                     }
                     ?>
                     <tr>
-                        <td><?= date("d-m-Y H:i", $action->created_at) ?></td>
+                        <td><?= date("d-m-Y H:i", $action->created_at + 3 * 3600) ?></td>
                         <td><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></td>
                         <td><?= $action->scores?></td>
                         <td><?= $action->content?></td>

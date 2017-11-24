@@ -44,11 +44,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($listError as $error) { ?>
+                <?php foreach ($listError as $error) { $data = unserialize($error->content);?>
                     <tr>
                         <td><?= date("d-m-Y H:i", $error->created_at + 3 * 3600) ?></td>
-                        <td><?= $error->type?></td>
-                        <td><?= $error->content?></td>
+                        <td><?= $error->type ?></td>
+                        <td><?= $data['error_msg'] ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
