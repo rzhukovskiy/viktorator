@@ -9,6 +9,8 @@
  * @property integer    $id
  * @property string     $type
  * @property string     $content
+ * @property string     $response
+ * @property integer    $is_active
  * @property integer    $created_at
  */
 class ErrorEntity extends BaseEntity

@@ -20,8 +20,8 @@ class VkSdk
             return $data;
         } else {
             $errorEntity = new ErrorEntity([
-                'type'      => 'vk',
-                'content'   => print_r($data['error'], true)
+                'type'      => $method,
+                'content'   => serialize($data['error'])
             ]);
             $errorEntity->save();
             return false;
@@ -50,8 +50,8 @@ class VkSdk
         
         if (!empty($result['error'])) {
             $errorEntity = new ErrorEntity([
-                'type'      => 'vk',
-                'content'   => print_r($result['error'], true)
+                'type'      => 'board.createComment',
+                'content'   => serialize($result['error'])
             ]);
             $errorEntity->save();
         }
@@ -81,8 +81,8 @@ class VkSdk
 
         if (!empty($result['error'])) {
             $errorEntity = new ErrorEntity([
-                'type'      => 'vk',
-                'content'   => print_r($result['error'], true)
+                'type'      => 'board.editComment',
+                'content'   => serialize($result['error'])
             ]);
             $errorEntity->save();
         }
@@ -130,8 +130,8 @@ class VkSdk
             return $infoToken;            
         } else {
             ErrorModel::save([
-                'type'      => 'vk',
-                'content'   => $infoToken['error']
+                'type'      => 'getToken',
+                'content'   => serialize($infoToken['error'])
             ]);
             return false;
         }

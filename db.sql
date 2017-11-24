@@ -44,6 +44,8 @@ CREATE TABLE `viktorator`.`error` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(50) NULL,
   `content` TEXT NULL,
+  `response` VARCHAR(50) NULL,
+  `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 

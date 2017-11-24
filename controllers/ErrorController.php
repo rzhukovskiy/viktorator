@@ -34,7 +34,16 @@ class ErrorController extends BaseController
 
     public function actionList()
     {
+        if (!empty($_POST['Error'])) {
+            $errorEntity = ErrorModel::getById($_POST['Error']['id']);
+            $errorEntity->response = $_POST['Error']['id'];
+            $errorEntity->save();
+
+            $this->redirect('error/list');
+        }
+        
         $this->render('error/list', [
+            'captchaError' => ErrorModel::getCaptchaError(),
             'listError' => ErrorModel::getAll(),
         ]);
     }
