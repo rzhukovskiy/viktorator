@@ -9,6 +9,7 @@
 class UserModel extends BaseModel
 {
     public static $nameTable = 'user';
+    private static $likes = [];
 
     /**
      * @param string $socialId
@@ -64,26 +65,12 @@ class UserModel extends BaseModel
             if (VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
                 $userEntity->is_member = 1;
             }
-            $offset = 0;
-            while (true) {
-                $listLike = VkSdk::getLikeWithRepostList(
-                    '-' . $userEntity->group_id,
-                    $token,
-                    Globals::$config->post_id,
-                    'post',
-                    $offset
-                );
 
-                if(!$listLike) {
+            foreach (self::getLikes($userEntity->group_id, $token) as $user_id) {
+                if($user_id == $userEntity->social_id) {
+                    $userEntity->is_repost = 1;
                     break;
                 }
-                foreach ($listLike as $user_id) {
-                    if ($user_id == $userEntity->social_id) {
-                        $userEntity->is_repost = 1;
-                        break;
-                    }
-                }
-                $offset += 100;
             }
 
             $userEntity->save();
@@ -144,5 +131,30 @@ class UserModel extends BaseModel
         } else {
             return false;
         }
+    }
+
+    private static function getLikes($group_id, $token)
+    {
+        if (empty(self::$likes)) {
+            $offset = 0;
+            while (true) {
+                $listLike = VkSdk::getLikeWithRepostList(
+                    '-' . $group_id,
+                    $token,
+                    Globals::$config->post_id,
+                    'post',
+                    $offset
+                );
+
+                if(!$listLike) {
+                    break;
+                }
+                self::$likes = array_merge(self::$likes, $listLike);
+                $offset += 100;
+            }
+
+        }
+
+        return self::$likes;
     }
 }
