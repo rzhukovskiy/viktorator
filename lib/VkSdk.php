@@ -14,7 +14,7 @@ class VkSdk
     private static function callApi($method, $params)
     {
         $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
-        usleep(0.4 * 1000000);
+        usleep(0.3 * 1000000);
         $data = json_decode(file_get_contents($url), true);
 
         if (empty($data['error'])) {
@@ -41,7 +41,7 @@ class VkSdk
         ];
 
         $url = 'https://api.vk.com/method/board.createComment';
-        usleep(0.4 * 1000000);
+        usleep(0.3 * 1000000);
         $result = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
@@ -73,7 +73,7 @@ class VkSdk
         ];
 
         $captchaError = ErrorModel::getCaptchaError();
-        if ($captchaError->is_active && $captchaError->response) {
+        if ($captchaError && $captchaError->is_active && $captchaError->response) {
             $captchaError->is_active = 0;
             $captchaError->save();
 
@@ -83,7 +83,7 @@ class VkSdk
         }
 
         $url = 'https://api.vk.com/method/board.editComment';
-        usleep(0.4 * 1000000);
+        usleep(0.3 * 1000000);
         $result = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
@@ -137,7 +137,7 @@ class VkSdk
             'code'          => $code,
         );
 
-        usleep(0.4 * 1000000);
+        usleep(0.3 * 1000000);
         $infoToken = json_decode(file_get_contents('https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params))), true);
 
         if (empty($infoToken['error'])) {
