@@ -38,16 +38,19 @@ class CallbackController extends BaseController
             if (!$userEntity->is_repost) {
                 $offset = 0;
                 while (true) {
-                    $listRepost = VkSdk::getRepostList('-' . $userEntity->group_id,
-                        Globals::$config->standalone_token,
+                    $listLike = VkSdk::getLikeWithRepostList(
+                        '-' . $userEntity->group_id,
+                        $this->bot->getToken(),
                         Globals::$config->post_id,
-                        $offset);
+                        'post',
+                        $offset
+                    );
 
-                    if(!$listRepost) {
+                    if(!$listLike) {
                         break;
                     }
-                    foreach ($listRepost as $repost) {
-                        if ($repost['from_id'] == $userEntity->social_id) {
+                    foreach ($listLike as $user_id) {
+                        if ($user_id == $userEntity->social_id) {
                             $userEntity->is_repost = 1;
                             $userEntity->save();
                             break;

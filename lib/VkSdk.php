@@ -74,7 +74,7 @@ class VkSdk
         if ($captchaError->is_active && $captchaError->response) {
             $captchaError->is_active = 0;
             $captchaError->save();
-            
+
             $data = unserialize($captchaError->content);
             $params['captcha_sid'] = $data['captcha_sid'];
             $params['captcha_key'] = $captchaError->response;
@@ -190,6 +190,27 @@ class VkSdk
             'type'          => $type,
             'access_token'  => $token,
             'offset'        => $offset,
+            'count'         => 100,
+        );
+
+        $data = self::callApi('likes.getList', $params);
+
+        if ($data) {
+            return $data['response']['items'];
+        } else {
+            return false;
+        }
+    }
+
+    public static function getLikeWithRepostList($owner_id, $token, $item_id, $type, $offset)
+    {
+        $params = array(
+            'owner_id'      => $owner_id,
+            'item_id'       => $item_id,
+            'type'          => $type,
+            'access_token'  => $token,
+            'offset'        => $offset,
+            'filter'        => 'copies',
             'count'         => 100,
         );
 
