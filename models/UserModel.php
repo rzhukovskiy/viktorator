@@ -65,16 +65,25 @@ class UserModel extends BaseModel
                 $userEntity->is_member = 1;
             }
             $offset = 0;
-            $listRepost = VkSdk::getRepostList('-' . $userEntity->group_id,
-                Globals::$config->standalone_token,
-                Globals::$config->post_id,
-                $offset);
+            while (true) {
+                $listLike = VkSdk::getLikeWithRepostList(
+                    '-' . $userEntity->group_id,
+                    $token,
+                    Globals::$config->post_id,
+                    'post',
+                    $offset
+                );
 
-            foreach ($listRepost as $repost) {
-                if($repost['from_id'] == $userEntity->social_id) {
-                    $userEntity->is_repost = 1;
+                if(!$listLike) {
                     break;
                 }
+                foreach ($listLike as $user_id) {
+                    if ($user_id == $userEntity->social_id) {
+                        $userEntity->is_repost = 1;
+                        break;
+                    }
+                }
+                $offset += 100;
             }
 
             $userEntity->save();
