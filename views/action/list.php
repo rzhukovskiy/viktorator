@@ -38,7 +38,7 @@
                         <td><?= date("d-m-Y H:i", $action->created_at + 3 * 3600) ?></td>
                         <td><a href="<?= $itemUrl ?>" target="new"><?= $action->activity ?></a></td>
                         <td><?= $action->scores ?></td>
-                        <td><?= substr($action->content, 0, 100) ?></td>
+                        <td><?= mb_substr($action->content, 0, 100) ?></td>
                         <td><a href="/action/deactivate?id=<?= $action->id ?>"><?= $action->is_active ?></td>
                     </tr>
                 <?php } ?>
