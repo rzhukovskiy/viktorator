@@ -14,9 +14,9 @@ class BaseModel
 
     public static function init()
     {
-        $dsn = 'mysql:dbname=viktorator;host=127.0.0.1';
-        $user = 'root';
-        $password = 'vBghJk';
+        $dsn = 'mysql:dbname=mediastog;host=127.0.0.1';
+        $user = 'mediastog';
+        $password = 'aWEjOv+k;d$m16W';
 
         $opt = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
