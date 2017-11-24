@@ -8,9 +8,15 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="text" class="col-sm-4 col-form-label">Текст</label>
+                <label for="text" class="col-sm-4 col-form-label">Текст (заголовок)</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="text" name="text" placeholder="Основной текст. %username% понимает." value="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="button_url" class="col-sm-4 col-form-label">Текст (текст)</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="main_text" name="main_text" placeholder="И это тоже текст. Путаница уже" value="">
                 </div>
             </div>
             <div class="form-group row">
