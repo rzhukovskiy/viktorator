@@ -36,7 +36,7 @@ class ErrorController extends BaseController
     {
         if (!empty($_POST['Error'])) {
             $errorEntity = ErrorModel::getById($_POST['Error']['id']);
-            $errorEntity->response = $_POST['Error']['id'];
+            $errorEntity->response = $_POST['Error']['response'];
             $errorEntity->save();
 
             $this->redirect('error/list');

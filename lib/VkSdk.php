@@ -70,6 +70,16 @@ class VkSdk
             'v'			   => '5.69',
         ];
 
+        $captchaError = ErrorModel::getCaptchaError();
+        if ($captchaError->is_active && $captchaError->response) {
+            $captchaError->is_active = 0;
+            $captchaError->save();
+            
+            $data = unserialize($captchaError->content);
+            $params['captcha_sid'] = $data['captcha_sid'];
+            $params['captcha_key'] = $captchaError->response;
+        }
+
         $url = 'https://api.vk.com/method/board.editComment';
         $result = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
