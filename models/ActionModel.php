@@ -41,7 +41,7 @@ class ActionModel extends BaseModel
      */
     public static function getByUser($user_id)
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id AND group_id = :group_id");
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE user_id = :user_id AND group_id = :group_id ORDER BY created_at DESC");
         $stmt->execute([
             ':user_id' => $user_id,
             'group_id' => Globals::$config->group_id,
