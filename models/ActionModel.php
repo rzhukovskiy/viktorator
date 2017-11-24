@@ -122,10 +122,9 @@ class ActionModel extends BaseModel
     }
 
     /**
-     * @param $user_id
      * @return ActionEntity|bool
      */
-    public static function getLast($user_id)
+    public static function getLast()
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY created_at DESC LIMIT 1");
         $stmt->execute([
