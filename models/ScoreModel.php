@@ -192,12 +192,15 @@ class ScoreModel
     
     public static function updateTable()
     {
-        $data = UserModel::getTop(12);
+        $data = UserModel::getTop(24);
 
         $message = '';
         $place = 1;
         foreach ($data as $user) {
             $message .= "$place. [id{$user->social_id}|{$user->name}] - {$user->scores}\n";
+            if (!($place % 12)) {
+                $message .= "----------------------------------------------\n";
+            }
             $place++;
         }
 
