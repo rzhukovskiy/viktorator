@@ -42,7 +42,7 @@ class ErrorModel extends BaseModel
 
     public static function getCaptchaError()
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE content LIKE %Captcha needed% ORDER BY created_at DESC");
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE content LIKE '%Captcha needed%' ORDER BY created_at DESC");
         $stmt->execute();
 
         if ($stmt->rowCount()) {

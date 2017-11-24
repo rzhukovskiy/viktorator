@@ -46,7 +46,7 @@
                 <tbody>
                 <?php foreach ($listError as $error) { ?>
                     <tr>
-                        <td><?= date("d-m-Y H:i", $error->created_at) ?></td>
+                        <td><?= date("d-m-Y H:i", $error->created_at + 3 * 3600) ?></td>
                         <td><?= $error->type?></td>
                         <td><?= $error->content?></td>
                     </tr>
