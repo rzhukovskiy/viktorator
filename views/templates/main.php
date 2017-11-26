@@ -53,6 +53,9 @@
                             <a class="nav-link" href="/user/list">Пользователи</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/user/top">Пользователи</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/error/list">Ошибки</a>
                         </li>
                     </ul>

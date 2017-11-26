@@ -38,4 +38,11 @@ class UserController extends BaseController
             'listUser' => UserModel::getAll(),
         ]);
     }
+
+    public function actionTop()
+    {
+        $this->render('user/top', [
+            'listUser' => TopModel::getLast(12),
+        ]);
+    }
 }
