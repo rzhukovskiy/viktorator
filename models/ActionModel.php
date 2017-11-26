@@ -96,6 +96,19 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @return bool
+     */
+    public static function clearAll()
+    {
+        $stmt = self::$pdo
+            ->prepare("DELETE FROM " . self::$nameTable . " WHERE is_active = :is_active AND group_id = :group_id");
+        return $stmt->execute([
+            'is_active' => 1,
+            'group_id'  => Globals::$config->group_id,
+        ]);
+    }
+
+    /**
      * @return array|bool
      */
     public static function getAll()

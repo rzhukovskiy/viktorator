@@ -33,6 +33,7 @@ class CommandController extends BaseController
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
 
             $totalScores = ScoreModel::collect();
+            ScoreModel::updateTable();
 
             echo $totalScores . "\n";
         } catch (Exception $ex) {
@@ -46,6 +47,25 @@ class CommandController extends BaseController
         try {
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
             ScoreModel::updateTable();
+            echo "Done!\n";
+        } catch (Exception $ex) {
+            print_r($ex); die;
+        }
+    }
+
+    public function actionClear()
+    {
+        try {
+            $time = 0;
+            while(file_exists('lock.lock')) {
+                sleep(15);
+                $time += 15;
+                if ($time > 3600) {
+                    exit("Timeout\n");
+                }
+            }
+            UserModel::resetAll();
+            ActionModel::clearAll();
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex); die;
