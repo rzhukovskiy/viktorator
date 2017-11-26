@@ -51,8 +51,8 @@ class CommandController extends BaseController
             foreach (UserModel::getTop(12) as $topUser) {
                 $topUser->saveToTop($date);
             }
-            UserModel::resetAll();
-            ActionModel::resetAll();
+            //UserModel::resetAll();
+            //ActionModel::resetAll();
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex); die;
