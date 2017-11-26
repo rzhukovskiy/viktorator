@@ -24,7 +24,12 @@ class ScoreModel
         }
 
         $totalScores = 0;
-        $date = strtotime('this week') - 3*3600;
+        $date = strtotime('this week');
+        if ((7 * 24 * 3600 - time() + $date) <= 3 * 3600) {
+            $date = strtotime('next week') - 3 * 3600;
+        } else {
+            $date -= 3 * 3600;
+        }
 
         $listUser = UserModel::getAll();
         $listAction = ActionModel::getAll();
