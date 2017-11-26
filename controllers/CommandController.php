@@ -24,13 +24,16 @@ class CommandController extends BaseController
     public function actionCollect()
     {
         try {
+            $fp = fopen('lock.lock', 'w');
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
 
             $totalScores = ScoreModel::collect();
+
             echo $totalScores . "\n";
         } catch (Exception $ex) {
-            print_r($ex); die;
+            print_r($ex);
         }
+        unlink('lock.lock');
     }
 
     public function actionUpdate()
