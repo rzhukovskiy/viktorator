@@ -23,6 +23,11 @@ class CommandController extends BaseController
 
     public function actionCollect()
     {
+        if (file_exists('lock.lock')) {
+            echo "Blocked!\n";
+            die;
+        }
+
         try {
             $fp = fopen('lock.lock', 'w');
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);

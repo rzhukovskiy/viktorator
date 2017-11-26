@@ -24,7 +24,8 @@ class ScoreModel
         }
 
         $totalScores = 0;
-        $date = strtotime('last Monday', strtotime('next sunday')) + 3*3600;
+        $date = strtotime('this week') - 3*3600;
+
         $listUser = UserModel::getAll();
         $listAction = ActionModel::getAll();
 
