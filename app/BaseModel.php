@@ -38,21 +38,21 @@ class BaseModel
     {
         if (empty($params['id'])) {
             $columns = implode("`, `", array_keys($params));
-            $values  = implode("', '", array_values($params));
+            $values  = implode(", :", array_keys($params));
 
-            $stmt = self::$pdo->prepare("INSERT INTO " . static::$nameTable . " (`$columns`) VALUES ('$values')");
-            $stmt->execute();
+            $stmt = self::$pdo->prepare("INSERT INTO " . static::$nameTable . " (`$columns`) VALUES ($values)");
+            $stmt->execute($params);
 
             return self::$pdo->lastInsertId();
         } else {
             $values = [];
             foreach ($params as $name => $value) {
-                $values[] = "`$name` = '$value'";
+                $values[] = "`$name` = :$name";
             }
             $values = implode(", ", $values);
             $stmt = self::$pdo->prepare("UPDATE " . static::$nameTable . " SET $values WHERE id = :id");
             $stmt->execute([
-                ':id' => $params['id'],
+                $params,
             ]);
 
             return $params['id'];
