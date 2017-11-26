@@ -20,6 +20,17 @@ CREATE TABLE `viktorator`.`user` (
   PRIMARY KEY (`id`),
   INDEX `social_id` (`social_id` ASC));
 
+CREATE TABLE `viktorator`.`top` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
+  `social_id` INT NOT NULL,
+  `name` VARCHAR(255) NULL,
+  `scores` INT NOT NULL DEFAULT 0,
+  `date` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `top_social_id` (`social_id` ASC),
+  INDEX `top_date` (`date` ASC));
+
 CREATE TABLE `viktorator`.`activity` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(45) NOT NULL,

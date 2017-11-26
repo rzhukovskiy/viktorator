@@ -30,6 +30,10 @@ class BaseModel
     {
     }
 
+    /**
+     * @param $params
+     * @return string
+     */
     public static function save($params)
     {
         if (empty($params['id'])) {

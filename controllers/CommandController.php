@@ -43,4 +43,17 @@ class CommandController extends BaseController
             print_r($ex); die;
         }
     }
+
+    public function actionReset()
+    {
+        $date = date('Ymd', time());
+        try {
+            foreach (UserModel::getTop(12) as $topUser) {
+                $topUser->saveToTop($date);
+            }
+            echo "Done!\n";
+        } catch (Exception $ex) {
+            print_r($ex); die;
+        }
+    }
 }

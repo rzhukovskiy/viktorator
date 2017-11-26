@@ -12,6 +12,18 @@ class UserModel extends BaseModel
     private static $likes = [];
 
     /**
+     * @return bool
+     */
+    public static function resetAll()
+    {
+        $stmt = self::$pdo
+            ->prepare("UPDATE " . self::$nameTable . " SET scores = 0 WHERE group_id = :group_id");
+        return $stmt->execute([
+            'group_id'  => Globals::$config->group_id,
+        ]);
+    }
+
+    /**
      * @param string $socialId
      * @return bool|UserEntity
      */

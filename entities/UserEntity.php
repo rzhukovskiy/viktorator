@@ -29,4 +29,19 @@ class UserEntity extends BaseEntity
         $id = UserModel::save($this->data);
         $this->id = $id;
     }
+
+    /**
+     * @param $date string
+     * @return string
+     */
+    public function saveToTop($date)
+    {
+        return TopModel::save([
+            'social_id' => $this->social_id,
+            'group_id'  => $this->group_id,
+            'name'      => $this->name,
+            'scores'    => $this->scores,
+            'date'      => $date,
+        ]);
+    }
 }
