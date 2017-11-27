@@ -59,6 +59,9 @@ class SiteController extends BaseController
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
         if ($code) {
             $infoToken = VkSdk::getTokenByCode($code);
+            if (!$infoToken) {
+                exit('Не хочет ВК авторизовать. Как же с ними сложно...');
+            }
             $adminEntity = AdminModel::findBySocialId($infoToken['user_id']);
 
             if (!$adminEntity) {
