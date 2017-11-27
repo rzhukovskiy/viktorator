@@ -47,6 +47,9 @@ class BaseModel
         } else {
             $values = [];
             foreach ($params as $name => $value) {
+                if ($name == 'id') {
+                    continue;
+                }
                 $values[] = "`$name` = :$name";
             }
             $values = implode(", ", $values);
