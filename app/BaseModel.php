@@ -51,9 +51,7 @@ class BaseModel
             }
             $values = implode(", ", $values);
             $stmt = self::$pdo->prepare("UPDATE " . static::$nameTable . " SET $values WHERE id = :id");
-            $stmt->execute([
-                $params,
-            ]);
+            $stmt->execute($params);
 
             return $params['id'];
         }
