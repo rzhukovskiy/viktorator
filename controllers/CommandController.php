@@ -86,4 +86,18 @@ class CommandController extends BaseController
             print_r($ex); die;
         }
     }
+
+    public function actionDaily()
+    {
+        $time = time();
+        $beginOfDay = strtotime("midnight", $time) - 3 * 3600;
+        
+        try {
+            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
+            ScoreModel::collectDaily($beginOfDay);
+            echo "Done!\n";
+        } catch (Exception $ex) {
+            print_r($ex); die;
+        }
+    }
 }

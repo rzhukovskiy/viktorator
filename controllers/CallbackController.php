@@ -69,6 +69,7 @@ class CallbackController extends BaseController
             $commentScores      = isset($data['comment']) ? $data['comment'] : 0;
             $commentLikeScores  = isset($data['comment_like']) ? $data['comment_like'] : 0;
             $authorLike         = isset($data['author_like']) ? $data['author_like'] : 0;
+            $allLikeScores         = isset($data['all_like']) ? $data['all_like'] : 0;
 
             if ($userEntity->is_member) {
                 $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
@@ -78,7 +79,8 @@ class CallbackController extends BaseController
                     . " - лайки ваших постов - $postLikeScores\n"
                     . " - комментарий по теме поста - $commentScores\n"
                     . " - комментарий, который набирает лайки - $commentLikeScores\n"
-                    . " - лайк от автора поста - $authorLike\n";
+                    . " - лайк от автора поста - $authorLike\n"
+                    . " - лайки ко всем постам в течение дня - $allLikeScores\n";
             } else {
                 $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
             }

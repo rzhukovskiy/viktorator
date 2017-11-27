@@ -216,4 +216,90 @@ class ScoreModel
 
         VkSdk::editTopic(self::$standaloneToken, $message);
     }
+
+    public static function collectDaily($beginOfDay)
+    {
+        if (!self::$token) {
+            return false;
+        }
+
+        $listUser = UserModel::getAll();
+
+        $likedAll = [];
+        $break = false;
+        $postOffset = 0;
+        $postCount = 0;
+        while(true) {
+            $listPost = VkSdk::getWallContent('-' . Globals::$config->group_id, self::$token, $postOffset);
+            if (!$listPost || $break) {
+                break;
+            }
+
+            foreach ($listPost as $post) {
+                if (!empty($post['is_pinned'])) {
+                    continue;
+                }
+                if ($post['date'] < $beginOfDay) {
+                    $break = true;
+                    break;
+                }
+
+                $offset = 0;
+                $likedCurrent = [];
+                while (true) {
+                    $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $post['id'], 'post', $offset);
+                    if (!$listLikes) {
+                        break;
+                    }
+                    //автора поста считаем автоматически лайкнувшим свой пост
+                    if ($post['from_id'] != '-' . Globals::$config->group_id) {
+                        $likedCurrent['from_id'] = 1;
+                    }
+
+                    foreach ($listLikes as $user_id) {
+                        //все-таки вряд ли юзер, который до сих пор не попал в базу мог пролайкать все посты
+                        if (!isset($listUser[$user_id])) {
+                            continue;
+                        }
+
+                        $likedCurrent[$user_id] = 1;
+                    }
+                    $offset += 1000;
+                }
+
+                if (!$postCount) {
+                    $likedAll = $likedCurrent;
+                } else {
+                    $likedAll = array_intersect_assoc($likedAll, $likedCurrent);
+                }
+                //если в текущую итерацию не осталось юзеров, пролайкавших и текущий и прошлый пост не нашлось - дальше искать нет смысла
+                if (empty($likedAll)) {
+                    break;
+                }
+                $postCount++;
+            }
+
+            //если в текущую итерацию не осталось юзеров, пролайкавших и текущий и прошлый пост не нашлось - дальше искать нет смысла
+            if (empty($likedAll)) {
+                break;
+            }
+
+            $postOffset += 100;
+        }
+
+        if (!empty($likedAll)) {
+            foreach ($likedAll as $user_id => $value) {
+                $activity = 'all_like';
+
+                $actionEntity = new ActionEntity([
+                    'user_id'          => $listUser[$user_id]->id,
+                    'user_social_id'   => $listUser[$user_id]->social_id,
+                    'social_id'        => $listUser[$user_id]->social_id,
+                    'parent_social_id' => date('Ymd', $beginOfDay),
+                    'activity'         => $activity,
+                ]);
+                $actionEntity->save();
+            }
+        }
+    }
 }
