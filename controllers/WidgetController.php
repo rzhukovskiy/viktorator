@@ -10,6 +10,7 @@ class WidgetController extends BaseController
 {
     public function actionIndex()
     {
+        $this->template = 'widget';
         $this->render('widget/index');
     }
 }
