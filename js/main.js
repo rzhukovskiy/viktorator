@@ -15,9 +15,6 @@ $(document).ready(function() {
             'var text = "' + text + '";' +
             'var main_text = "' + main_text + '";' +
             'var title = "' + title + '";' +
-
-            'var time = parseInt(API.utils.getServerTime() % 86400 / 3600);' +
-            'if (time < 5) {time = "Доброй ночи"} else { if (time < 11) {time = "Доброе утро"} else { if (time < 18) {time = "Добрый день"} else {time = "Добрый вечер"}}}' +
             'var newText = "";' +
 
             'newText = text.split("%username%");' +
