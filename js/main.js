@@ -31,8 +31,6 @@ $(document).ready(function() {
             'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + username + newText[i+1]; i = i + 1;}};' +
             'newText = title.split("%name%");' +
             'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + name + newText[i+1]; i = i + 1;}};' +
-            'newText = title.split("%time%");' +
-            'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + time + newText[i+1]; i = i + 1;}};' +
 
             'return {"title": title, ' +
             '"rows": [{"title":text,"text":main_text,"button":"' + button_text + '","button_url":"' + button_url + '", "icon_id":"id" + Args.uid}]};';
