@@ -7,6 +7,8 @@ $(document).ready(function() {
         var button_url  = $('#button_url').val();
         var button_text = $('#button_text').val();
 
+        $.post("/widget/save", $('#widgetConfig').serialize());
+
         var code = 'var u = API.users.get({"user_ids":Args.uid});' +
             'var name = u[0].first_name;' +
             'var username = u[0].first_name + " " + u[0].last_name;' +

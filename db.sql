@@ -67,6 +67,18 @@ CREATE TABLE `viktorator`.`config` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
+CREATE TABLE `viktorator`.`widget` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
+  `group_social_id` INT NOT NULL,
+  `user_social_id` INT DEFAULT NULL,
+  `title` VARCHAR(100) NULL,
+  `text` VARCHAR(100) NULL,
+  `main_text` VARCHAR(300) NULL,
+  `button_text` VARCHAR(50) NULL,
+  `button_url` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`));
+
 INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_id', '6253298');
 INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_secret', 'eH3T0i8mYSmcIoHqGppB');
 INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('redirect_uri', 'http://mediastog.ru/site/auth');
