@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $('body').on('click','#addWidget', function() {
+    $('body').on('click','#addWidget', function(event) {
+        event.preventDefault();
         var title       = $('#title').val();
         var text        = $('#text').val();
         var main_text   = $('#main_text').val();

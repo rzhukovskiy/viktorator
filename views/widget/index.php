@@ -33,7 +33,7 @@
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Постановка виджета</button>
+                    <button type="submit" class="btn btn-primary" id="addWidget">Постановка виджета</button>
                 </div>
             </div>
         </form>
