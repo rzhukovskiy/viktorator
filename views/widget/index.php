@@ -4,17 +4,13 @@
  * @var $group_social_id string
  */
 ?>
-<script>
-    var group_social_id = "<?= $group_social_id ?>";
-</script>
-
 <div class="container">
     <div class="block">
         <form id="widgetConfig">
             <div class="form-group row">
                 <label for="title" class="col-sm-4 col-form-label">Заголовок</label>
                 <div class="col-sm-8">
-                    <input type="hidden" name="id" value="<?= $widgetEntity ? $widgetEntity->id : '' ?>"/>
+                    <?= $widgetEntity ? "<input type='hidden' name='id' value='$widgetEntity->id'/>" : '' ?>
                     <input type="hidden" name="group_id" value="<?= $group_social_id ?>"/>
                     <input type="hidden" name="group_social_id" value="<?= $group_social_id ?>"/>
                     <input type="text" class="form-control" id="title" name="title" 

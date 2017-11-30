@@ -11,19 +11,19 @@ class WidgetModel extends BaseModel
     public static $nameTable = 'widget';
 
     /**
-     * @param $social_group_id
+     * @param $group_social_id
      * @return WidgetEntity|bool
      */
-    public static function getByGroupSocialId($social_group_id)
+    public static function getByGroupSocialId($group_social_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
-            " WHERE social_group_id = :social_group_id");
+            " WHERE group_social_id = :group_social_id");
         $stmt->execute([
-            'social_group_id'  => $social_group_id,
+            'group_social_id'  => $group_social_id,
         ]);
 
         if ($stmt->rowCount()) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return new WidgetEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return false;
         }

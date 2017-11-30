@@ -15,18 +15,28 @@ $(document).ready(function() {
             'var text = "' + text + '";' +
             'var main_text = "' + main_text + '";' +
             'var title = "' + title + '";' +
-            'var newText = text.split("%username%");' +
+
+            'var time = parseInt(API.utils.getServerTime() % 86400 / 3600);' +
+            'if (time < 5) {time = "Доброй ночи"} else { if (time < 11) {time = "Доброе утро"} else { if (time < 18) {time = "Добрый день"} else {time = "Добрый вечер"}}}' +
+            'var newText = "";' +
+
+            'newText = text.split("%username%");' +
             'if(newText.length > 1) {text=""; var i=0; while(i < newText.length - 1) {text = text + newText[i] + username + newText[i+1]; i = i + 1;}};' +
             'newText = text.split("%name%");' +
             'if(newText.length > 1) {text=""; var i=0; while(i < newText.length - 1) {text = text + newText[i] + name + newText[i+1]; i = i + 1;}};' +
+
             'newText = main_text.split("%username%");' +
             'if(newText.length > 1) {main_text=""; var i=0; while(i < newText.length - 1) {main_text = main_text + newText[i] + username + newText[i+1]; i = i + 1;}};' +
             'newText = main_text.split("%name%");' +
             'if(newText.length > 1) {main_text=""; var i=0; while(i < newText.length - 1) {main_text = main_text + newText[i] + name + newText[i+1]; i = i + 1;}};' +
+
             'newText = title.split("%username%");' +
             'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + username + newText[i+1]; i = i + 1;}};' +
             'newText = title.split("%name%");' +
             'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + name + newText[i+1]; i = i + 1;}};' +
+            'newText = title.split("%time%");' +
+            'if(newText.length > 1) {title=""; var i=0; while(i < newText.length - 1) {title = title + newText[i] + time + newText[i+1]; i = i + 1;}};' +
+
             'return {"title": title, ' +
             '"rows": [{"title":text,"text":main_text,"button":"' + button_text + '","button_url":"' + button_url + '", "icon_id":"id" + Args.uid}]};';
 
