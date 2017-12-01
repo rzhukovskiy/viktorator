@@ -11,10 +11,17 @@ class VkSdk
     const API_URL       = 'https://api.vk.com/method/';
     const API_VERSION   = '5.69';
 
+    private static $previousTime = 0;
+
     private static function callApi($method, $params)
     {
         $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
-        usleep(0.3 * 1000000);
+
+        if (self::$previousTime > microtime(true) - 0.3) {
+            usleep(0.3 * 1000000);
+        }
+        self::$previousTime = microtime(true);
+
         $data = json_decode(file_get_contents($url), true);
 
         if (empty($data['error'])) {
@@ -41,24 +48,30 @@ class VkSdk
         ];
 
         $url = 'https://api.vk.com/method/board.createComment';
-        usleep(0.3 * 1000000);
-        $result = json_decode(file_get_contents($url, false, stream_context_create(array(
+
+        if (self::$previousTime > microtime(true) - 0.3) {
+            usleep(0.3 * 1000000);
+        }
+        self::$previousTime = microtime(true);
+
+        $data = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
                 'content' => http_build_query($params)
             )
         ))), true);
-        
-        if (!empty($result['error'])) {
+
+        if (empty($data['error'])) {
+            return $data;
+        } else {
             $errorEntity = new ErrorEntity([
                 'type'      => 'board.createComment',
-                'content'   => serialize($result['error'])
+                'content'   => serialize($data['error'])
             ]);
             $errorEntity->save();
+            return false;
         }
-
-        return $result;
     }
 
     public static function editTopic($token, $message)
@@ -83,8 +96,13 @@ class VkSdk
         }
 
         $url = 'https://api.vk.com/method/board.editComment';
-        usleep(0.3 * 1000000);
-        $result = json_decode(file_get_contents($url, false, stream_context_create(array(
+
+        if (self::$previousTime > microtime(true) - 0.3) {
+            usleep(0.3 * 1000000);
+        }
+        self::$previousTime = microtime(true);
+
+        $data = json_decode(file_get_contents($url, false, stream_context_create(array(
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
@@ -92,15 +110,16 @@ class VkSdk
             )
         ))), true);
 
-        if (!empty($result['error'])) {
+        if (empty($data['error'])) {
+            return $data;
+        } else {
             $errorEntity = new ErrorEntity([
                 'type'      => 'board.editComment',
-                'content'   => serialize($result['error'])
+                'content'   => serialize($data['error'])
             ]);
             $errorEntity->save();
+            return false;
         }
-
-        return $result;
     }
 
     public static function getAuthUrl()
@@ -137,16 +156,21 @@ class VkSdk
             'code'          => $code,
         );
 
-        usleep(0.3 * 1000000);
-        $infoToken = json_decode(file_get_contents('https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params))), true);
+        if (self::$previousTime > microtime(true) - 0.3) {
+            usleep(0.3 * 1000000);
+        }
+        self::$previousTime = microtime(true);
 
-        if (empty($infoToken['error'])) {
-            return $infoToken;            
+        $data = json_decode(file_get_contents('https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params))), true);
+
+        if (empty($data['error'])) {
+            return $data;
         } else {
-            ErrorModel::save([
-                'type'      => 'getToken',
-                'content'   => serialize($infoToken['error'])
+            $errorEntity = new ErrorEntity([
+                'type'      => 'access_token',
+                'content'   => serialize($data['error'])
             ]);
+            $errorEntity->save();
             return false;
         }
     }

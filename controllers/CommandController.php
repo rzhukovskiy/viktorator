@@ -93,6 +93,14 @@ class CommandController extends BaseController
         $beginOfDay = strtotime("midnight", $time) - 3 * 3600;
         
         try {
+            $time = 0;
+            while(file_exists('lock.lock')) {
+                sleep(15);
+                $time += 15;
+                if ($time > 3600) {
+                    exit("Timeout\n");
+                }
+            }
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
             ScoreModel::collectDaily($beginOfDay);
             echo "Done!\n";
