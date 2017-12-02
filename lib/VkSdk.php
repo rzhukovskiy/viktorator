@@ -10,7 +10,7 @@ class VkSdk
 {
     const API_URL       = 'https://api.vk.com/method/';
     const API_VERSION   = '5.69';
-    const SLEEP_TIME    = 0.33;
+    const SLEEP_TIME    = 0.4;
 
     private static $previousTime = 0;
 
@@ -23,18 +23,21 @@ class VkSdk
         }
         self::$previousTime = microtime(true);
 
-        $data = json_decode(file_get_contents($url), true);
+        do {
+            $data = json_decode(file_get_contents($url), true);
 
-        if (empty($data['error'])) {
-            return $data;
-        } else {
-            $errorEntity = new ErrorEntity([
-                'type'      => $method,
-                'content'   => serialize($data['error'])
-            ]);
-            $errorEntity->save();
-            return false;
-        }
+            if (empty($data['error'])) {
+                return $data;
+            } elseif($data['error']['error_code'] != 6) {
+                $errorEntity = new ErrorEntity([
+                    'type'      => $method,
+                    'content'   => serialize($data['error'])
+                ]);
+                $errorEntity->save();
+                return false;
+            }
+            usleep(self::SLEEP_TIME * 1000000);
+        } while($data['error']['error_code'] == 6);
     }
 
     public static function addComment($token, $message)

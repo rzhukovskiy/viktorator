@@ -10,13 +10,13 @@ class ScoreModel
 {
     private static $token = null;
     private static $standaloneToken = null;
-    
+
     public static function init($token, $standaloneToken)
     {
         self::$token = $token;
         self::$standaloneToken = $standaloneToken;
     }
-    
+
     public static function collect()
     {
         if (!self::$token) {
@@ -66,7 +66,7 @@ class ScoreModel
 
                 $offset = 0;
                 $likeCount = 0;
-                while(true) {
+                while($post['likes']['count']) {
                     $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $post['id'], 'post', $offset);
                     if (!$listLikes) {
                         break;
@@ -104,7 +104,7 @@ class ScoreModel
                             $actionEntity->save();
                             $totalScores += $actionEntity->scores;
                         }
-                        
+
                         if ($postAuthor && $postAuthor->id != $user_id) {
                             $activity = 'post_like';
                             $actionEntity = new ActionEntity([
@@ -119,14 +119,19 @@ class ScoreModel
                                 $totalScores += $actionEntity->scores;
                             }
                         }
-                        
+
                         $likeCount++;
                     }
+
+                    if (count($listLikes) != 1000) {
+                        break;
+                    }
+
                     $offset += 1000;
                 }
 
                 $offset = 0;
-                while (true) {
+                while ($post['comments']['count']) {
                     $listComments = VkSdk::getCommentList('-' . Globals::$config->group_id, self::$standaloneToken, $post['id'], $offset);
                     if (!$listComments) {
                         break;
@@ -155,40 +160,50 @@ class ScoreModel
                             $totalScores += $actionEntity->scores;
                         }
 
-                        if ($comment['likes']['count'] > 0) {
-                            $offset = 0;
-                            $likeCount = 0;
-                            while(true) {
-                                $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $comment['id'], 'comment', $offset);
-                                if (!$listLikes) {
-                                    break;
-                                }
-
-                                foreach ($listLikes as $user_id) {
-                                    if ($comment['from_id'] == $user_id) {
-                                        continue;
-                                    }
-                                    $activity = 'comment_like';
-                                    if ($user_id == $post['from_id']) {
-                                        $activity = 'author_like';
-                                    }
-
-                                    $actionEntity = new ActionEntity([
-                                        'user_id'          => $userEntity->id,
-                                        'user_social_id'   => $userEntity->social_id,
-                                        'social_id'        => $user_id,
-                                        'parent_social_id' => $comment['id'],
-                                        'activity'         => $activity,
-                                    ]);
-                                    if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->parent_social_id][$actionEntity->social_id])) {
-                                        $actionEntity->save();
-                                        $totalScores += $actionEntity->scores;
-                                    }
-                                    $likeCount++;
-                                }
-                                $offset += 100;
+                        $offsetCommentLikes = 0;
+                        $likeCount = 0;
+                        while($comment['likes']['count']) {
+                            $listLikes = VkSdk::getLikeList(
+                                '-' . Globals::$config->group_id,
+                                self::$token, $comment['id'],
+                                'comment', $offsetCommentLikes
+                            );
+                            if (!$listLikes) {
+                                break;
                             }
+
+                            foreach ($listLikes as $user_id) {
+                                if ($comment['from_id'] == $user_id) {
+                                    continue;
+                                }
+                                $activity = 'comment_like';
+                                if ($user_id == $post['from_id']) {
+                                    $activity = 'author_like';
+                                }
+
+                                $actionEntity = new ActionEntity([
+                                    'user_id'          => $userEntity->id,
+                                    'user_social_id'   => $userEntity->social_id,
+                                    'social_id'        => $user_id,
+                                    'parent_social_id' => $comment['id'],
+                                    'activity'         => $activity,
+                                ]);
+                                if (!isset($listAction[$actionEntity->user_id][$activity][$actionEntity->parent_social_id][$actionEntity->social_id])) {
+                                    $actionEntity->save();
+                                    $totalScores += $actionEntity->scores;
+                                }
+                                $likeCount++;
+                            }
+
+                            if (count($listLikes) != 1000) {
+                                break;
+                            }
+                            $offsetCommentLikes += 1000;
                         }
+                    }
+
+                    if (count($listComments) != 100) {
+                        break;
                     }
                     $offset += 100;
                 }
@@ -196,10 +211,10 @@ class ScoreModel
 
             $postOffset += 100;
         }
-        
+
         return $totalScores;
     }
-    
+
     public static function updateTable()
     {
         $data = UserModel::getTop(24);
