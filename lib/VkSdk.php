@@ -10,6 +10,7 @@ class VkSdk
 {
     const API_URL       = 'https://api.vk.com/method/';
     const API_VERSION   = '5.69';
+    const SLEEP_TIME    = 0.33;
 
     private static $previousTime = 0;
 
@@ -17,8 +18,8 @@ class VkSdk
     {
         $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
 
-        if (self::$previousTime > microtime(true) - 0.3) {
-            usleep(0.3 * 1000000);
+        if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
+            usleep(self::SLEEP_TIME * 1000000);
         }
         self::$previousTime = microtime(true);
 
@@ -49,8 +50,8 @@ class VkSdk
 
         $url = 'https://api.vk.com/method/board.createComment';
 
-        if (self::$previousTime > microtime(true) - 0.3) {
-            usleep(0.3 * 1000000);
+        if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
+            usleep(self::SLEEP_TIME);
         }
         self::$previousTime = microtime(true);
 
@@ -97,8 +98,8 @@ class VkSdk
 
         $url = 'https://api.vk.com/method/board.editComment';
 
-        if (self::$previousTime > microtime(true) - 0.3) {
-            usleep(0.3 * 1000000);
+        if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
+            usleep(self::SLEEP_TIME * 1000000);
         }
         self::$previousTime = microtime(true);
 
@@ -156,8 +157,8 @@ class VkSdk
             'code'          => $code,
         );
 
-        if (self::$previousTime > microtime(true) - 0.3) {
-            usleep(0.3 * 1000000);
+        if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
+            usleep(self::SLEEP_TIME);
         }
         self::$previousTime = microtime(true);
 
