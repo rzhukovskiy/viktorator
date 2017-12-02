@@ -101,11 +101,13 @@ class CommandController extends BaseController
                     exit("Timeout\n");
                 }
             }
+            $fp = fopen('lock.lock', 'w');
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
             ScoreModel::collectDaily($beginOfDay);
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex); die;
         }
+        unlink('lock.lock');
     }
 }
