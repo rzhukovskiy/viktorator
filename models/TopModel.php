@@ -12,8 +12,8 @@ class TopModel extends BaseModel
 
     public static function getLast($limit)
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
-            " WHERE group_id = :group_id ORDER BY date, scores DESC LIMIT $limit");
+        $stmt = self::$pdo->prepare(" SELECT * FROM (SELECT * FROM " . self::$nameTable .
+            " WHERE group_id = :group_id ORDER BY date DESC LIMIT $limit) ORDER BY scores DESC");
         $stmt->execute([
             'group_id'  => Globals::$config->group_id,
         ]);
