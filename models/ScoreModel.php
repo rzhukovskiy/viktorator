@@ -141,7 +141,7 @@ class ScoreModel
                         if (!isset($listUser[$comment['from_id']])) {
                             $userEntity = UserModel::createFromSocialId($comment['from_id'], self::$token);
                             if (!$userEntity) {
-                                break;
+                                continue;
                             }
                             $listUser[$comment['from_id']] = $userEntity;
                         }
