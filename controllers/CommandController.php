@@ -76,15 +76,25 @@ class CommandController extends BaseController
     {
         $date = date('Ymd', time());
         try {
+            $time = 0;
+            while(file_exists('lock.lock')) {
+                sleep(15);
+                $time += 15;
+                if ($time > 3600) {
+                    exit("Timeout\n");
+                }
+            }
             foreach (UserModel::getTop(12) as $topUser) {
                 $topUser->saveToTop($date);
             }
+            $fp = fopen('lock.lock', 'w');
             UserModel::resetAll();
             ActionModel::resetAll();
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex); die;
         }
+        unlink('lock.lock');
     }
 
     public function actionDaily()
