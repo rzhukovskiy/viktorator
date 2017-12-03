@@ -27,7 +27,7 @@ class ScoreModel
         $date = new DateTime();
         $date->setTimestamp(strtotime('this week'))->setTime(0, 0, 0);
         $date = $date->getTimestamp() - 3 * 3600;
-        if ((7 * 24 * 3600 - time() + $date) <= 3 * 3600) {
+        if ((7 * 24 * 3600 - time() + $date) <= 0) {
             $date = new DateTime();
             $date->setTimestamp(strtotime('next week'))->setTime(0, 0, 0);
             $date = $date->getTimestamp() - 3 * 3600;
