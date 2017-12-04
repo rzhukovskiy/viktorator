@@ -1,4 +1,4 @@
-CREATE TABLE `viktorator`.`admin` (
+CREATE TABLE `admin` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `social_id` INT NOT NULL,
   `name` VARCHAR(255) NULL,
@@ -8,7 +8,7 @@ CREATE TABLE `viktorator`.`admin` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
 
-CREATE TABLE `viktorator`.`user` (
+CREATE TABLE `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
@@ -20,7 +20,27 @@ CREATE TABLE `viktorator`.`user` (
   PRIMARY KEY (`id`),
   INDEX `social_id` (`social_id` ASC));
 
-CREATE TABLE `viktorator`.`top` (
+CREATE TABLE `post` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
+  `social_id` INT NOT NULL,
+  `likes` INT NOT NULL DEFAULT 0,
+  `comments` INT NOT NULL DEFAULT 0,
+  `reposts` INT NOT NULL DEFAULT 0,
+  `created_at` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `social_id` (`social_id` ASC));
+
+CREATE TABLE `comment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `post_id` INT NOT NULL,
+  `group_id` INT NOT NULL,
+  `social_id` INT NOT NULL,
+  `likes` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `social_id` (`social_id` ASC));
+
+CREATE TABLE `top` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
@@ -31,13 +51,13 @@ CREATE TABLE `viktorator`.`top` (
   INDEX `top_social_id` (`social_id` ASC),
   INDEX `top_date` (`date` ASC));
 
-CREATE TABLE `viktorator`.`activity` (
+CREATE TABLE `activity` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(45) NOT NULL,
   `price` INT UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `viktorator`.`action` (
+CREATE TABLE `action` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `social_id` INT NOT NULL,
@@ -51,7 +71,7 @@ CREATE TABLE `viktorator`.`action` (
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `viktorator`.`error` (
+CREATE TABLE `error` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(50) NULL,
   `content` TEXT NULL,
@@ -60,14 +80,14 @@ CREATE TABLE `viktorator`.`error` (
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `viktorator`.`config` (
+CREATE TABLE `config` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `value` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
-CREATE TABLE `viktorator`.`widget` (
+CREATE TABLE `widget` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `group_social_id` INT NOT NULL,
@@ -79,6 +99,6 @@ CREATE TABLE `viktorator`.`widget` (
   `button_url` VARCHAR(100) NULL,
   PRIMARY KEY (`id`));
 
-INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_id', '6253298');
-INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('app_secret', 'eH3T0i8mYSmcIoHqGppB');
-INSERT INTO `viktorator`.`config` (`name`, `value`) VALUES ('redirect_uri', 'http://mediastog.ru/site/auth');
+INSERT INTO `config` (`name`, `value`) VALUES ('app_id', '6253298');
+INSERT INTO `config` (`name`, `value`) VALUES ('app_secret', 'eH3T0i8mYSmcIoHqGppB');
+INSERT INTO `config` (`name`, `value`) VALUES ('redirect_uri', 'http://mediastog.ru/site/auth');

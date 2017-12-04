@@ -1,11 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 15.11.2017
- * Time: 10:20
- *
  * @property integer    $id
  * @property integer    $group_id
  * @property integer    $social_id

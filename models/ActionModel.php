@@ -100,7 +100,7 @@ class ActionModel extends BaseModel
         $stmt = self::$pdo
             ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id AND activity_id != :activity_id");
         return $stmt->execute([
-            'created_at'  => $date,
+            'date'        => $date,
             'group_id'    => Globals::$config->group_id,
             'activity_id' => ActivityModel::getByName(ActivityModel::NAME_ALL_LIKE),
         ]);

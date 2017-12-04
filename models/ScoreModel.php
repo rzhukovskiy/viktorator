@@ -31,13 +31,14 @@ class ScoreModel
 
         $totalScores = 0;
 
-        $listUser = UserModel::getAll();
-        $listAction = ActionModel::getAll();
+        $listUser      = UserModel::getAll();
+        $listAction    = ActionModel::getAll();
+        $listSavedPost = PostModel::getAllAfterDate($group_id, $startDate);
 
         $break = false;
         $postOffset = 0;
         while(!$break) {
-            $listPost = VkSdk::getWallContent('-' . Globals::$config->group_id, self::$token, $postOffset);
+            $listPost = VkSdk::getWallContent($group_id, self::$token, $postOffset);
             if (!$listPost) {
                 break;
             }
@@ -54,6 +55,18 @@ class ScoreModel
                     break;
                 }
 
+                if (!isset($listSavedPost[$post['id']])) {
+                    $listSavedPost[$post['id']] = new PostEntity([
+                        'group_id'  => $group_id,
+                        'social_id' => $post['id'],
+                        'likes' => $post['likes']['count'],
+                        'comments' => $post['comments']['count'],
+                        'reposts' => $post['reposts']['count'],
+                    ]);
+                    $listSavedPost[$post['id']]->save();
+                }
+                $postEntity = $listSavedPost[$post['id']];
+
                 $postAuthor = null;
                 if ($post['from_id'] != '-' . $group_id) {
                     if (!isset($listUser[$post['from_id']])) {
@@ -65,7 +78,7 @@ class ScoreModel
 
                 $offset = 0;
                 $likeCount = 0;
-                while($post['likes']['count']) {
+                while($post['likes']['count'] && $postEntity->likes != $post['likes']['count']) {
                     $listLikes = VkSdk::getLikeList('-' . $group_id, self::$token, $post['id'], 'post', $offset);
                     if (!$listLikes) {
                         break;
@@ -129,6 +142,7 @@ class ScoreModel
                     $offset += 1000;
                 }
 
+                $listSavedComment = CommentModel::getAllByPost($postEntity->id);
                 $offset = 0;
                 while ($post['comments']['count']) {
                     $listComments = VkSdk::getCommentList('-' . $group_id, self::$standaloneToken, $post['id'], $offset);
@@ -146,22 +160,33 @@ class ScoreModel
                         }
                         $userEntity = $listUser[$comment['from_id']];
 
-                        $actionEntity = new ActionEntity([
-                            'user_id'          => $userEntity->id,
-                            'user_social_id'   => $userEntity->social_id,
-                            'social_id'        => $comment['id'],
-                            'parent_social_id' => $post['id'],
-                            'activity'         => 'comment',
-                            'content'          => $comment['text'],
-                        ]);
-                        if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->parent_social_id][$actionEntity->social_id])) {
-                            $actionEntity->save();
-                            $totalScores += $actionEntity->scores;
+                        if (!isset($listSavedComment[$comment['id']])) {
+                            $listSavedComment[$comment['id']] = new CommentEntity([
+                                'post_id'   => $postEntity->id,
+                                'group_id'  => $group_id,
+                                'social_id' => $comment['id'],
+                                'likes'     => $comment['likes']['count'],
+                            ]);
+                            $listSavedComment[$comment['id']]->save();
+
+                            $actionEntity = new ActionEntity([
+                                'user_id'          => $userEntity->id,
+                                'user_social_id'   => $userEntity->social_id,
+                                'social_id'        => $comment['id'],
+                                'parent_social_id' => $post['id'],
+                                'activity'         => 'comment',
+                                'content'          => $comment['text'],
+                            ]);
+                            if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->parent_social_id][$actionEntity->social_id])) {
+                                $actionEntity->save();
+                                $totalScores += $actionEntity->scores;
+                            }
                         }
+                        $commentEntity = $listSavedComment[$comment['id']];
 
                         $offsetCommentLikes = 0;
                         $likeCount = 0;
-                        while($comment['likes']['count']) {
+                        while($comment['likes']['count'] && $commentEntity->likes != $comment['likes']['count']) {
                             $listLikes = VkSdk::getLikeList(
                                 '-' . $group_id,
                                 self::$token, $comment['id'],
@@ -199,6 +224,8 @@ class ScoreModel
                             }
                             $offsetCommentLikes += 1000;
                         }
+                        $commentEntity->likes = $comment['likes']['count'];
+                        $commentEntity->save();
                     }
 
                     if (count($listComments) != 100) {
@@ -207,6 +234,10 @@ class ScoreModel
                     $offset += 100;
                 }
             }
+            $postEntity->likes    = $post['likes']['count'];
+            $postEntity->comments = $post['comments']['count'];
+            $postEntity->reposts  = $post['reposts']['count'];
+            $postEntity->save();
 
             $postOffset += 100;
         }
@@ -315,5 +346,7 @@ class ScoreModel
                 $actionEntity->save();
             }
         }
+
+        return true;
     }
 }
