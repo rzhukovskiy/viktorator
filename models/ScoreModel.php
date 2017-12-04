@@ -17,32 +17,28 @@ class ScoreModel
         self::$standaloneToken = $standaloneToken;
     }
 
-    public static function collect()
+    /**
+     * @param int $group_id
+     * @param int $startDate
+     * @param int $endDate
+     * @return bool|int
+     */
+    public static function collect($group_id, $startDate, $endDate)
     {
         if (!self::$token) {
             return false;
         }
 
         $totalScores = 0;
-        $date = new DateTime();
-        $date->setTimestamp(strtotime('this week'))->setTime(0, 0, 0);
-        $date = $date->getTimestamp() - 3 * 3600;
-        if ((7 * 24 * 3600 - time() + $date) <= 0) {
-            $date = new DateTime();
-            $date->setTimestamp(strtotime('next week'))->setTime(0, 0, 0);
-            $date = $date->getTimestamp() - 3 * 3600;
-        } else {
-            $date -= 3 * 3600;
-        }
 
         $listUser = UserModel::getAll();
         $listAction = ActionModel::getAll();
 
         $break = false;
         $postOffset = 0;
-        while(true) {
+        while(!$break) {
             $listPost = VkSdk::getWallContent('-' . Globals::$config->group_id, self::$token, $postOffset);
-            if (!$listPost || $break) {
+            if (!$listPost) {
                 break;
             }
 
@@ -50,13 +46,16 @@ class ScoreModel
                 if (!empty($post['is_pinned'])) {
                     continue;
                 }
-                if ($post['date'] < $date) {
+                if ($post['date'] > $endDate) {
+                    continue;
+                }
+                if ($post['date'] < $startDate) {
                     $break = true;
                     break;
                 }
 
                 $postAuthor = null;
-                if ($post['from_id'] != '-' . Globals::$config->group_id) {
+                if ($post['from_id'] != '-' . $group_id) {
                     if (!isset($listUser[$post['from_id']])) {
                         $postAuthor = UserModel::createFromSocialId($post['from_id'], self::$token);
                         $listUser[$post['from_id']] = $postAuthor;
@@ -67,7 +66,7 @@ class ScoreModel
                 $offset = 0;
                 $likeCount = 0;
                 while($post['likes']['count']) {
-                    $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $post['id'], 'post', $offset);
+                    $listLikes = VkSdk::getLikeList('-' . $group_id, self::$token, $post['id'], 'post', $offset);
                     if (!$listLikes) {
                         break;
                     }
@@ -79,7 +78,7 @@ class ScoreModel
                         if (!isset($listUser[$user_id])) {
                             $userEntity = UserModel::createFromSocialId($user_id, self::$token);
                             if (!$userEntity) {
-                                break;
+                                continue;
                             }
                             $listUser[$user_id] = $userEntity;
                         }
@@ -132,7 +131,7 @@ class ScoreModel
 
                 $offset = 0;
                 while ($post['comments']['count']) {
-                    $listComments = VkSdk::getCommentList('-' . Globals::$config->group_id, self::$standaloneToken, $post['id'], $offset);
+                    $listComments = VkSdk::getCommentList('-' . $group_id, self::$standaloneToken, $post['id'], $offset);
                     if (!$listComments) {
                         break;
                     }
@@ -164,7 +163,7 @@ class ScoreModel
                         $likeCount = 0;
                         while($comment['likes']['count']) {
                             $listLikes = VkSdk::getLikeList(
-                                '-' . Globals::$config->group_id,
+                                '-' . $group_id,
                                 self::$token, $comment['id'],
                                 'comment', $offsetCommentLikes
                             );

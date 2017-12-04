@@ -96,15 +96,16 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @param $date int
      * @return bool
      */
-    public static function clearAll()
+    public static function clearAllAfterDate($date)
     {
         $stmt = self::$pdo
-            ->prepare("DELETE FROM " . self::$nameTable . " WHERE is_active = :is_active AND group_id = :group_id");
+            ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
         return $stmt->execute([
-            'is_active' => 1,
-            'group_id'  => Globals::$config->group_id,
+            'created_at' => $date,
+            'group_id'   => Globals::$config->group_id,
         ]);
     }
 
