@@ -14,10 +14,6 @@ class CommentEntity extends BaseEntity
     {
         $data['group_id'] = Globals::$config->group_id;
         parent::__construct($data);
-
-        if (!$this->id) {
-            $this->created_at = time();
-        }
     }
     
     public function save()
