@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 17.11.2017
- * Time: 19:44
  */
 class CommandController extends BaseController
 {
@@ -57,6 +53,7 @@ class CommandController extends BaseController
     public function actionReset()
     {
         list($startDate, $endDate) = $this->getWeekPeriod();
+        $beginOfDay = strtotime("midnight", time()) - 3 * 3600;
         $week = date('Ymd', time());
 
         $time = 0;
@@ -72,7 +69,8 @@ class CommandController extends BaseController
         try {
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
             ActionModel::clearAllAfterDate($startDate);
-            ScoreModel::collect($startDate, $endDate);
+            ScoreModel::collect(Globals::$config->group_id, $startDate, $endDate);
+            ScoreModel::collectDaily($beginOfDay);
 
             foreach (UserModel::getTop(12) as $topUser) {
                 $topUser->saveToTop($week);

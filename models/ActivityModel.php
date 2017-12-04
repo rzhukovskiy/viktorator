@@ -1,15 +1,35 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 10.11.2017
- * Time: 18:19
  */
 class ActivityModel extends BaseModel
 {
+    const NAME_LIKE         = 'like';
+    const NAME_COMMENT      = 'comment';
+    const NAME_FIRST_LIKE   = 'first_like';
+    const NAME_TEN_LIKE     = 'ten_like';
+    const NAME_COMMENT_LIKE = 'comment_like';
+    const NAME_AUTHOR_LIKE  = 'author_like';
+    const NAME_POST_LIKE    = 'post_like';
+    const NAME_ALL_LIKE     = 'all_like';
+    
+    public static $listActivity = [
+        self::NAME_LIKE,
+        self::NAME_COMMENT,
+        self::NAME_FIRST_LIKE,
+        self::NAME_TEN_LIKE,
+        self::NAME_COMMENT_LIKE,
+        self::NAME_AUTHOR_LIKE,
+        self::NAME_POST_LIKE,
+        self::NAME_ALL_LIKE,
+    ];
+
     public static $nameTable = 'activity';
 
+    /**
+     * @param string $name
+     * @return bool|array
+     */
     public static function getByName($name)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE description = :name");
@@ -25,6 +45,10 @@ class ActivityModel extends BaseModel
         }
     }
 
+    /**
+     * @param int $id
+     * @return bool|array
+     */
     public static function getById($id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
@@ -40,6 +64,9 @@ class ActivityModel extends BaseModel
         }
     }
 
+    /**
+     * @return array|bool
+     */
     public static function getAll()
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable);

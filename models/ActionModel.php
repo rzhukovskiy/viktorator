@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 15.11.2017
- * Time: 16:44
  */
 class ActionModel extends BaseModel
 {
@@ -102,10 +98,11 @@ class ActionModel extends BaseModel
     public static function clearAllAfterDate($date)
     {
         $stmt = self::$pdo
-            ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
+            ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id AND activity_id != :activity_id");
         return $stmt->execute([
-            'created_at' => $date,
-            'group_id'   => Globals::$config->group_id,
+            'created_at'  => $date,
+            'group_id'    => Globals::$config->group_id,
+            'activity_id' => ActivityModel::getByName(ActivityModel::NAME_ALL_LIKE),
         ]);
     }
 
