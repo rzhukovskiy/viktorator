@@ -233,12 +233,12 @@ class ScoreModel
                     }
                     $offset += 100;
                 }
-            }
-            $postEntity->likes    = $post['likes']['count'];
-            $postEntity->comments = $post['comments']['count'];
-            $postEntity->reposts  = $post['reposts']['count'];
-            $postEntity->save();
 
+                $postEntity->likes    = $post['likes']['count'];
+                $postEntity->comments = $post['comments']['count'];
+                $postEntity->reposts  = $post['reposts']['count'];
+                $postEntity->save();
+            }
             $postOffset += 100;
         }
 
