@@ -4,7 +4,7 @@
  */
 class CommentModel extends BaseModel
 {
-    public static $nameTable = 'post';
+    public static $nameTable = 'comment';
 
     /**
      * @param int $post_id
