@@ -13,7 +13,7 @@ class PostModel extends BaseModel
      */
     public static function getAllAfterDate($group_id, $date)
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id ORDER BY scores DESC");
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
         $stmt->execute([
             'date'  => $date,
             'group_id'  => $group_id,
