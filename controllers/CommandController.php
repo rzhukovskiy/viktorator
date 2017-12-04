@@ -130,7 +130,7 @@ class CommandController extends BaseController
         }
 
         $endDate = new DateTime();
-        $endDate->setTimestamp(time())->setTime(20, 59, 59);
+        $endDate = $endDate->setTimestamp(time())->setTime(20, 59, 59);
 
         return [$startDate, $endDate];
     }
