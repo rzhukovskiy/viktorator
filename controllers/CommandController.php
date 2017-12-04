@@ -70,7 +70,7 @@ class CommandController extends BaseController
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
             ActionModel::clearAllAfterDate($startDate);
             ScoreModel::collect(Globals::$config->group_id, $startDate, $endDate);
-            ScoreModel::collectDaily($beginOfDay);
+            ScoreModel::collectDaily(Globals::$config->group_id, $beginOfDay);
 
             foreach (UserModel::getTop(12) as $topUser) {
                 $topUser->saveToTop($week);
@@ -104,7 +104,7 @@ class CommandController extends BaseController
         
         try {
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ScoreModel::collectDaily($beginOfDay);
+            ScoreModel::collectDaily(Globals::$config->group_id, $beginOfDay);
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex);

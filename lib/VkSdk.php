@@ -214,6 +214,14 @@ class VkSdk
         }
     }
 
+    /**
+     * @param $owner_id
+     * @param $token
+     * @param $item_id
+     * @param $type
+     * @param $offset
+     * @return bool|array
+     */
     public static function getLikeList($owner_id, $token, $item_id, $type, $offset)
     {
         $params = array(

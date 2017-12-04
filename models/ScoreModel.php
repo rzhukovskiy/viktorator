@@ -262,7 +262,7 @@ class ScoreModel
         VkSdk::editTopic(self::$standaloneToken, $message);
     }
 
-    public static function collectDaily($beginOfDay)
+    public static function collectDaily($group_id, $beginOfDay)
     {
         if (!self::$token) {
             return false;
@@ -275,7 +275,7 @@ class ScoreModel
         $postOffset = 0;
         $postCount = 0;
         while(true) {
-            $listPost = VkSdk::getWallContent('-' . Globals::$config->group_id, self::$token, $postOffset);
+            $listPost = VkSdk::getWallContent('-' . $group_id, self::$token, $postOffset);
             if (!$listPost || $break) {
                 break;
             }
@@ -292,7 +292,7 @@ class ScoreModel
                 $offset = 0;
                 $likedCurrent = [];
                 while (true) {
-                    $listLikes = VkSdk::getLikeList('-' . Globals::$config->group_id, self::$token, $post['id'], 'post', $offset);
+                    $listLikes = VkSdk::getLikeList('-' . $group_id, self::$token, $post['id'], 'post', $offset);
                     if (!$listLikes) {
                         break;
                     }
