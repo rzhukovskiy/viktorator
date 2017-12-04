@@ -127,13 +127,10 @@ class CommandController extends BaseController
             $startDate = new DateTime();
             $startDate->setTimestamp(strtotime('next week'))->setTime(0, 0, 0);
             $startDate = $startDate->getTimestamp() - 3 * 3600;
-        } else {
-            $startDate -= 3 * 3600;
         }
 
         $endDate = new DateTime();
-        $endDate->setTimestamp(time())->setTime(23, 59, 59);
-        $endDate -= 3 * 3600;
+        $endDate->setTimestamp(time())->setTime(20, 59, 59);
 
         return [$startDate, $endDate];
     }
