@@ -38,7 +38,7 @@ class ScoreModel
         $break = false;
         $postOffset = 0;
         while(!$break) {
-            $listPost = VkSdk::getWallContent($group_id, self::$token, $postOffset);
+            $listPost = VkSdk::getWallContent('-' . $group_id, self::$token, $postOffset);
             if (!$listPost) {
                 break;
             }
