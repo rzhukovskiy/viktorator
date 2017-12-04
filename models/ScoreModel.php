@@ -59,9 +59,9 @@ class ScoreModel
                     $listSavedPost[$post['id']] = new PostEntity([
                         'group_id'  => $group_id,
                         'social_id' => $post['id'],
-                        'likes' => $post['likes']['count'],
-                        'comments' => $post['comments']['count'],
-                        'reposts' => $post['reposts']['count'],
+                        'likes' => 0,
+                        'comments' => 0,
+                        'reposts' => 0,
                     ]);
                     $listSavedPost[$post['id']]->save();
                 }
@@ -165,7 +165,7 @@ class ScoreModel
                                 'post_id'   => $postEntity->id,
                                 'group_id'  => $group_id,
                                 'social_id' => $comment['id'],
-                                'likes'     => $comment['likes']['count'],
+                                'likes'     => 0,
                             ]);
                             $listSavedComment[$comment['id']]->save();
 
