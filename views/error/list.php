@@ -5,12 +5,6 @@
  */
 ?>
 <div class="container">
-    <div class="block">
-        <div class="block__body">
-            <a href="/error/clear">Очистить</a>
-        </div>
-    </div>
-
     <?php if ($captchaError->is_active && !$captchaError->response) {
         $data = unserialize($captchaError->content);
     ?>
@@ -41,6 +35,7 @@
 
     <div class="block">
         <div class="block__body">
+            <a href="/error/clear">Очистить</a>
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
