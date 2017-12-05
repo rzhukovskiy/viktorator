@@ -50,6 +50,37 @@ class CommandController extends BaseController
         }
     }
 
+    public function actionClear()
+    {
+        list($startDate) = $this->getWeekPeriod();
+
+        $time = 0;
+        while(file_exists('lock.lock')) {
+            sleep(15);
+            $time += 15;
+            if ($time > 3600) {
+                exit("Timeout\n");
+            }
+        }
+        $fp = fopen('lock.lock', 'w');
+
+        try {
+            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
+            ActionModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
+            PostModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
+            CommentModel::clearAllEmpty(Globals::$config->group_id);
+            UserModel::resetAll(Globals::$config->group_id);
+            ActionModel::resetAll(Globals::$config->group_id);
+
+            echo "Done!\n";
+        } catch (Exception $ex) {
+            print_r($ex);
+        }
+
+        fclose($fp);
+        unlink('lock.lock');
+    }
+
     public function actionReset()
     {
         list($startDate, $endDate) = $this->getWeekPeriod();
@@ -68,7 +99,9 @@ class CommandController extends BaseController
 
         try {
             ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ActionModel::clearAllAfterDate($startDate);
+            ActionModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
+            PostModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
+            CommentModel::clearAllEmpty(Globals::$config->group_id);
             ScoreModel::collect(Globals::$config->group_id, $startDate, $endDate);
             ScoreModel::collectDaily(Globals::$config->group_id, $beginOfDay);
 
@@ -76,8 +109,8 @@ class CommandController extends BaseController
                 $topUser->saveToTop($week);
             }
 
-            UserModel::resetAll();
-            ActionModel::resetAll();
+            UserModel::resetAll(Globals::$config->group_id);
+            ActionModel::resetAll(Globals::$config->group_id);
 
             echo "Done!\n";
         } catch (Exception $ex) {

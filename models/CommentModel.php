@@ -29,16 +29,15 @@ class CommentModel extends BaseModel
     }
 
     /**
-     * @param int $date
      * @param int $group_id
      * @return bool
      */
-    public static function clearAllAfterDate($group_id, $date)
+    public static function clearAllEmpty($group_id)
     {
         $stmt = self::$pdo
-            ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
+            ->prepare("DELETE FROM " . self::$nameTable .
+                " WHERE created_at >= :date AND group_id = :group_id AND post_id NOT IN (SELECT id FROM " . PostModel::$nameTable . ")");
         return $stmt->execute([
-            'created_at'  => $date,
             'group_id'    => $group_id,
         ]);
     }

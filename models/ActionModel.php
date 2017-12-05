@@ -80,14 +80,15 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @var int $group_id
      * @return bool
      */
-    public static function resetAll()
+    public static function resetAll($group_id)
     {
         $stmt = self::$pdo
             ->prepare("UPDATE " . self::$nameTable . " SET is_active = 0 WHERE group_id = :group_id");
         return $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
     }
 
@@ -95,13 +96,13 @@ class ActionModel extends BaseModel
      * @param $date int
      * @return bool
      */
-    public static function clearAllAfterDate($date)
+    public static function clearAllAfterDate($group_id, $date)
     {
         $stmt = self::$pdo
             ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id AND activity_id != :activity_id");
         return $stmt->execute([
             'date'        => $date,
-            'group_id'    => Globals::$config->group_id,
+            'group_id'    => $group_id,
             'activity_id' => ActivityModel::getByName(ActivityModel::NAME_ALL_LIKE),
         ]);
     }
