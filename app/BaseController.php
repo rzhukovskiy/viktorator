@@ -8,12 +8,14 @@
  */
 class BaseController
 {
-    protected $action = null;
-    protected $template = 'main';
+    protected $action       = null;
+    protected $controller   = null;
+    protected $template     = 'main';
     
-    public function __construct($action)
+    public function __construct($controller, $action)
     {
-        $this->action = $action;
+        $this->action       = $action;
+        $this->controller   = $controller;
         $this->init();
     }
     

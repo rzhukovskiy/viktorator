@@ -48,13 +48,13 @@ class Router
             $action = $this->defaultAction;
         }
 
-        $controller = ucfirst($controller) . 'Controller';
-        $action     = 'action' . ucfirst($action);
+        $controllerFull = ucfirst($controller) . 'Controller';
+        $actionFull     = 'action' . ucfirst($action);
 
         try {
             /** @var BaseController $controllerObject */
-            $controllerObject = new $controller($action);
-            $controllerObject->$action();
+            $controllerObject = new $controllerFull($controller, $action);
+            $controllerObject->$actionFull();
         } catch (Exception $e) {
             http_response_code(404);
             die();

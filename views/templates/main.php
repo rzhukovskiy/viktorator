@@ -37,25 +37,25 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'site/index' ? 'active' : ''?>">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'admin/list' ? 'active' : ''?>">
                             <a class="nav-link" href="/admin/list">Админы</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'site/config' ? 'active' : ''?>">
                             <a class="nav-link" href="/site/config">Настройки</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'site/activity' ? 'active' : ''?>">
                             <a class="nav-link" href="/site/activity">Активности</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'user/list' ? 'active' : ''?>">
                             <a class="nav-link" href="/user/list">Пользователи</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'user/top' ? 'active' : ''?>">
                             <a class="nav-link" href="/user/top">Топчики</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= "$this->controller/$this->action" == 'error/list' ? 'active' : ''?>">
                             <a class="nav-link" href="/error/list">Ошибки</a>
                         </li>
                     </ul>
