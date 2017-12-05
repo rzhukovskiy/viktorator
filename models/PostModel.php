@@ -40,8 +40,8 @@ class PostModel extends BaseModel
         $stmt = self::$pdo
             ->prepare("DELETE FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
         return $stmt->execute([
-            'created_at'  => $date,
-            'group_id'    => $group_id,
+            'date'     => $date,
+            'group_id' => $group_id,
         ]);
     }
 }
