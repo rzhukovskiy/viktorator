@@ -93,7 +93,8 @@ class ActionModel extends BaseModel
     }
 
     /**
-     * @param $date int
+     * @var int $group_id
+     * @var int $date
      * @return bool
      */
     public static function clearAllAfterDate($group_id, $date)
@@ -103,7 +104,7 @@ class ActionModel extends BaseModel
         return $stmt->execute([
             'date'        => $date,
             'group_id'    => $group_id,
-            'activity_id' => ActivityModel::getByName(ActivityModel::NAME_ALL_LIKE),
+            'activity_id' => ActivityModel::getByName(ActivityModel::NAME_ALL_LIKE)['id'],
         ]);
     }
 
