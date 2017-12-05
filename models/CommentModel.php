@@ -36,7 +36,7 @@ class CommentModel extends BaseModel
     {
         $stmt = self::$pdo
             ->prepare("DELETE FROM " . self::$nameTable .
-                " WHERE created_at >= :date AND group_id = :group_id AND post_id NOT IN (SELECT id FROM " . PostModel::$nameTable . ")");
+                " WHERE group_id = :group_id AND post_id NOT IN (SELECT id FROM " . PostModel::$nameTable . ")");
         return $stmt->execute([
             'group_id'    => $group_id,
         ]);
