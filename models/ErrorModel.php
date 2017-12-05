@@ -40,6 +40,12 @@ class ErrorModel extends BaseModel
         }
     }
 
+    public static function clearAll()
+    {
+        $stmt = self::$pdo->prepare("DELETE FROM " . self::$nameTable);
+        return $stmt->execute();
+    }
+
     public static function getCaptchaError()
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE content LIKE '%Captcha needed%' ORDER BY created_at DESC");

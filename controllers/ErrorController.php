@@ -47,4 +47,10 @@ class ErrorController extends BaseController
             'listError' => ErrorModel::getAll(),
         ]);
     }
+
+    public function actionClear()
+    {
+        ErrorModel::clearAll();
+        $this->redirect('error/list');
+    }
 }
