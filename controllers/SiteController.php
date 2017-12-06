@@ -22,7 +22,7 @@ class SiteController extends BaseController
         }
 
         if(!$this->admin || !$this->admin->is_active) {
-            if ($this->action != 'actionLogin') {
+            if ($this->action != 'login') {
                 $this->redirect('site/login');
             }
         }
