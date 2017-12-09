@@ -16,7 +16,7 @@ class Globals
      */
     public static function init()
     {
-        static::$config = ConfigModel::getAll();
+        static::$config = ConfigModel::get();
     }
 
 }

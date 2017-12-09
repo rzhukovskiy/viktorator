@@ -40,8 +40,11 @@
                         <li class="nav-item <?= "$this->controller/$this->action" == 'site/index' ? 'active' : ''?>">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item <?= "$this->controller/$this->action" == 'admin/list' ? 'active' : ''?>">
+                        <li class="nav-item <?= $this->controller == 'admin' ? 'active' : ''?>">
                             <a class="nav-link" href="/admin/list">Админы</a>
+                        </li>
+                        <li class="nav-item <?= $this->controller == 'group' ? 'active' : ''?>">
+                            <a class="nav-link" href="/group/list">Группы</a>
                         </li>
                         <li class="nav-item <?= "$this->controller/$this->action" == 'site/config' ? 'active' : ''?>">
                             <a class="nav-link" href="/site/config">Настройки</a>
@@ -55,7 +58,7 @@
                         <li class="nav-item <?= "$this->controller/$this->action" == 'user/top' ? 'active' : ''?>">
                             <a class="nav-link" href="/user/top">Топчики</a>
                         </li>
-                        <li class="nav-item <?= "$this->controller/$this->action" == 'error/list' ? 'active' : ''?>">
+                        <li class="nav-item <?= $this->controller == 'error' ? 'active' : ''?>">
                             <a class="nav-link" href="/error/list">Ошибки</a>
                         </li>
                     </ul>

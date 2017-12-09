@@ -1,39 +1,9 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 10.11.2017
- * Time: 17:38
  */
-class SiteController extends BaseController
+class SiteController extends Controller
 {
-    /** @var $admin AdminEntity  */
-    private $admin = null;
-    /** @var $admin BotEntity  */
-    private $bot   = null;
-    
-    public function init()
-    {
-        if ($_COOKIE['stoger']) {
-            $adminEntity = AdminModel::findBySocialId($_COOKIE['social_id']);
-            
-            $this->admin = $adminEntity;
-        }
-
-        if(!$this->admin || !$this->admin->is_active) {
-            if ($this->action != 'login') {
-                $this->redirect('site/login');
-            }
-        }
-
-        if ($this->admin->is_active) {
-            $this->bot = new BotEntity();
-        }
-
-        parent::init();
-    }
-
     public function actionIndex()
     {
         if ($this->admin->is_active) {
@@ -57,6 +27,13 @@ class SiteController extends BaseController
         $this->template = 'login';
 
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
+
+        if (!empty($_REQUEST['Group'])) {
+            $groupEntity = new GroupEntity($_REQUEST['Group']);
+            $groupEntity->token = $code;
+            $this->redirect('group/list');
+        }
+
         if ($code) {
             $infoToken = VkSdk::getTokenByCode($code);
             if (!$infoToken) {
@@ -65,7 +42,7 @@ class SiteController extends BaseController
             $adminEntity = AdminModel::findBySocialId($infoToken['user_id']);
 
             if (!$adminEntity) {
-                $infoUser = VkSdk::getUserInfoByToken($infoToken['user_id'], $infoToken['access_token']);
+                $infoUser = VkSdk::getUser($infoToken['user_id'], $infoToken['access_token']);
                 $adminEntity = new AdminEntity([
                     'social_id' => $infoUser['uid'],
                     'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
@@ -94,14 +71,7 @@ class SiteController extends BaseController
     public function actionConfig()
     {
         if (!empty($_POST['Config'])) {
-            $data = [];
-            foreach ($_POST['Config'] as $name => $value) {
-                $data[] = [
-                    'name'  => $name,
-                    'value' => $value,
-                ];
-            }
-            $config = new ConfigEntity($data);
+            $config = new ConfigEntity($_POST['Config']);
             $config->save();
 
             $this->redirect('site/config');

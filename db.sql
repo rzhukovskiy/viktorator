@@ -1,3 +1,11 @@
+CREATE TABLE `config` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `app_id` VARCHAR(255) NULL,
+  `app_secret` VARCHAR(255) NULL,
+  `redirect_uri` VARCHAR(255) NULL,
+  `standalone_id` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`));
+
 CREATE TABLE `admin` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `social_id` INT NOT NULL,
@@ -7,6 +15,23 @@ CREATE TABLE `admin` (
   `is_bot` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
+
+CREATE TABLE `group` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(255) NULL,
+  `slug` VARCHAR(255) NULL,
+  `picture` VARCHAR(255) NULL,
+  `secret` VARCHAR(255) NULL,
+  `confirm` VARCHAR(255) NULL,
+  `token` VARCHAR(255) NULL,
+  `standalone_token` VARCHAR(255) NULL,
+  `topic_id` INT NULL,
+  `post_id` INT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `admin_group_link` (
+  `admin_id` INT NOT NULL,
+  `group_id` INT NOT NULL);
 
 CREATE TABLE `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -80,17 +105,9 @@ CREATE TABLE `error` (
   `created_at` INT NOT NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `config` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `value` VARCHAR(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC));
-
 CREATE TABLE `widget` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
-  `group_social_id` INT NOT NULL,
   `user_social_id` INT DEFAULT NULL,
   `title` VARCHAR(100) NULL,
   `text` VARCHAR(100) NULL,
@@ -99,6 +116,4 @@ CREATE TABLE `widget` (
   `button_url` VARCHAR(100) NULL,
   PRIMARY KEY (`id`));
 
-INSERT INTO `config` (`name`, `value`) VALUES ('app_id', '6253298');
-INSERT INTO `config` (`name`, `value`) VALUES ('app_secret', 'eH3T0i8mYSmcIoHqGppB');
-INSERT INTO `config` (`name`, `value`) VALUES ('redirect_uri', 'http://mediastog.ru/site/auth');
+INSERT INTO `config` VALUES ('6253298', 'eH3T0i8mYSmcIoHqGppB', 'http://mediastog.ru/site/auth', '6265782');

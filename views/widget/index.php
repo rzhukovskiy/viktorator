@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $widgetEntity WidgetEntity
- * @var $group_social_id string
+ * @var $group_id string
  */
 ?>
 <div class="container">
@@ -11,8 +11,8 @@
                 <label for="title" class="col-sm-4 col-form-label">Заголовок</label>
                 <div class="col-sm-8">
                     <?= $widgetEntity ? "<input type='hidden' name='id' value='$widgetEntity->id'/>" : '' ?>
-                    <input type="hidden" name="group_id" value="<?= $group_social_id ?>"/>
-                    <input type="hidden" name="group_social_id" value="<?= $group_social_id ?>"/>
+                    <input type="hidden" name="group_id" value="<?= $group_id ?>"/>
+                    <input type="hidden" name="group_social_id" value="<?= $group_id ?>"/>
                     <input type="text" class="form-control" id="title" name="title" 
                            placeholder="Привет, %name%" value="<?= $widgetEntity->title ?>">
                 </div>

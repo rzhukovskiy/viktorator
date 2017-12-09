@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: rzhukovskiy
- * Date: 10.11.2017
- * Time: 17:38
  */
 class WidgetController extends BaseController
 {
     public function actionIndex()
     {
-        $group_social_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : null;
+        $group_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : null;
+
+        if (!$group_id) {
+            exit('Для запуска из групп');
+        }
         
         $this->template = 'widget';
         $this->render('widget/index', [
-            'widgetEntity' => WidgetModel::getByGroupSocialId($group_social_id),
-            'group_social_id' => $group_social_id,
+            'widgetEntity' => WidgetModel::getByGroupSocialId($group_id),
+            'group_id' => $group_id,
         ]);
     }
     public function actionSave()

@@ -12,7 +12,7 @@ class Autoloader
         'app/',
         'controllers/',
         'entities/',
-        'lib/',
+        'ext/',
         'models/',
     ];
 

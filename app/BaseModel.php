@@ -40,7 +40,7 @@ class BaseModel
             $columns = implode("`, `", array_keys($params));
             $values  = implode(", :", array_keys($params));
 
-            $stmt = self::$pdo->prepare("INSERT INTO " . static::$nameTable . " (`$columns`) VALUES (:$values)");
+            $stmt = self::$pdo->prepare("INSERT IGNORE INTO " . static::$nameTable . " (`$columns`) VALUES (:$values)");
             $stmt->execute($params);
 
             return self::$pdo->lastInsertId();
