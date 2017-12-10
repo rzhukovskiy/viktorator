@@ -46,7 +46,7 @@ class ActionEntity extends BaseEntity
         unset($this->data['activity']);
         $id = ActionModel::save($this->data);
 
-        UserModel::addScores($this->user_social_id, $this->scores);
+        UserModel::addScores($this->user_id, $this->scores);
         
         $this->id = $id;
     }
@@ -57,6 +57,6 @@ class ActionEntity extends BaseEntity
 
         unset($this->data['activity']);
         ActionModel::save($this->data);
-        UserModel::addScores($this->user_social_id, -1 * $this->scores);
+        UserModel::addScores($this->user_id, -1 * $this->scores);
     }
 }

@@ -21,10 +21,6 @@ class Controller extends BaseController
             $this->redirect('site/login');
         }
 
-        if ($this->admin->is_active) {
-            $this->bot = new BotEntity();
-        }
-
         parent::init();
     }
 }

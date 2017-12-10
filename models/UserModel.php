@@ -21,16 +21,17 @@ class UserModel extends BaseModel
     }
 
     /**
-     * @param string $socialId
+     * @param int $socialId
+     * @param int $group_id
      * @return bool|UserEntity
      */
-    public static function findBySocialId($socialId)
+    public static function findBySocialId($group_id, $socialId)
     {
         $stmt = self::$pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
         $stmt->execute([
             'social_id' => $socialId,
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -41,29 +42,32 @@ class UserModel extends BaseModel
     }
 
     /**
-     * @param string $socialId
+     * @param int $social_id
+     * @param int $group_id
+     * @param int $post_id
      * @param string $token
      * @return UserEntity
      */
-    public static function createFromSocialId($socialId, $token)
+    public static function createFromSocialId($social_id, $group_id, $post_id, $token)
     {
         $stmt = self::$pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
         $stmt->execute([
-            'social_id' => $socialId,
-            'group_id'  => Globals::$config->group_id,
+            'social_id' => $social_id,
+            'group_id'  => $group_id,
         ]);
 
         $userEntity = null;
         if ($stmt->rowCount()) {
             $userEntity = new UserEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
-            $infoUser = VkSdk::getUser($socialId, $token);
+            $infoUser = VkSdk::getUser($social_id, $token);
             if (!$infoUser) {
                 return null;
             }
             $userEntity = new UserEntity([
-                'social_id' => $socialId,
+                'social_id' => $social_id,
+                'group_id'  => $group_id,
                 'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
                 'scores'    => 0,
                 'is_active' => 1,
@@ -75,7 +79,7 @@ class UserModel extends BaseModel
                 $userEntity->is_member = 1;
             }
 
-            foreach (self::getLikes($userEntity->group_id, $token) as $user_id) {
+            foreach (self::getLikes($userEntity->group_id, $post_id, $token) as $user_id) {
                 if($user_id == $userEntity->social_id) {
                     $userEntity->is_repost = 1;
                     break;
@@ -89,13 +93,14 @@ class UserModel extends BaseModel
     }
 
     /**
+     * @param int $group_id
      * @return UserEntity[]|bool
      */
-    public static function getAll()
+    public static function getAll($group_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY scores DESC");
         $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -109,26 +114,26 @@ class UserModel extends BaseModel
         }
     }
     
-    public static function addScores($social_id, $scores)
+    public static function addScores($id, $scores)
     {
-        $stmt = self::$pdo->prepare("UPDATE " . self::$nameTable . " SET scores = scores + :scores WHERE group_id = :group_id AND social_id = :social_id");
+        $stmt = self::$pdo->prepare("UPDATE " . self::$nameTable . " SET scores = scores + :scores WHERE id = :id");
         $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
-            'scores'    => $scores,
-            'social_id' => $social_id,
+            'scores' => $scores,
+            'id'     => $id,
         ]);        
     }
 
     /**
      * @param int $limit
+     * @param int $group_id
      * @return UserEntity[]|bool
      */
-    public static function getTop($limit)
+    public static function getTop($group_id, $limit)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
             " WHERE group_id = :group_id AND is_member = 1 ORDER BY scores DESC LIMIT $limit");
         $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -142,17 +147,16 @@ class UserModel extends BaseModel
         }
     }
 
-    private static function getLikes($group_id, $token)
+    private static function getLikes($group_id, $post_id, $token)
     {
         if (empty(self::$likes)) {
             $offset = 0;
             while (true) {
                 $listLike = VkSdk::getLikeWithRepostList(
                     '-' . $group_id,
-                    $token,
-                    Globals::$config->post_id,
+                    $post_id,
                     'post',
-                    $offset
+                    $token
                 );
 
                 if(!$listLike) {

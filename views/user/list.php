@@ -1,10 +1,24 @@
 <?php
 /** 
- * @var $listUser UserEntity[] 
+ * @var $listUser UserEntity[]
+ * @var $listGroup GroupEntity[]
  */
 ?>
 <div class="container">
     <div class="block">
+        <div class="block__body">
+            <form class="form-inline">
+                <div class="d-flex form-group">
+                    <label for="group_id" class="col-auto col-form-label">Группа</label>
+                    <select class="col form-control" id="group_id" name="group_id">
+                        <?php foreach ($listGroup as $group) { ?>
+                            <option value="<?= $group->id ?>"><?= $group->name ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </form>
+        </div>
+
         <div class="block__body">
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">

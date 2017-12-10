@@ -28,7 +28,7 @@ class VkSdk
         return self::callApiPost('board.createComment', $params);
     }
 
-    public static function editTopic($group_id, $topic_id, $token, $message)
+    public static function editTopic($group_id, $topic_id, $message, $token)
     {
         $params = [
             'group_id'     => $group_id,
@@ -52,11 +52,13 @@ class VkSdk
         return self::callApiPost('board.editComment', $params);
     }
 
-    public static function getAuthUrl()
+    public static function getAuthUrl($data = false)
     {
+        $redirectUrl = Globals::$config->redirect_uri .
+            ($data ? '?' .urldecode(http_build_query($data)) : '');
         $params = [
             'client_id'     => Globals::$config->app_id,
-            'redirect_uri'  => Globals::$config->redirect_uri,
+            'redirect_uri'  => $redirectUrl,
             'response_type' => 'code',
             'scope'         => 'offline,wall,notify,friends,groups',
         ];
@@ -69,7 +71,7 @@ class VkSdk
             'client_id'     => Globals::$config->app_id,
             'redirect_uri'  => Globals::$config->redirect_uri . "?Group[id]=$group_id",
             'response_type' => 'code',
-            'scope'         => 'manage',
+            'scope'         => 'manage, photos',
             'group_ids'     => $group_id,
         ];
         return 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
@@ -143,20 +145,18 @@ class VkSdk
 
     /**
      * @param string $owner_id
-     * @param string $token
      * @param string $item_id
      * @param string $type
-     * @param string $offset
+     * @param string $token
      * @return array
      */
-    public static function getLikeList($owner_id, $token, $item_id, $type, $offset)
+    public static function getLikeList($owner_id, $item_id, $type, $token)
     {
         $params = array(
             'owner_id'      => $owner_id,
             'item_id'       => $item_id,
             'type'          => $type,
             'access_token'  => $token,
-            'offset'        => $offset,
             'count'         => 1000,
         );
 
@@ -170,7 +170,7 @@ class VkSdk
      * @param string $type
      * @return array
      */
-    public static function getLikeWithRepostList($owner_id, $token, $item_id, $type)
+    public static function getLikeWithRepostList($owner_id, $item_id, $type, $token)
     {
         $params = array(
             'owner_id'      => $owner_id,
@@ -186,11 +186,11 @@ class VkSdk
 
     /**
      * @param string $owner_id
-     * @param string $token
      * @param string $post_id
+     * @param string $token
      * @return array
      */
-    public static function getCommentList($owner_id, $token, $post_id)
+    public static function getCommentList($owner_id, $post_id, $token)
     {
         $params = array(
             'owner_id'          => $owner_id,
@@ -206,11 +206,11 @@ class VkSdk
 
     /**
      * @param string $owner_id
-     * @param string $token
      * @param string $post_id
+     * @param string $token
      * @return array
      */
-    public static function getRepostList($owner_id, $token, $post_id)
+    public static function getRepostList($owner_id, $post_id, $token)
     {
         $params = array(
             'owner_id'      => $owner_id,
@@ -254,6 +254,66 @@ class VkSdk
         $data = self::callApi('groups.isMember', $params);
 
         return $data ? $data['response'] : false;
+    }
+
+    /**
+     * @param string $group_id
+     * @param string $url
+     * @param string $title
+     * @param string $secret_key
+     * @param string $token
+     * @return int|bool
+     */
+    public static function addCallback($group_id, $url, $title, $secret_key, $token)
+    {
+        $params = array(
+            'group_id' => $group_id,
+            'url' => $url,
+            'title' => $title,
+            'secret_key' => $secret_key,
+            'access_token' => $token,
+        );
+
+        $data = self::callApi('groups.addCallbackServer', $params);
+
+        return isset($data['response']['server_id']) ? $data['response']['server_id'] : false;
+    }
+
+    /**
+     * @param string $group_id
+     * @param string $server_id
+     * @param string $token
+     * @return int|bool
+     */
+    public static function setCallback($group_id, $server_id, $token)
+    {
+        $params = array(
+            'group_id' => $group_id,
+            'server_id' => $server_id,
+            'board_post_new' => 1,
+            'access_token' => $token,
+        );
+
+        $data = self::callApi('groups.setCallbackSettings', $params);
+
+        return $data ? true : false;
+    }
+
+    /**
+     * @param string $group_id
+     * @param string $token
+     * @return int|bool
+     */
+    public static function getCallbackCode($group_id, $token)
+    {
+        $params = array(
+            'group_id' => $group_id,
+            'access_token' => $token,
+        );
+
+        $data = self::callApi('groups.getCallbackConfirmationCode', $params);
+
+        return isset($data['response']['code']) ? $data['response']['code'] : false;
     }
 
 

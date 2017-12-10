@@ -10,12 +10,17 @@ class TopModel extends BaseModel
 {
     public static $nameTable = 'top';
 
-    public static function getLast($limit)
+    /**
+     * @param int $group_id
+     * @param int $limit
+     * @return array|bool
+     */
+    public static function getLast($group_id, $limit)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM (SELECT * FROM " . self::$nameTable .
             " WHERE group_id = :group_id ORDER BY date DESC LIMIT $limit) a ORDER BY scores DESC");
         $stmt->execute([
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
 
         if ($stmt->rowCount()) {

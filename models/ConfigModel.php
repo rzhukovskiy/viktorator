@@ -12,7 +12,7 @@ class ConfigModel extends BaseModel
         $stmt->execute();
         
         if ($stmt->rowCount()) {
-            return new CommentEntity($stmt->fetch(PDO::FETCH_ASSOC));
+            return new ConfigEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return false;
         }

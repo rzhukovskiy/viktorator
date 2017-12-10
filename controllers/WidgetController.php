@@ -14,7 +14,7 @@ class WidgetController extends BaseController
         
         $this->template = 'widget';
         $this->render('widget/index', [
-            'widgetEntity' => WidgetModel::getByGroupSocialId($group_id),
+            'widgetEntity' => WidgetModel::getByGroupId($group_id),
             'group_id' => $group_id,
         ]);
     }

@@ -14,7 +14,7 @@ class CommentModel extends BaseModel
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE post_id = :post_id");
         $stmt->execute([
-            'post_id'  => $post_id,
+            'post_id' => $post_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -38,7 +38,7 @@ class CommentModel extends BaseModel
             ->prepare("DELETE FROM " . self::$nameTable .
                 " WHERE group_id = :group_id AND post_id NOT IN (SELECT id FROM " . PostModel::$nameTable . ")");
         return $stmt->execute([
-            'group_id'    => $group_id,
+            'group_id' => $group_id,
         ]);
     }
 }

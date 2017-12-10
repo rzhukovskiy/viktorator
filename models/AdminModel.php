@@ -54,11 +54,14 @@ class AdminModel extends BaseModel
         }
     }
 
-    public static function findByBotFlag()
+    public static function getByGroupId($group_id)
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE is_bot = :is_bot");
+        $stmt = self::$pdo->prepare(
+            "SELECT * FROM " . self::$nameTable . " admin, " . GroupModel::$nameTable . AdminModel::$nameTable . "_link " .
+            "WHERE group_id = :group_id AND admin_id = admin.id"
+        );
         $stmt->execute([
-            'is_bot' => 1,
+            'group_id' => $group_id
         ]);
 
         if ($stmt->rowCount()) {
@@ -66,16 +69,5 @@ class AdminModel extends BaseModel
         } else {
             return false;
         }
-    }
-
-    public static function connectToBot($id)
-    {
-        $stmt = self::$pdo->prepare("UPDATE " . self::$nameTable . " SET is_bot = 0");
-        $stmt->execute();
-
-        $stmt = self::$pdo->prepare("UPDATE " . self::$nameTable . " SET is_bot = 1 WHERE id = :id");
-        $stmt->execute([
-            ':id' => $id,
-        ]);
     }
 }

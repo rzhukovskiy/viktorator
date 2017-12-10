@@ -4,15 +4,6 @@
  */
 class CallbackController extends BaseController
 {
-    /** @var $admin BotEntity  */
-    private $bot   = null;
-
-    public function init()
-    {
-        $this->bot = new BotEntity();
-        parent::init();
-    }
-
     /**
      * @return null
      */

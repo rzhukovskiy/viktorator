@@ -4,15 +4,11 @@
  */
 class CommandController extends BaseController
 {
-    /** @var $admin BotEntity  */
-    private $bot = null;
-
     public function init()
     {
         if (ENV != 'console') {
             exit();
         }
-        $this->bot = new BotEntity();
 
         parent::init();
     }
@@ -28,8 +24,10 @@ class CommandController extends BaseController
 
         $fp = fopen('lock.lock', 'w');
         try {
-            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            $totalScores = ScoreModel::collect(Globals::$config->group_id, $startDate, $endDate);
+            $totalScores = 0;
+            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+                $totalScores += ScoreModel::collect($groupEntity, $startDate, $endDate);
+            }
             echo $totalScores . "\n";
         } catch (Exception $ex) {
             print_r($ex);
@@ -42,8 +40,9 @@ class CommandController extends BaseController
     public function actionUpdate()
     {
         try {
-            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ScoreModel::updateTable();
+            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+                ScoreModel::updateTable($groupEntity);
+            }
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex);
@@ -65,12 +64,13 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
 
         try {
-            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ActionModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
-            PostModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
-            CommentModel::clearAllEmpty(Globals::$config->group_id);
-            UserModel::resetAll(Globals::$config->group_id);
-            ActionModel::resetAll(Globals::$config->group_id);
+            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+                ActionModel::clearAllAfterDate($group_id, $startDate);
+                PostModel::clearAllAfterDate($group_id, $startDate);
+                CommentModel::clearAllEmpty($group_id);
+                UserModel::resetAll($group_id);
+                ActionModel::resetAll($group_id);
+            }
 
             echo "Done!\n";
         } catch (Exception $ex) {
@@ -98,19 +98,20 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
 
         try {
-            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ActionModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
-            PostModel::clearAllAfterDate(Globals::$config->group_id, $startDate);
-            CommentModel::clearAllEmpty(Globals::$config->group_id);
-            ScoreModel::collect(Globals::$config->group_id, $startDate, $endDate);
-            ScoreModel::collectDaily(Globals::$config->group_id, $beginOfDay);
+            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+                ActionModel::clearAllAfterDate($group_id, $startDate);
+                PostModel::clearAllAfterDate($group_id, $startDate);
+                CommentModel::clearAllEmpty($group_id);
+                ScoreModel::collect($groupEntity, $startDate, $endDate);
+                ScoreModel::collectDaily($groupEntity, $beginOfDay);
 
-            foreach (UserModel::getTop(12) as $topUser) {
-                $topUser->saveToTop($week);
+                foreach (UserModel::getTop($group_id, 12) as $topUser) {
+                    $topUser->saveToTop($week);
+                }
+
+                UserModel::resetAll($group_id);
+                ActionModel::resetAll($group_id);
             }
-
-            UserModel::resetAll(Globals::$config->group_id);
-            ActionModel::resetAll(Globals::$config->group_id);
 
             echo "Done!\n";
         } catch (Exception $ex) {
@@ -136,8 +137,9 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
         
         try {
-            ScoreModel::init($this->bot->getToken(), Globals::$config->standalone_token);
-            ScoreModel::collectDaily(Globals::$config->group_id, $beginOfDay);
+            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+                ScoreModel::collectDaily($groupEntity, $beginOfDay);
+            }
             echo "Done!\n";
         } catch (Exception $ex) {
             print_r($ex);
@@ -160,11 +162,15 @@ class CommandController extends BaseController
             $startDate = new DateTime();
             $startDate->setTimestamp(strtotime('next week'))->setTime(0, 0, 0);
             $startDate = $startDate->getTimestamp() - 3 * 3600;
-        }
 
-        $endDate = new DateTime();
-        $endDate->setTimestamp(time())->setTime(20, 59, 59);
-        $endDate = $endDate->getTimestamp();
+            $endDate = new DateTime();
+            $endDate->setTimestamp(strtotime('next sunday'))->setTime(20, 59, 59);
+            $endDate = $endDate->getTimestamp();
+        } else {
+            $endDate = new DateTime();
+            $endDate->setTimestamp(time())->setTime(20, 59, 59);
+            $endDate = $endDate->getTimestamp();
+        }
 
         return [$startDate, $endDate];
     }

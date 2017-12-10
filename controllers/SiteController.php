@@ -9,9 +9,6 @@ class SiteController extends Controller
         if ($this->admin->is_active) {
             $this->render('site/main', [
                 'username'   => $this->admin->name,
-                'bot'        => $this->bot->isActive(),
-                'botname'    => $this->bot->getOwnerName(),
-                'lastAction' => ActionModel::getLast(),
             ]);
         } else {
             $this->template = 'login';
@@ -29,9 +26,23 @@ class SiteController extends Controller
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
 
         if (!empty($_REQUEST['Group'])) {
-            $groupEntity = new GroupEntity($_REQUEST['Group']);
+            $groupEntity = GroupModel::getById($_REQUEST['Group']['id']);
             $groupEntity->token = $code;
-            $this->redirect('group/list');
+            if (!$groupEntity->server_id) {
+                $groupEntity->secret = substr(md5(time()), 0, 10);
+                $groupEntity->server_id = VkSdk::addCallback(
+                    $groupEntity->id,
+                    'https://mediastog.ru/callback/vk',
+                    'viktorator',
+                    $groupEntity->secret,
+                    $groupEntity->token
+                );
+                $groupEntity->confirm = VkSdk::getCallbackCode($groupEntity->id, $groupEntity->token);
+                VkSdk::setCallback($groupEntity->id, $groupEntity->server_id, $groupEntity->token);
+            }
+            $groupEntity->save();
+
+            $this->redirect('group/edit', ['id' => $groupEntity->id]);
         }
 
         if ($code) {

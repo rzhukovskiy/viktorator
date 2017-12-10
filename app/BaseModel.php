@@ -36,26 +36,24 @@ class BaseModel
      */
     public static function save($params)
     {
+        $columns = implode("`, `", array_keys($params));
+        $values  = implode(", :", array_keys($params));
+        $updates = [];
+        foreach ($params as $name => $value) {
+            if ($name == 'id') {
+                continue;
+            }
+            $updates[] = "`$name` = :$name";
+        }
+        $updates = implode(", ", $values);
+
+        $stmt = self::$pdo->prepare("INSERT INTO " . static::$nameTable . " (`$columns`) VALUES (:$values)" .
+            " ON DUPLICATE KEY UPDATE SET $updates");
+        $stmt->execute($params);
+
         if (empty($params['id'])) {
-            $columns = implode("`, `", array_keys($params));
-            $values  = implode(", :", array_keys($params));
-
-            $stmt = self::$pdo->prepare("INSERT IGNORE INTO " . static::$nameTable . " (`$columns`) VALUES (:$values)");
-            $stmt->execute($params);
-
             return self::$pdo->lastInsertId();
         } else {
-            $values = [];
-            foreach ($params as $name => $value) {
-                if ($name == 'id') {
-                    continue;
-                }
-                $values[] = "`$name` = :$name";
-            }
-            $values = implode(", ", $values);
-            $stmt = self::$pdo->prepare("UPDATE " . static::$nameTable . " SET $values WHERE id = :id");
-            $stmt->execute($params);
-
             return $params['id'];
         }
     }

@@ -38,11 +38,10 @@ class ActionModel extends BaseModel
     public static function getByUser($user_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
-            " WHERE is_active = :is_active AND user_id = :user_id AND group_id = :group_id ORDER BY created_at DESC");
+            " WHERE is_active = :is_active AND user_id = :user_id ORDER BY created_at DESC");
         $stmt->execute([
             'is_active' => 1,
             'user_id'   => $user_id,
-            'group_id'  => Globals::$config->group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -65,11 +64,10 @@ class ActionModel extends BaseModel
         $stmt = self::$pdo
             ->prepare("SELECT description, SUM(scores) as scores FROM " .
                 self::$nameTable . ", " . ActivityModel::$nameTable .
-                " as activity WHERE is_active = :is_active AND user_id = :user_id AND activity_id = activity.id AND group_id = :group_id GROUP BY activity_id");
+                " as activity WHERE is_active = :is_active AND user_id = :user_id AND activity_id = activity.id GROUP BY activity_id");
         $stmt->execute([
             'is_active' => 1,
             'user_id'   => $user_id,
-            'group_id'  => Globals::$config->group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -109,16 +107,17 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @var int $group_id
      * @return array|bool
      */
-    public static function getAll()
+    public static function getAll($group_id)
     {
         $stmt = self::$pdo
             ->prepare("SELECT action.*, description as activity FROM " . self::$nameTable . " as action, " . ActivityModel::$nameTable .
                 " as activity  WHERE is_active = :is_active AND group_id = :group_id AND activity.id = activity_id");
         $stmt->execute([
             'is_active' => 1,
-            'group_id'  => Globals::$config->group_id,
+            'group_id'  => $group_id,
         ]);
 
         if ($stmt->rowCount()) {
@@ -151,13 +150,14 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @var int $group_id
      * @return ActionEntity|bool
      */
-    public static function getLast()
+    public static function getLast($group_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id ORDER BY created_at DESC LIMIT 1");
         $stmt->execute([
-            'group_id' => Globals::$config->group_id,
+            'group_id' => $group_id,
         ]);
 
         if ($stmt->rowCount()) {

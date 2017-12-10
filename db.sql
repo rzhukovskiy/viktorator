@@ -12,7 +12,6 @@ CREATE TABLE `admin` (
   `name` VARCHAR(255) NULL,
   `token` VARCHAR(255) NULL,
   `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `is_bot` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
 
@@ -27,6 +26,7 @@ CREATE TABLE `group` (
   `standalone_token` VARCHAR(255) NULL,
   `topic_id` INT NULL,
   `post_id` INT NULL,
+  `server_id` INT NULL,
   PRIMARY KEY (`id`));
 
 CREATE TABLE `admin_group_link` (

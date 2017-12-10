@@ -25,6 +25,7 @@ class GroupController extends Controller
                         'name'      => $row['name'],
                         'slug'      => $row['screen_name'],
                         'picture'   => $row['photo_50'],
+                        'admin_id'  => $this->admin->id,
                     ]);
 
                     $listGroup[$data['id']]->save();
@@ -39,5 +40,21 @@ class GroupController extends Controller
         } else {
             $this->render('group/empty');
         }
+    }
+
+    public function actionEdit()
+    {
+        if (!empty($_POST['Group'])) {
+            $config = new ConfigEntity($_POST['Group']);
+            $config->save();
+
+            $this->redirect('group/edit');
+        }
+
+        $groupEntity = GroupModel::getById($_GET['id']);
+
+        $this->render('group/edit', [
+            'config' => Globals::$config,
+        ]);
     }
 }

@@ -23,9 +23,10 @@ class BaseController
 
     }
 
-    public function redirect($destination)
+    public function redirect($destination, $data = null)
     {
-        $url = 'Location: /' . ltrim($destination, '/');
+        $query = $data ? '?' .urldecode(http_build_query($data)) : '';
+        $url = 'Location: /' . ltrim($destination, '/') . $query;
         header($url);
         exit;
     }

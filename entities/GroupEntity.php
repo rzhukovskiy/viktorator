@@ -11,6 +11,7 @@
  * @property string     $standalone_token
  * @property integer    $topic_id
  * @property integer    $post_id
+ * @property integer    $server_id
  */
 class GroupEntity extends BaseEntity
 {
@@ -22,5 +23,10 @@ class GroupEntity extends BaseEntity
     public function isActive()
     {
         return !empty($this->token);
+    }
+
+    public function getAdmin()
+    {
+        return AdminModel::getByGroupId($this->id);
     }
 }
