@@ -117,3 +117,12 @@ CREATE TABLE `widget` (
   PRIMARY KEY (`id`));
 
 INSERT INTO `config` VALUES (NULL, '6253298', 'eH3T0i8mYSmcIoHqGppB', 'http://mediastog.ru/site/login', '6265782');
+
+INSERT INTO `activity` (`description`, `price`) VALUES ('like', '5');
+INSERT INTO `activity` (`description`, `price`) VALUES ('comment', '2');
+INSERT INTO `activity` (`description`, `price`) VALUES ('first_like', '10');
+INSERT INTO `activity` (`description`, `price`) VALUES ('ten_like', '7');
+INSERT INTO `activity` (`description`, `price`) VALUES ('comment_like', '1');
+INSERT INTO `activity` (`description`, `price`) VALUES ('authot_like', '5');
+INSERT INTO `activity` (`description`, `price`) VALUES ('post_like', '5');
+INSERT INTO `activity` (`description`, `price`) VALUES ('all_like', '50');

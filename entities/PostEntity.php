@@ -13,7 +13,6 @@ class PostEntity extends BaseEntity
 {
     public function __construct($data)
     {
-        $data['group_id'] = Globals::$config->group_id;
         parent::__construct($data);
 
         if (!$this->id) {
