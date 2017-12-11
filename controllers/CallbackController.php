@@ -12,7 +12,7 @@ class CallbackController extends BaseController
         $data = json_decode(file_get_contents('php://input'));
 
         if ($data->type == 'board_post_new') {
-            $publicEntity = PublicModel::getById($data->topic_owner_id);
+            $publicEntity = PublicModel::getById($data->group_id);
             if (!$publicEntity || $data->secret != $publicEntity->secret || $data->object->from_id == ('-' . $publicEntity->id)) {
                 $this->exitOk();
             }
@@ -26,26 +26,19 @@ class CallbackController extends BaseController
             }
 
             if (!$userEntity->is_repost) {
-                $offset = 0;
-                while (true) {
-                    $listLike = VkSdk::getLikeWithRepostList(
-                        '-' . $userEntity->group_id,
-                        $publicEntity->post_id,
-                        'post',
-                        $adminEntity->token
-                    );
+                $listLike = VkSdk::getLikeWithRepostList(
+                    '-' . $userEntity->group_id,
+                    $publicEntity->post_id,
+                    'post',
+                    $adminEntity->token
+                );
 
-                    if(!$listLike) {
+                foreach ($listLike as $user_id) {
+                    if ($user_id == $userEntity->social_id) {
+                        $userEntity->is_repost = 1;
+                        $userEntity->save();
                         break;
                     }
-                    foreach ($listLike as $user_id) {
-                        if ($user_id == $userEntity->social_id) {
-                            $userEntity->is_repost = 1;
-                            $userEntity->save();
-                            break;
-                        }
-                    }
-                    $offset += 100;
                 }
             }
             
