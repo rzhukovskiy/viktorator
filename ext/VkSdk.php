@@ -132,13 +132,13 @@ class VkSdk
         return self::callApiWithOffset('groups.get', $params);
     }
 
-    public static function getWallContent($owner_id, $token, $offset)
+    public static function getWallContentAfterDate($owner_id, $startDate, $token)
     {
         $params = array(
             'owner_id'     => $owner_id,
             'access_token' => $token,
             'count'        => 100,
-            'offset'       => $offset,
+            'startDate'    => $startDate,
         );
 
         return self::callApiWithOffset('wall.get', $params);
@@ -366,6 +366,10 @@ class VkSdk
 
             if ($data) {
                 $res = array_merge($res, $data['response']['items']);
+                $lastIndex = count($data['response']['items']) - 1;
+                if (isset($data['startDate']) && $data['response']['items'][$lastIndex]['date'] < $data['startDate']) {
+                    break;
+                }
             } else {
                 break;
             }
