@@ -325,7 +325,8 @@ class VkSdk
      */
     private static function callApi($method, $params)
     {
-        $url = self::API_URL . $method . '?' . urldecode(http_build_query($params)) . '&v=' . self::API_VERSION;
+        $url = self::API_URL . $method;
+        $params['v'] = self::API_VERSION;
 
         if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
             usleep(self::SLEEP_TIME * 1000000);
@@ -334,10 +335,10 @@ class VkSdk
 
         do {
             $data = json_decode(file_get_contents($url, false, stream_context_create(array(
-                'http' => array(
-                    'method'  => 'POST',
-                    'timeout' => 1
-                )
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'timeout' => 1,
+                'content' => http_build_query($params)
             ))), true);
 
             if (empty($data['error'])) {
