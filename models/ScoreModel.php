@@ -154,12 +154,7 @@ class ScoreModel
 
                     $likeCount = 0;
                     if ($comment['likes']['count'] && $commentEntity->likes != $comment['likes']['count']) {
-                        $listLikes = VkSdk::getLikeList(
-                            '-' . $publicEntity->id,
-                            $comment['id'],
-                            'comment',
-                            $adminEntity->token
-                        );
+                        $listLikes = VkSdk::getLikeList('-' . $publicEntity->id, $comment['id'], 'comment', $adminEntity->token);
                         if (!$listLikes) {
                             break;
                         }
