@@ -336,8 +336,7 @@ class VkSdk
             $data = json_decode(file_get_contents($url, false, stream_context_create(array(
                 'http' => array(
                     'method'  => 'GET',
-                    'timeout' => 1,
-                    'content' => http_build_query($params)
+                    'timeout' => 1
                 )
             ))), true);
 
