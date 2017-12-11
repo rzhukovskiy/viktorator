@@ -138,7 +138,7 @@ class CommandController extends BaseController
         
         try {
             foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
-                ScoreModel::collectDaily($publicEntity, $beginOfDay);
+                ScoreModel::collectDaily($publicEntity, $beginOfDay, $beginOfDay + 24 * 3600);
             }
             echo "Done!\n";
         } catch (Exception $ex) {

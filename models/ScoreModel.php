@@ -219,10 +219,11 @@ class ScoreModel
 
     /**
      * @param PublicEntity $publicEntity
-     * @param int $beginOfDay
+     * @param int $startDate
+     * @param int $endDate
      * @return bool
      */
-    public static function collectDaily($publicEntity, $beginOfDay)
+    public static function collectDaily($publicEntity, $startDate, $endDate)
     {
         $adminEntity = $publicEntity->getAdmin();
 
@@ -231,12 +232,15 @@ class ScoreModel
         $likedAll = [];
 
         $postCount = 0;
-        $listPost = VkSdk::getWallContentAfterDate('-' . $publicEntity->id, $beginOfDay, $adminEntity->token);
+        $listPost = VkSdk::getWallContentAfterDate('-' . $publicEntity->id, $startDate, $adminEntity->token);
         foreach ($listPost as $post) {
             if (!empty($post['is_pinned'])) {
                 continue;
             }
-            if ($post['date'] < $beginOfDay) {
+            if ($post['date'] > $endDate) {
+                continue;
+            }
+            if ($post['date'] < $startDate) {
                 break;
             }
 
@@ -277,7 +281,7 @@ class ScoreModel
                     'user_id'          => $listUser[$user_id]->id,
                     'user_social_id'   => $listUser[$user_id]->social_id,
                     'social_id'        => $listUser[$user_id]->social_id,
-                    'parent_social_id' => date('Ymd', $beginOfDay),
+                    'parent_social_id' => date('Ymd', $startDate),
                     'activity'         => $activity,
                 ]);
                 $actionEntity->save();
