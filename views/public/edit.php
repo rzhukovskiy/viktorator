@@ -49,9 +49,8 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-10">
-                        Чтобы получить токен - жмак <a href="<?= VkSdk::getStandaloneAuthUrl(); ?>"
-                                                       target="_blank">сюда</a>, а потом скопируй его из адресной
-                        строки.
+                        Чтобы получить токен - жмак <a href="<?= VkSdk::getStandaloneAuthUrl(); ?>" target="_blank">сюда</a>,
+                        а потом скопируй его из адресной строки.
                     </div>
                 </div>
                 <div class="form-group row">

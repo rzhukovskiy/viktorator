@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="communities-container__footer">
-                                    <a href="https://vk.com/id<?= $group->id ?>" class="button-blue">
+                                    <a href="https://vk.com/<?= $group->slug ?>" class="button-blue">
                                         <?= $group->slug ?>
                                     </a>
                                     <?php if(!$group->isActive()) { ?>
