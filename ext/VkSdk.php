@@ -361,13 +361,18 @@ class VkSdk
         $res = [];
         $i = 0;
         $params['offset'] = 0;
+        $startDate = false;
+        if (isset($params['startDate'])) {
+            $startDate = $params['startDate'];
+            unset($params['startDate']);
+        }
         while (true) {
             $data = self::callApi($method, $params);
 
             if ($data) {
                 $res = array_merge($res, $data['response']['items']);
                 $lastIndex = count($data['response']['items']) - 1;
-                if (isset($data['startDate']) && $data['response']['items'][$lastIndex]['date'] < $data['startDate']) {
+                if ($startDate && $data['response']['items'][$lastIndex]['date'] < $startDate) {
                     break;
                 }
             } else {
