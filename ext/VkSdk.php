@@ -202,7 +202,7 @@ class VkSdk
             'count'             => 100,
         );
 
-        return self::callApiWithOffset('wall.getReposts', $params);
+        return self::callApiWithOffset('wall.getComments', $params);
     }
 
     /**
