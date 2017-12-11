@@ -22,7 +22,7 @@ class PublicEntity extends BaseEntity
 
     public function isActive()
     {
-        return !empty($this->token);
+        return (bool)$this->token;
     }
 
     public function getAdmin()
