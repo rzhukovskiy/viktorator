@@ -27,7 +27,11 @@ class SiteController extends Controller
 
         if (!empty($_REQUEST['Group'])) {
             $publicEntity = PublicModel::getById($_REQUEST['Group']['id']);
-            $publicEntity->token = $code;
+            $infoToken = VkSdk::getTokenByCode($code, 'Group[id]=' . $publicEntity->id);
+            if (!$infoToken) {
+                exit('Не хочет ВК авторизовать. Как же с ними сложно...');
+            }
+            $publicEntity->token = $infoToken['access_token_' . $publicEntity->id];
             if (!$publicEntity->server_id) {
                 $publicEntity->secret = substr(md5(time()), 0, 10);
                 $publicEntity->server_id = VkSdk::addCallback(

@@ -95,6 +95,7 @@ class PublicModel extends BaseModel
 
             unset($data['admin_id']);
         }
-        parent::save($data);
+
+        return parent::save($data);
     }
 }

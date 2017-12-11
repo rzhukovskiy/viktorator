@@ -89,14 +89,15 @@ class VkSdk
 
     /**
      * @param $code string
+     * @param $query string
      * @return array|bool
      */
-    public static function getTokenByCode($code)
+    public static function getTokenByCode($code, $query = null)
     {
         $params = array(
             'client_id'     => Globals::$config->app_id,
             'client_secret' => Globals::$config->app_secret,
-            'redirect_uri'  => Globals::$config->redirect_uri,
+            'redirect_uri'  => Globals::$config->redirect_uri . ($query ? '?' . $query : ''),
             'code'          => $code,
         );
 
