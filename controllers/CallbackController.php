@@ -76,7 +76,7 @@ class CallbackController extends BaseController
             VkSdk::addComment($publicEntity->id, $publicEntity->topic_id, $publicEntity->standalone_token, $message);
 
             $this->exitOk();
-        } elseif ($data->type == 'confirm') {
+        } elseif ($data->type == 'confirmation') {
             $publicEntity = PublicModel::getById($data->group_id);
             echo $publicEntity->confirm;
             exit();
