@@ -17,7 +17,7 @@ class Controller extends BaseController
             $this->admin = $adminEntity ? $adminEntity : null;
         }
 
-        if (!$this->admin || !$this->admin->is_active) {
+        if ($this->controller . '/'. $this->action != 'site/login' && (!$this->admin || !$this->admin->is_active)) {
             $this->redirect('site/login');
         }
 

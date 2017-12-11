@@ -116,4 +116,4 @@ CREATE TABLE `widget` (
   `button_url` VARCHAR(100) NULL,
   PRIMARY KEY (`id`));
 
-INSERT INTO `config` VALUES ('6253298', 'eH3T0i8mYSmcIoHqGppB', 'http://mediastog.ru/site/auth', '6265782');
+INSERT INTO `config` VALUES (NULL, '6253298', 'eH3T0i8mYSmcIoHqGppB', 'http://mediastog.ru/site/auth', '6265782');
