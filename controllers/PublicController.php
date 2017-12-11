@@ -37,10 +37,10 @@ class PublicController extends Controller
     public function actionEdit()
     {
         if (!empty($_POST['Public'])) {
-            $config = new PublicEntity($_POST['Public']);
-            $config->save();
+            $publicEntity = new PublicEntity($_POST['Public']);
+            $publicEntity->save();
 
-            $this->redirect('public/edit');
+            $this->redirect('public/edit', ['id' => $publicEntity->id]);
         }
 
         $publicEntity = PublicModel::getById($_GET['id']);
