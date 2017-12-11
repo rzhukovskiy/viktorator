@@ -39,11 +39,11 @@
                                         <?= $group->slug ?>
                                     </a>
                                     <?php if(!$group->isActive()) { ?>
-                                        <a href="<?= VkSdk::getGroupAuthUrl($group->id) ?>" class="button-green">
+                                        <a href="<?= VkSdk::getGroupAuthUrl($group->id) ?>" class="button-grey">
                                             Подключить
                                         </a>
                                     <?php } else { ?>
-                                        <a href="/group/edit?id=<?= $group->id ?>" class="button-green">
+                                        <a href="/group/edit?id=<?= $group->id ?>" class="button-grey">
                                             Редактировать
                                         </a>
                                     <?php } ?>
