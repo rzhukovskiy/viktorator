@@ -150,22 +150,12 @@ class UserModel extends BaseModel
     private static function getLikes($group_id, $post_id, $token)
     {
         if (empty(self::$likes)) {
-            $offset = 0;
-            while (true) {
-                $listLike = VkSdk::getLikeWithRepostList(
-                    '-' . $group_id,
-                    $post_id,
-                    'post',
-                    $token
-                );
-
-                if(!$listLike) {
-                    break;
-                }
-                self::$likes = array_merge(self::$likes, $listLike);
-                $offset += 100;
-            }
-
+            self::$likes = VkSdk::getLikeWithRepostList(
+                '-' . $group_id,
+                $post_id,
+                'post',
+                $token
+            );
         }
 
         return self::$likes;
