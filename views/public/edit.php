@@ -8,12 +8,11 @@
         <div class="block__body bg-white body_main">
             <form method="post">
                 <div class="form-group row">
-                    <label for="Config[topic_id]" class="col-sm-2 col-form-label">Secret группы</label>
+                    <label for="Config[topic_id]" class="col-sm-2 col-form-label">Айди топика</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <input type="hidden" name="Public[id]" value="<?= $publicEntity->id ?>">
-                            <input type="text" class="form-control" name="Public[topic_id]"
-                                   placeholder="fdafEFfgdag" value="<?= $publicEntity->topic_id ?>">
+                            <input type="text" class="form-control" name="Public[topic_id]" value="<?= $publicEntity->topic_id ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"
                                  title="">
@@ -23,11 +22,10 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="Config[post_id]" class="col-sm-2 col-form-label">Secret группы</label>
+                    <label for="Config[post_id]" class="col-sm-2 col-form-label">Айди поста</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" class="form-control" name="Public[post_id]"
-                                   placeholder="fdafEFfgdag" value="<?= $publicEntity->post_id ?>">
+                            <input type="text" class="form-control" name="Public[post_id]" value="<?= $publicEntity->post_id ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"
                                  title="">
@@ -37,11 +35,10 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="Config[standalone_token]" class="col-sm-2 col-form-label">Secret группы</label>
+                    <label for="Config[standalone_token]" class="col-sm-2 col-form-label">Standalone token</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" class="form-control" name="Public[standalone_token]"
-                                   placeholder="fdafEFfgdag" value="<?= $publicEntity->standalone_token ?>">
+                            <input type="text" class="form-control" name="Public[standalone_token]" value="<?= $publicEntity->standalone_token ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"
                                  title="">
