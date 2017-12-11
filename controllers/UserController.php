@@ -9,7 +9,7 @@ class UserController extends Controller
         $group_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : false;
         $listGroup = PublicModel::getActiveByAdminId($this->admin->id);
         if (!$group_id && count($listGroup)) {
-            $group_id = $listGroup[0]->id;
+            $group_id = array_keys($listGroup)[0];
         }
 
         $this->render('user/list', [
@@ -23,7 +23,7 @@ class UserController extends Controller
         $group_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : false;
         $listGroup = PublicModel::getActiveByAdminId($this->admin->id);
         if (!$group_id && count($listGroup)) {
-            $group_id = $listGroup[0]->id;
+            $group_id = array_keys($listGroup)[0];
         }
 
         $this->render('user/list', [

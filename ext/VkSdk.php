@@ -333,7 +333,13 @@ class VkSdk
         self::$previousTime = microtime(true);
 
         do {
-            $data = json_decode(file_get_contents($url), true);
+            $data = json_decode(file_get_contents($url, false, stream_context_create(array(
+                'http' => array(
+                    'method'  => 'GET',
+                    'timeout' => 1,
+                    'content' => http_build_query($params)
+                )
+            ))), true);
 
             if (empty($data['error'])) {
                 return $data;
@@ -408,6 +414,7 @@ class VkSdk
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'timeout' => 1,
                 'content' => http_build_query($params)
             )
         ))), true);
