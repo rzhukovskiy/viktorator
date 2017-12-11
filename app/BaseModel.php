@@ -38,17 +38,16 @@ class BaseModel
     {
         $columns = implode("`, `", array_keys($params));
         $values  = implode(", :", array_keys($params));
+
         $updates = [];
         foreach ($params as $name => $value) {
-            if ($name == 'id') {
-                continue;
-            }
-            $updates[] = "`$name` = :$name";
+            $params[$name . '1'] = $value;
+            $updates[] = "`$name` = :{$name}1";
         }
-        $updates = implode(", ", $values);
+        $updates = implode(", ", $updates);
 
         $stmt = self::$pdo->prepare("INSERT INTO " . static::$nameTable . " (`$columns`) VALUES (:$values)" .
-            " ON DUPLICATE KEY UPDATE SET $updates");
+            " ON DUPLICATE KEY UPDATE $updates");
         $stmt->execute($params);
 
         if (empty($params['id'])) {

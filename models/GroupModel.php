@@ -31,8 +31,8 @@ class GroupModel extends BaseModel
     public static function getActiveByAdminId($admin_id)
     {
         $stmt = self::$pdo->prepare(
-            "SELECT * FROM " . self::$nameTable . " `group`, " .
-            GroupModel::$nameTable . AdminModel::$nameTable . "_link " .
+            "SELECT * FROM " . self::$nameTable . " 'group', " .
+            GroupModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
             "WHERE group_id = group.id AND admin_id = :admin_id AND token IS NOT NULL"
         );
         $stmt->execute([

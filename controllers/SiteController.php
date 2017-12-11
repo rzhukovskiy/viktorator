@@ -55,11 +55,10 @@ class SiteController extends Controller
             if (!$adminEntity) {
                 $infoUser = VkSdk::getUser($infoToken['user_id'], $infoToken['access_token']);
                 $adminEntity = new AdminEntity([
-                    'social_id' => $infoUser['uid'],
+                    'social_id' => $infoUser['id'],
                     'name'      => $infoUser['first_name'] . ' ' . $infoUser['last_name'],
                     'token'     => $infoToken['access_token'],
-                    'is_active' => 0,
-                    'is_bot' => 0,
+                    'is_active' => 1,
                 ]);
                 $adminEntity->save();
             } else {

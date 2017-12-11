@@ -57,7 +57,7 @@ class AdminModel extends BaseModel
     public static function getByGroupId($group_id)
     {
         $stmt = self::$pdo->prepare(
-            "SELECT * FROM " . self::$nameTable . " admin, " . GroupModel::$nameTable . AdminModel::$nameTable . "_link " .
+            "SELECT * FROM " . self::$nameTable . " admin, " . GroupModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
             "WHERE group_id = :group_id AND admin_id = admin.id"
         );
         $stmt->execute([

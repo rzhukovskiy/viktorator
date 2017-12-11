@@ -6,14 +6,6 @@ class GroupController extends Controller
 {
     public function actionList()
     {
-        if (!empty($_POST['Error'])) {
-            $errorEntity = ErrorModel::getById($_POST['Error']['id']);
-            $errorEntity->response = $_POST['Error']['response'];
-            $errorEntity->save();
-
-            $this->redirect('error/list');
-        }
-        
         $listGroup = GroupModel::getByAdminId($this->admin->id);
         if (!$listGroup) {
             $listGroup = [];
@@ -54,7 +46,7 @@ class GroupController extends Controller
         $groupEntity = GroupModel::getById($_GET['id']);
 
         $this->render('group/edit', [
-            'config' => Globals::$config,
+            'groupEntity' => $groupEntity,
         ]);
     }
 }
