@@ -9,7 +9,7 @@ class PublicController extends Controller
         $listGroup = PublicModel::getByAdminId($this->admin->id);
         if (!$listGroup) {
             $listGroup = [];
-            $data = VkSdk::getManagedGroupList($this->admin->id, $this->admin->token);
+            $data = VkSdk::getManagedGroupList($this->admin->token);
             if ($data) {
                 foreach ($data as $row) {
                     $listGroup[$data['id']] = new PublicEntity([

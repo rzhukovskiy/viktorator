@@ -119,13 +119,13 @@ class VkSdk
         }
     }
 
-    public static function getManagedGroupList($user_id, $token)
+    public static function getManagedGroupList($token)
     {
         $params = array(
-            'user_id'      => $user_id,
             'access_token' => $token,
             'count'        => 1000,
             'filter'       => 'admin',
+            'extended'     => 1,
         );
 
         return self::callApiWithOffset('groups.get', $params);

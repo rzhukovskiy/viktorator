@@ -38,7 +38,7 @@
                                     <a href="https://vk.com/id<?= $group->id ?>" class="button-blue">
                                         <?= $group->slug ?>
                                     </a>
-                                    <?php if($group->isActive()) { ?>
+                                    <?php if(!$group->isActive()) { ?>
                                         <a href="<?= VkSdk::getGroupAuthUrl($group->id) ?>" class="button-green">
                                             Подключить
                                         </a>

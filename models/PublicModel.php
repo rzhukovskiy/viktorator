@@ -11,7 +11,7 @@ class PublicModel extends BaseModel
         $stmt = self::$pdo->prepare(
             "SELECT * FROM " . self::$nameTable . " public, " .
             PublicModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
-            "WHERE group_id = group.id AND admin_id = :admin_id"
+            "WHERE group_id = public.id AND admin_id = :admin_id"
         );
         $stmt->execute([
             'admin_id' => $admin_id
@@ -33,7 +33,7 @@ class PublicModel extends BaseModel
         $stmt = self::$pdo->prepare(
             "SELECT * FROM " . self::$nameTable . " public, " .
             PublicModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
-            "WHERE group_id = group.id AND admin_id = :admin_id AND token IS NOT NULL"
+            "WHERE group_id = public.id AND admin_id = :admin_id AND token IS NOT NULL"
         );
         $stmt->execute([
             'admin_id' => $admin_id
@@ -86,7 +86,7 @@ class PublicModel extends BaseModel
     public static function save($data)
     {
         if (isset($data['admin_id'])) {
-            $stmt = self::$pdo->prepare("INSERT INTO " . self::$nameTable . AdminModel::$nameTable . "_link" .
+            $stmt = self::$pdo->prepare("INSERT INTO " . PublicModel::$nameTable . "_" . AdminModel::$nameTable . "_link" .
                 " VALUES (:admin_id , :group_id)");
             $stmt->execute([
                 'admin_id' => $data['admin_id'],
