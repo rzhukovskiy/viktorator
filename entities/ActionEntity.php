@@ -28,7 +28,6 @@ class ActionEntity extends BaseEntity
         }
 
         $data['content'] = isset($data['content']) ? substr($data['content'], 0, 255) : '';
-        $data['group_id'] = Globals::$config->group_id;
         
         parent::__construct($data);
 

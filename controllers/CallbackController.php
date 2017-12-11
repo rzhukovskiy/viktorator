@@ -11,11 +11,14 @@ class CallbackController extends BaseController
     {
         $data = json_decode(file_get_contents('php://input'));
 
-        if ($data->type == 'board_post_new'
-            && $data->secret == Globals::$config->group_secret
-            && $data->object->from_id != ('-' . Globals::$config->group_id)
-        ) {
-            $userEntity = UserModel::createFromSocialId($data->object->from_id, $this->bot->getToken());
+        if ($data->type == 'board_post_new') {
+            $publicEntity = PublicModel::getById($data->topic_owner_id);
+            if (!$publicEntity || $data->secret != $publicEntity->secret || $data->object->from_id == ('-' . $publicEntity->id)) {
+                $this->exitOk();
+            }
+            $adminEntity = $publicEntity->getAdmin();
+
+            $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
 
             if (!$userEntity->is_member && VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
                 $userEntity->is_member = 1;
@@ -27,10 +30,9 @@ class CallbackController extends BaseController
                 while (true) {
                     $listLike = VkSdk::getLikeWithRepostList(
                         '-' . $userEntity->group_id,
-                        $this->bot->getToken(),
-                        Globals::$config->post_id,
+                        $publicEntity->post_id,
                         'post',
-                        $offset
+                        $adminEntity->token
                     );
 
                     if(!$listLike) {
@@ -56,7 +58,7 @@ class CallbackController extends BaseController
             $commentScores      = isset($data['comment']) ? $data['comment'] : 0;
             $commentLikeScores  = isset($data['comment_like']) ? $data['comment_like'] : 0;
             $authorLike         = isset($data['author_like']) ? $data['author_like'] : 0;
-            $allLikeScores         = isset($data['all_like']) ? $data['all_like'] : 0;
+            $allLikeScores      = isset($data['all_like']) ? $data['all_like'] : 0;
 
             if ($userEntity->is_member) {
                 $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
@@ -71,16 +73,21 @@ class CallbackController extends BaseController
             } else {
                 $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
             }
-            VkSdk::addComment(Globals::$config->standalone_token, $message);
+            VkSdk::addComment($publicEntity->id, $publicEntity->topic_id, $publicEntity->standalone_token, $message);
 
-            echo 'ok';
-            exit();
+            $this->exitOk();
         } elseif ($data->type == 'confirm') {
-            echo Globals::$config->group_confirm;
+            $publicEntity = PublicModel::getById($data->group_id);
+            echo $publicEntity->confirm;
             exit();
         } else {
-            echo 'ok';
-            exit();
+            $this->exitOk();
         }
+    }
+
+    private function exitOk()
+    {
+        echo 'ok';
+        exit();
     }
 }

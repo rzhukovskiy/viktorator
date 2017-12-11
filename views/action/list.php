@@ -23,15 +23,15 @@
                         case 'ten_like':
                         case 'first_like':
                         case 'post_like':
-                            $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id .
-                                '?w=likes%2Fwall-' . Globals::$config->group_id . '_' . $action->parent_social_id;
+                            $itemUrl = 'https://vk.com/wall-' . $action->group_id . '_' . $action->parent_social_id .
+                                '?w=likes%2Fwall-' . $action->group_id . '_' . $action->parent_social_id;
                             break;
                         case 'comment':
                         case 'first_comment':
-                            $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id . '_' . $action->parent_social_id . '?' . $action->social_id;
+                            $itemUrl = 'https://vk.com/wall-' . $action->group_id . '_' . $action->parent_social_id . '?' . $action->social_id;
                             break;
                         default:
-                            $itemUrl = 'https://vk.com/wall-' . Globals::$config->group_id;
+                            $itemUrl = 'https://vk.com/wall-' . $action->group_id;
                     }
                     ?>
                     <tr>

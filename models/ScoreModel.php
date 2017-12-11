@@ -91,6 +91,7 @@ class ScoreModel
                         }
 
                         $actionEntity = new ActionEntity([
+                            'group_id'         => $publicEntity->id,
                             'user_id'          => $userEntity->id,
                             'user_social_id'   => $userEntity->social_id,
                             'social_id'        => $post['id'],
@@ -105,6 +106,7 @@ class ScoreModel
                         if ($postAuthor && $postAuthor->id != $user_id) {
                             $activity = 'post_like';
                             $actionEntity = new ActionEntity([
+                                'group_id'         => $publicEntity->id,
                                 'user_id'          => $postAuthor->id,
                                 'user_social_id'   => $postAuthor->social_id,
                                 'social_id'        => $user_id,
@@ -155,6 +157,7 @@ class ScoreModel
                             $listSavedComment[$comment['id']]->save();
 
                             $actionEntity = new ActionEntity([
+                                'group_id'         => $publicEntity->id,
                                 'user_id'          => $userEntity->id,
                                 'user_social_id'   => $userEntity->social_id,
                                 'social_id'        => $comment['id'],
@@ -192,6 +195,7 @@ class ScoreModel
                                 }
 
                                 $actionEntity = new ActionEntity([
+                                    'group_id'         => $publicEntity->id,
                                     'user_id'          => $userEntity->id,
                                     'user_social_id'   => $userEntity->social_id,
                                     'social_id'        => $user_id,
@@ -329,6 +333,7 @@ class ScoreModel
                 $activity = 'all_like';
 
                 $actionEntity = new ActionEntity([
+                    'group_id'         => $publicEntity->id,
                     'user_id'          => $listUser[$user_id]->id,
                     'user_social_id'   => $listUser[$user_id]->social_id,
                     'social_id'        => $listUser[$user_id]->social_id,
