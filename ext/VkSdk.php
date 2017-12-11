@@ -25,7 +25,7 @@ class VkSdk
             'v'			   => '5.69',
         ];
         
-        return self::callApiPost('board.createComment', $params);
+        return self::callApi('board.createComment', $params);
     }
 
     public static function editTopic($group_id, $topic_id, $message, $token)
@@ -49,7 +49,7 @@ class VkSdk
             $params['captcha_key'] = $captchaError->response;
         }
 
-        return self::callApiPost('board.editComment', $params);
+        return self::callApi('board.editComment', $params);
     }
 
     public static function getAuthUrl($data = false)
@@ -396,40 +396,5 @@ class VkSdk
         }
 
         return $res;
-    }
-
-    /**
-     * @param string $method
-     * @param array  $params
-     * @return array
-     */
-    private static function callApiPost($method, $params)
-    {
-        $url = self::API_URL . $method;
-
-        if (self::$previousTime > microtime(true) - self::SLEEP_TIME) {
-            usleep(self::SLEEP_TIME);
-        }
-        self::$previousTime = microtime(true);
-
-        $data = json_decode(file_get_contents($url, false, stream_context_create(array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 1,
-                'content' => http_build_query($params)
-            )
-        ))), true);
-
-        if (empty($data['error'])) {
-            return $data;
-        } else {
-            $errorEntity = new ErrorEntity([
-                'type'      => $method,
-                'content'   => serialize($data['error'])
-            ]);
-            $errorEntity->save();
-            return false;
-        }
     }
 }
