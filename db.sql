@@ -15,7 +15,7 @@ CREATE TABLE `admin` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `social_id_UNIQUE` (`social_id` ASC));
 
-CREATE TABLE `group` (
+CREATE TABLE `public` (
   `id` INT NOT NULL,
   `name` VARCHAR(255) NULL,
   `slug` VARCHAR(255) NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `group` (
   `server_id` INT NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `admin_group_link` (
+CREATE TABLE `public_admin_link` (
   `admin_id` INT NOT NULL,
   `group_id` INT NOT NULL);
 

@@ -2,16 +2,16 @@
 
 /**
  */
-class GroupModel extends BaseModel
+class PublicModel extends BaseModel
 {
-    public static $nameTable = 'group';
+    public static $nameTable = 'public';
 
     public static function getByAdminId($admin_id)
     {
         $stmt = self::$pdo->prepare(
-            "SELECT * FROM " . self::$nameTable . " `group`," .
-            AdminModel::$nameTable . " admin, " . self::$nameTable . AdminModel::$nameTable . "_link " .
-            "WHERE group_id = group.id AND admin_id = admin.id AND admin_id = :admin_id"
+            "SELECT * FROM " . self::$nameTable . " public, " .
+            PublicModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
+            "WHERE group_id = group.id AND admin_id = :admin_id"
         );
         $stmt->execute([
             'admin_id' => $admin_id
@@ -20,7 +20,7 @@ class GroupModel extends BaseModel
         if ($stmt->rowCount()) {
             $res = [];
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-                $res[$row['id']] = new GroupEntity($row);
+                $res[$row['id']] = new PublicEntity($row);
             }
             return $res;
         } else {
@@ -31,8 +31,8 @@ class GroupModel extends BaseModel
     public static function getActiveByAdminId($admin_id)
     {
         $stmt = self::$pdo->prepare(
-            "SELECT * FROM " . self::$nameTable . " 'group', " .
-            GroupModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
+            "SELECT * FROM " . self::$nameTable . " public, " .
+            PublicModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
             "WHERE group_id = group.id AND admin_id = :admin_id AND token IS NOT NULL"
         );
         $stmt->execute([
@@ -42,7 +42,7 @@ class GroupModel extends BaseModel
         if ($stmt->rowCount()) {
             $res = [];
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-                $res[$row['id']] = new GroupEntity($row);
+                $res[$row['id']] = new PublicEntity($row);
             }
             return $res;
         } else {
@@ -54,14 +54,14 @@ class GroupModel extends BaseModel
     {
         $stmt = self::$pdo->prepare(
             "SELECT * FROM " . self::$nameTable .
-            "WHERE token IS NOT NULL"
+            " WHERE token IS NOT NULL"
         );
         $stmt->execute();
 
         if ($stmt->rowCount()) {
             $res = [];
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-                $res[$row['id']] = new GroupEntity($row);
+                $res[$row['id']] = new PublicEntity($row);
             }
             return $res;
         } else {
@@ -77,7 +77,7 @@ class GroupModel extends BaseModel
         ]);
 
         if ($stmt->rowCount()) {
-            return new GroupEntity($stmt->fetch(PDO::FETCH_ASSOC));
+            return new PublicEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return false;
         }

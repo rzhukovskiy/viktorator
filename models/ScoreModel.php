@@ -5,25 +5,25 @@
 class ScoreModel
 {
     /**
-     * @param GroupEntity $groupEntity
+     * @param PublicEntity $publicEntity
      * @param int $startDate
      * @param int $endDate
      * @return bool|int
      */
-    public static function collect($groupEntity, $startDate, $endDate)
+    public static function collect($publicEntity, $startDate, $endDate)
     {
-        $adminEntity = $groupEntity->getAdmin();
+        $adminEntity = $publicEntity->getAdmin();
 
         $totalScores = 0;
 
-        $listUser      = UserModel::getAll($groupEntity->id);
-        $listAction    = ActionModel::getAll($groupEntity->id);
-        $listSavedPost = PostModel::getAllAfterDate($groupEntity->id, $startDate);
+        $listUser      = UserModel::getAll($publicEntity->id);
+        $listAction    = ActionModel::getAll($publicEntity->id);
+        $listSavedPost = PostModel::getAllAfterDate($publicEntity->id, $startDate);
 
         $break = false;
         $postOffset = 0;
         while(!$break) {
-            $listPost = VkSdk::getWallContent('-' . $groupEntity->id, $adminEntity->token, $postOffset);
+            $listPost = VkSdk::getWallContent('-' . $publicEntity->id, $adminEntity->token, $postOffset);
             if (!$listPost) {
                 break;
             }
@@ -42,7 +42,7 @@ class ScoreModel
 
                 if (!isset($listSavedPost[$post['id']])) {
                     $listSavedPost[$post['id']] = new PostEntity([
-                        'group_id'  => $groupEntity->id,
+                        'group_id'  => $publicEntity->id,
                         'social_id' => $post['id'],
                         'likes' => 0,
                         'comments' => 0,
@@ -53,9 +53,9 @@ class ScoreModel
                 $postEntity = $listSavedPost[$post['id']];
 
                 $postAuthor = null;
-                if ($post['from_id'] != '-' . $groupEntity->id) {
+                if ($post['from_id'] != '-' . $publicEntity->id) {
                     if (!isset($listUser[$post['from_id']])) {
-                        $postAuthor = UserModel::createFromSocialId($post['from_id'], $groupEntity->id, $groupEntity->post_id, $adminEntity->token);
+                        $postAuthor = UserModel::createFromSocialId($post['from_id'], $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
                         $listUser[$post['from_id']] = $postAuthor;
                     }
                     $postAuthor = $listUser[$post['from_id']];
@@ -64,7 +64,7 @@ class ScoreModel
                 $offset = 0;
                 $likeCount = 0;
                 while($post['likes']['count'] && $postEntity->likes != $post['likes']['count']) {
-                    $listLikes = VkSdk::getLikeList('-' . $groupEntity->id, $post['id'], 'post', $adminEntity->token);
+                    $listLikes = VkSdk::getLikeList('-' . $publicEntity->id, $post['id'], 'post', $adminEntity->token);
                     if (!$listLikes) {
                         break;
                     }
@@ -74,7 +74,7 @@ class ScoreModel
                             continue;
                         }
                         if (!isset($listUser[$user_id])) {
-                            $userEntity = UserModel::createFromSocialId($user_id, $groupEntity->id, $groupEntity->post_id, $adminEntity->token);
+                            $userEntity = UserModel::createFromSocialId($user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
                             if (!$userEntity) {
                                 continue;
                             }
@@ -130,14 +130,14 @@ class ScoreModel
                 $listSavedComment = CommentModel::getAllByPost($postEntity->id);
                 $offset = 0;
                 while ($post['comments']['count']) {
-                    $listComments = VkSdk::getCommentList('-' . $groupEntity->id, $post['id'], $groupEntity->standalone_token);
+                    $listComments = VkSdk::getCommentList('-' . $publicEntity->id, $post['id'], $publicEntity->standalone_token);
                     if (!$listComments) {
                         break;
                     }
 
                     foreach ($listComments as $comment) {
                         if (!isset($listUser[$comment['from_id']])) {
-                            $userEntity = UserModel::createFromSocialId($comment['from_id'], $groupEntity->id, $groupEntity->post_id, $adminEntity->token);
+                            $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
                             if (!$userEntity) {
                                 continue;
                             }
@@ -148,7 +148,7 @@ class ScoreModel
                         if (!isset($listSavedComment[$comment['id']])) {
                             $listSavedComment[$comment['id']] = new CommentEntity([
                                 'post_id'   => $postEntity->id,
-                                'group_id'  => $groupEntity->id,
+                                'group_id'  => $publicEntity->id,
                                 'social_id' => $comment['id'],
                                 'likes'     => 0,
                             ]);
@@ -173,7 +173,7 @@ class ScoreModel
                         $likeCount = 0;
                         while($comment['likes']['count'] && $commentEntity->likes != $comment['likes']['count']) {
                             $listLikes = VkSdk::getLikeList(
-                                '-' . $groupEntity->id,
+                                '-' . $publicEntity->id,
                                 $comment['id'],
                                 'comment',
                                 $adminEntity->token
@@ -232,11 +232,11 @@ class ScoreModel
     }
 
     /**
-     * @param GroupEntity $groupEntity
+     * @param PublicEntity $publicEntity
      */
-    public static function updateTable($groupEntity)
+    public static function updateTable($publicEntity)
     {
-        $data = UserModel::getTop($groupEntity->id, 24);
+        $data = UserModel::getTop($publicEntity->id, 24);
 
         $message = '';
         $place = 1;
@@ -248,26 +248,26 @@ class ScoreModel
             $place++;
         }
 
-        VkSdk::editTopic($groupEntity->id, $groupEntity->topic_id, $message, $groupEntity->standalone_token);
+        VkSdk::editTopic($publicEntity->id, $publicEntity->topic_id, $message, $publicEntity->standalone_token);
     }
 
     /**
-     * @param GroupEntity $groupEntity
+     * @param PublicEntity $publicEntity
      * @param int $beginOfDay
      * @return bool
      */
-    public static function collectDaily($groupEntity, $beginOfDay)
+    public static function collectDaily($publicEntity, $beginOfDay)
     {
-        $adminEntity = $groupEntity->getAdmin();
+        $adminEntity = $publicEntity->getAdmin();
 
-        $listUser = UserModel::getAll($groupEntity->id);
+        $listUser = UserModel::getAll($publicEntity->id);
 
         $likedAll = [];
         $break = false;
         $postOffset = 0;
         $postCount = 0;
         while(true) {
-            $listPost = VkSdk::getWallContent('-' . $groupEntity->id, $adminEntity->token, $postOffset);
+            $listPost = VkSdk::getWallContent('-' . $publicEntity->id, $adminEntity->token, $postOffset);
             if (!$listPost || $break) {
                 break;
             }
@@ -284,12 +284,12 @@ class ScoreModel
                 $offset = 0;
                 $likedCurrent = [];
                 while (true) {
-                    $listLikes = VkSdk::getLikeList('-' . $groupEntity->id, $post['id'], 'post', $adminEntity->token);
+                    $listLikes = VkSdk::getLikeList('-' . $publicEntity->id, $post['id'], 'post', $adminEntity->token);
                     if (!$listLikes) {
                         break;
                     }
                     //автора поста считаем автоматически лайкнувшим свой пост
-                    if ($post['from_id'] != '-' . $groupEntity->id) {
+                    if ($post['from_id'] != '-' . $publicEntity->id) {
                         $likedCurrent['from_id'] = 1;
                     }
 

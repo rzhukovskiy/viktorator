@@ -2,17 +2,17 @@
 
 /**
  */
-class GroupController extends Controller
+class PublicController extends Controller
 {
     public function actionList()
     {
-        $listGroup = GroupModel::getByAdminId($this->admin->id);
+        $listGroup = PublicModel::getByAdminId($this->admin->id);
         if (!$listGroup) {
             $listGroup = [];
             $data = VkSdk::getManagedGroupList($this->admin->id, $this->admin->token);
             if ($data) {
                 foreach ($data as $row) {
-                    $listGroup[$data['id']] = new GroupEntity([
+                    $listGroup[$data['id']] = new PublicEntity([
                         'id'        => $row['id'],
                         'name'      => $row['name'],
                         'slug'      => $row['screen_name'],
@@ -26,11 +26,11 @@ class GroupController extends Controller
         }        
         
         if ($listGroup) {
-            $this->render('group/list', [
+            $this->render('public/list', [
                 'listGroup' => $listGroup,
             ]);            
         } else {
-            $this->render('group/empty');
+            $this->render('public/empty');
         }
     }
 
@@ -40,13 +40,13 @@ class GroupController extends Controller
             $config = new ConfigEntity($_POST['Group']);
             $config->save();
 
-            $this->redirect('group/edit');
+            $this->redirect('public/edit');
         }
 
-        $groupEntity = GroupModel::getById($_GET['id']);
+        $publicEntity = PublicModel::getById($_GET['id']);
 
-        $this->render('group/edit', [
-            'groupEntity' => $groupEntity,
+        $this->render('public/edit', [
+            'publicEntity' => $publicEntity,
         ]);
     }
 }

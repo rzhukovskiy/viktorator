@@ -13,11 +13,11 @@
  * @property integer    $post_id
  * @property integer    $server_id
  */
-class GroupEntity extends BaseEntity
+class PublicEntity extends BaseEntity
 {
     public function save()
     {        
-        $this->id = GroupModel::save($this->data);
+        $this->id = PublicModel::save($this->data);
     }
 
     public function isActive()

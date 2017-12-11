@@ -1,6 +1,6 @@
 <?php
 /** 
- * @var $listGroup GroupEntity[]
+ * @var $listGroup PublicEntity[]
  */
 ?>
 <div class="container">

@@ -1,7 +1,7 @@
 <?php
 /** 
  * @var $listUser UserEntity[]
- * @var $listGroup GroupEntity[]
+ * @var $listGroup PublicEntity[]
  */
 ?>
 <div class="container">

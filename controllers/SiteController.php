@@ -26,23 +26,23 @@ class SiteController extends Controller
         $code = !empty($_REQUEST['code']) ? $_REQUEST['code'] : null;
 
         if (!empty($_REQUEST['Group'])) {
-            $groupEntity = GroupModel::getById($_REQUEST['Group']['id']);
-            $groupEntity->token = $code;
-            if (!$groupEntity->server_id) {
-                $groupEntity->secret = substr(md5(time()), 0, 10);
-                $groupEntity->server_id = VkSdk::addCallback(
-                    $groupEntity->id,
+            $publicEntity = PublicModel::getById($_REQUEST['Group']['id']);
+            $publicEntity->token = $code;
+            if (!$publicEntity->server_id) {
+                $publicEntity->secret = substr(md5(time()), 0, 10);
+                $publicEntity->server_id = VkSdk::addCallback(
+                    $publicEntity->id,
                     'https://mediastog.ru/callback/vk',
                     'viktorator',
-                    $groupEntity->secret,
-                    $groupEntity->token
+                    $publicEntity->secret,
+                    $publicEntity->token
                 );
-                $groupEntity->confirm = VkSdk::getCallbackCode($groupEntity->id, $groupEntity->token);
-                VkSdk::setCallback($groupEntity->id, $groupEntity->server_id, $groupEntity->token);
+                $publicEntity->confirm = VkSdk::getCallbackCode($publicEntity->id, $publicEntity->token);
+                VkSdk::setCallback($publicEntity->id, $publicEntity->server_id, $publicEntity->token);
             }
-            $groupEntity->save();
+            $publicEntity->save();
 
-            $this->redirect('group/edit', ['id' => $groupEntity->id]);
+            $this->redirect('group/edit', ['id' => $publicEntity->id]);
         }
 
         if ($code) {

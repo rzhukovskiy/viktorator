@@ -40,7 +40,7 @@ class AdminModel extends BaseModel
 
     public static function getAll()
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . "");
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable);
         $stmt->execute();
 
         if ($stmt->rowCount()) {
@@ -57,7 +57,7 @@ class AdminModel extends BaseModel
     public static function getByGroupId($group_id)
     {
         $stmt = self::$pdo->prepare(
-            "SELECT * FROM " . self::$nameTable . " admin, " . GroupModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
+            "SELECT * FROM " . self::$nameTable . " admin, " . PublicModel::$nameTable . '_' . AdminModel::$nameTable . "_link " .
             "WHERE group_id = :group_id AND admin_id = admin.id"
         );
         $stmt->execute([

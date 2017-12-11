@@ -25,8 +25,8 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
         try {
             $totalScores = 0;
-            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
-                $totalScores += ScoreModel::collect($groupEntity, $startDate, $endDate);
+            foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
+                $totalScores += ScoreModel::collect($publicEntity, $startDate, $endDate);
             }
             echo $totalScores . "\n";
         } catch (Exception $ex) {
@@ -40,8 +40,8 @@ class CommandController extends BaseController
     public function actionUpdate()
     {
         try {
-            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
-                ScoreModel::updateTable($groupEntity);
+            foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
+                ScoreModel::updateTable($publicEntity);
             }
             echo "Done!\n";
         } catch (Exception $ex) {
@@ -64,7 +64,7 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
 
         try {
-            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+            foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
                 ActionModel::clearAllAfterDate($group_id, $startDate);
                 PostModel::clearAllAfterDate($group_id, $startDate);
                 CommentModel::clearAllEmpty($group_id);
@@ -98,12 +98,12 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
 
         try {
-            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
+            foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
                 ActionModel::clearAllAfterDate($group_id, $startDate);
                 PostModel::clearAllAfterDate($group_id, $startDate);
                 CommentModel::clearAllEmpty($group_id);
-                ScoreModel::collect($groupEntity, $startDate, $endDate);
-                ScoreModel::collectDaily($groupEntity, $beginOfDay);
+                ScoreModel::collect($publicEntity, $startDate, $endDate);
+                ScoreModel::collectDaily($publicEntity, $beginOfDay);
 
                 foreach (UserModel::getTop($group_id, 12) as $topUser) {
                     $topUser->saveToTop($week);
@@ -137,8 +137,8 @@ class CommandController extends BaseController
         $fp = fopen('lock.lock', 'w');
         
         try {
-            foreach (GroupModel::getAllActive() as $group_id => $groupEntity) {
-                ScoreModel::collectDaily($groupEntity, $beginOfDay);
+            foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
+                ScoreModel::collectDaily($publicEntity, $beginOfDay);
             }
             echo "Done!\n";
         } catch (Exception $ex) {

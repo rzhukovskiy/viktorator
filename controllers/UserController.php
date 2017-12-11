@@ -7,7 +7,7 @@ class UserController extends Controller
     public function actionList()
     {
         $group_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : false;
-        $listGroup = GroupModel::getActiveByAdminId($this->admin->id);
+        $listGroup = PublicModel::getActiveByAdminId($this->admin->id);
         if (!$group_id && count($listGroup)) {
             $group_id = $listGroup[0]->id;
         }
@@ -21,7 +21,7 @@ class UserController extends Controller
     public function actionTop()
     {
         $group_id = isset($_REQUEST['group_id']) ? $_REQUEST['group_id'] : false;
-        $listGroup = GroupModel::getActiveByAdminId($this->admin->id);
+        $listGroup = PublicModel::getActiveByAdminId($this->admin->id);
         if (!$group_id && count($listGroup)) {
             $group_id = $listGroup[0]->id;
         }
