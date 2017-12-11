@@ -11,8 +11,8 @@
                     <label for="Config[topic_id]" class="col-sm-2 col-form-label">Secret группы</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="hidden" name="Group[id]" value="<?= $publicEntity->id ?>">
-                            <input type="text" class="form-control" name="Group[topic_id]"
+                            <input type="hidden" name="Public[id]" value="<?= $publicEntity->id ?>">
+                            <input type="text" class="form-control" name="Public[topic_id]"
                                    placeholder="fdafEFfgdag" value="<?= $publicEntity->topic_id ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"
@@ -26,7 +26,7 @@
                     <label for="Config[post_id]" class="col-sm-2 col-form-label">Secret группы</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" class="form-control" name="Group[post_id]"
+                            <input type="text" class="form-control" name="Public[post_id]"
                                    placeholder="fdafEFfgdag" value="<?= $publicEntity->post_id ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"
@@ -40,7 +40,7 @@
                     <label for="Config[standalone_token]" class="col-sm-2 col-form-label">Secret группы</label>
                     <div class="col-sm-10">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" class="form-control" name="Group[standalone_token]"
+                            <input type="text" class="form-control" name="Public[standalone_token]"
                                    placeholder="fdafEFfgdag" value="<?= $publicEntity->standalone_token ?>">
                             <div data-toggle="tooltip" class="input-group-addon tooltip-default"
                                  data-placement="bottom"

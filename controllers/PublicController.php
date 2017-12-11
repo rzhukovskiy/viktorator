@@ -36,8 +36,8 @@ class PublicController extends Controller
 
     public function actionEdit()
     {
-        if (!empty($_POST['Group'])) {
-            $config = new ConfigEntity($_POST['Group']);
+        if (!empty($_POST['Public'])) {
+            $config = new PublicEntity($_POST['Public']);
             $config->save();
 
             $this->redirect('public/edit');

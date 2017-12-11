@@ -43,7 +43,7 @@
                                             Подключить
                                         </a>
                                     <?php } else { ?>
-                                        <a href="/group/edit?id=<?= $group->id ?>" class="button-grey">
+                                        <a href="/public/edit?id=<?= $group->id ?>" class="button-grey">
                                             Редактировать
                                         </a>
                                     <?php } ?>

@@ -46,7 +46,7 @@ class SiteController extends Controller
             }
             $publicEntity->save();
 
-            $this->redirect('group/edit', ['id' => $publicEntity->id]);
+            $this->redirect('public/edit', ['id' => $publicEntity->id]);
         }
 
         if ($code) {
