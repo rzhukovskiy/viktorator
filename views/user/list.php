@@ -15,6 +15,7 @@
                             <option value="<?= $group->id ?>"><?= $group->name ?></option>
                         <?php } ?>
                     </select>
+                    <button type="submit" class="btn btn-primary">Показать</button>
                 </div>
             </form>
         </div>
