@@ -29,6 +29,20 @@ class PostModel extends BaseModel
             return false;
         }
     }
+    public static function getByGroupAndSocialId($group_id, $social_id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
+        $stmt->execute([
+            'social_id' => $social_id,
+            'group_id'  => $group_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return new PostEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }        
+    }
 
     /**
      * @param int $group_id

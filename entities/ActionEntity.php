@@ -52,10 +52,27 @@ class ActionEntity extends BaseEntity
 
     public function deactivate()
     {
+        if (!$this->is_active) {
+            return;
+        }
+        
         $this->is_active = 0;
 
         unset($this->data['activity']);
         ActionModel::save($this->data);
         UserModel::addScores($this->user_id, -1 * $this->scores);
+    }
+
+    public function activate()
+    {
+        if ($this->is_active) {
+            return;
+        }
+        
+        $this->is_active = 1;
+
+        unset($this->data['activity']);
+        ActionModel::save($this->data);
+        UserModel::addScores($this->user_id, $this->scores);
     }
 }

@@ -5,7 +5,6 @@
 class UserModel extends BaseModel
 {
     public static $nameTable = 'user';
-    private static $likes = [];
 
     /**
      * @var int $group_id
@@ -79,13 +78,6 @@ class UserModel extends BaseModel
                 $userEntity->is_member = 1;
             }
 
-            foreach (self::getLikes($userEntity->group_id, $post_id, $token) as $user_id) {
-                if($user_id == $userEntity->social_id) {
-                    $userEntity->is_repost = 1;
-                    break;
-                }
-            }
-
             $userEntity->save();
         }
 
@@ -145,19 +137,5 @@ class UserModel extends BaseModel
         } else {
             return false;
         }
-    }
-
-    private static function getLikes($group_id, $post_id, $token)
-    {
-        if (empty(self::$likes)) {
-            self::$likes = VkSdk::getLikeWithRepostList(
-                '-' . $group_id,
-                $post_id,
-                'post',
-                $token
-            );
-        }
-
-        return self::$likes;
     }
 }

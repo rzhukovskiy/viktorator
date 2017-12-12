@@ -75,7 +75,7 @@
     <footer class="footer">
         <hr>
         <div class="container">
-            <p>© Company 2017</p>
+            <p>© Viktorator</p>
         </div>
     </footer> <!-- /.footer -->
 </div> <!-- /.wrapper -->

@@ -32,17 +32,7 @@ class ScoreModel
             if ($post['date'] < $startDate) {
                 break;
             }
-
-            if (!isset($listSavedPost[$post['id']])) {
-                $listSavedPost[$post['id']] = new PostEntity([
-                    'group_id'  => $publicEntity->id,
-                    'social_id' => $post['id'],
-                    'likes' => 0,
-                    'comments' => 0,
-                    'reposts' => 0,
-                ]);
-                $listSavedPost[$post['id']]->save();
-            }
+            
             $postEntity = $listSavedPost[$post['id']];
 
             $postAuthor = null;
@@ -125,31 +115,8 @@ class ScoreModel
                         }
                         $listUser[$comment['from_id']] = $userEntity;
                     }
+                    
                     $userEntity = $listUser[$comment['from_id']];
-
-                    if (!isset($listSavedComment[$comment['id']])) {
-                        $listSavedComment[$comment['id']] = new CommentEntity([
-                            'post_id'   => $postEntity->id,
-                            'group_id'  => $publicEntity->id,
-                            'social_id' => $comment['id'],
-                            'likes'     => 0,
-                        ]);
-                        $listSavedComment[$comment['id']]->save();
-
-                        $actionEntity = new ActionEntity([
-                            'group_id'         => $publicEntity->id,
-                            'user_id'          => $userEntity->id,
-                            'user_social_id'   => $userEntity->social_id,
-                            'social_id'        => $comment['id'],
-                            'parent_social_id' => $post['id'],
-                            'activity'         => 'comment',
-                            'content'          => $comment['text'],
-                        ]);
-                        if (!isset($listAction[$actionEntity->user_id]['comment'][$actionEntity->parent_social_id][$actionEntity->social_id])) {
-                            $actionEntity->save();
-                            $totalScores += $actionEntity->scores;
-                        }
-                    }
                     $commentEntity = $listSavedComment[$comment['id']];
 
                     $likeCount = 0;

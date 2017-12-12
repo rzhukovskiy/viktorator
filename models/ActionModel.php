@@ -11,7 +11,7 @@ class ActionModel extends BaseModel
      * @param $social_id
      * @param $parent_social_id
      * @param $user_id
-     * @return bool
+     * @return bool|ActionEntity
      */
     public static function checkByActivity($activity_id, $social_id, $parent_social_id, $user_id)
     {
@@ -25,7 +25,7 @@ class ActionModel extends BaseModel
         ]);
         
         if ($stmt->rowCount()) {
-            return true;
+            return new ActionEntity($stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return false;
         }        

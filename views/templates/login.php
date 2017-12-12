@@ -33,6 +33,13 @@
     <div class="content">
         <?= $content ?>
     </div> <!-- /.content -->
+
+    <footer class="footer">
+        <hr>
+        <div class="container">
+            <p>© Viktorator</p>
+        </div>
+    </footer> <!-- /.footer -->
 </div> <!-- /.wrapper -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
