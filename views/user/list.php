@@ -15,7 +15,9 @@
                             <option value="<?= $group->id ?>"><?= $group->name ?></option>
                         <?php } ?>
                     </select>
-                    <button type="submit" class="btn btn-primary">Показать</button>
+                    <div class="d-flex ml-sm-2 form-group">
+                        <button type="submit" class="btn btn-info">Показать</button>
+                    </div>
                 </div>
             </form>
         </div>

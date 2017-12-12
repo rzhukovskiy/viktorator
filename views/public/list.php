@@ -9,16 +9,15 @@
         <div class="block__body">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item active" role="presentation">
-                    <a class="nav-link active" href="/group/list" aria-controls="home" role="tab" data-toggle="tab">Администрируемые</a>
+                    <a class="nav-link active" href="#all" aria-controls="home" role="tab" data-toggle="tab">Администрируемые</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/group/active" aria-controls="profile" role="tab"
-                       data-toggle="tab">Активные</a>
+                    <a class="nav-link" href="#active" aria-controls="profile" role="tab" data-toggle="tab">Активные</a>
                 </li>
             </ul>
         </div>
         <div class="block__body bg-white body_main tab-content">
-            <div class="tab-pane active" role="tabpanel" id="home">
+            <div class="tab-pane active" role="tabpanel" id="all">
                 <div class="row">
                     <?php foreach ($listGroup as $group) { ?>
                         <div class="col-md-4 col-lg-3 py-2">
@@ -53,7 +52,7 @@
                     <?php } ?>
                 </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="profile">
+            <div class="tab-pane" role="tabpanel" id="active">
                 <div class="row">
                     <?php foreach ($listGroup as $group) {
                         if (!$group->isActive()) continue;
