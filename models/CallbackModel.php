@@ -155,7 +155,7 @@ class CallbackModel
             ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
-            $data->object->from_id
+            $data->object->user_id
         );
         if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
             return;
@@ -177,7 +177,7 @@ class CallbackModel
             ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
-            $data->object->from_id
+            $data->object->user_id
         );
         if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
             return;
