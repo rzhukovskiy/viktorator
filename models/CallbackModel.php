@@ -152,7 +152,7 @@ class CallbackModel
     public static function removePostComment($data, $startDate, $endDate)
     {
         $actionEntity = ActionModel::checkByActivity(
-            ActivityModel::getByName(ActivityModel::NAME_COMMENT),
+            ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
             $data->object->from_id
@@ -174,7 +174,7 @@ class CallbackModel
     public static function restorePostComment($data, $startDate, $endDate)
     {
         $actionEntity = ActionModel::checkByActivity(
-            ActivityModel::getByName(ActivityModel::NAME_COMMENT),
+            ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
             $data->object->from_id
