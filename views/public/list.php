@@ -53,6 +53,43 @@
                     <?php } ?>
                 </div>
             </div>
+            <div class="tab-pane" role="tabpanel" id="profile">
+                <div class="row">
+                    <?php foreach ($listGroup as $group) {
+                        if (!$group->isActive()) continue;
+                        ?>
+                        <div class="col-md-4 col-lg-3 py-2">
+                            <div class="communities-container">
+                                <div class="communities-container__header <?= $group->isActive() ? 'active' : '' ?>">
+                                    <?= $group->isActive() ? 'Подключено' : 'Не подключено' ?>
+                                </div>
+                                <div class="communities-container__body">
+                                    <div class="communities-container__img">
+                                        <img src="<?= $group->picture ?>">
+                                    </div>
+                                    <div class="communities-container__title">
+                                        <?= $group->name ?>
+                                    </div>
+                                </div>
+                                <div class="communities-container__footer">
+                                    <a href="https://vk.com/<?= $group->slug ?>" target="_blank" class="button-blue">
+                                        <?= $group->slug ?>
+                                    </a>
+                                    <?php if(!$group->isActive()) { ?>
+                                        <a href="<?= VkSdk::getGroupAuthUrl($group->id) ?>" class="button-grey">
+                                            Подключить
+                                        </a>
+                                    <?php } else { ?>
+                                        <a href="/public/edit?id=<?= $group->id ?>" class="button-grey">
+                                            Редактировать
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
         </div>
     </div>
 </div> <!-- /.container -->
