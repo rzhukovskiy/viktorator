@@ -145,17 +145,24 @@ class CallbackModel
     }
 
     /**
+     * @param PublicEntity $publicEntity
      * @param object $data
      * @param int $startDate
      * @param int $endDate
      */
-    public static function removePostComment($data, $startDate, $endDate)
+    public static function removePostComment($publicEntity, $data, $startDate, $endDate)
     {
+        $adminEntity = $publicEntity->getAdmin();
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        if (!$userEntity) {
+            return;
+        }
+
         $actionEntity = ActionModel::checkByActivity(
             ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
-            $data->object->user_id
+            $userEntity->id
         );
         if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
             return;
@@ -167,17 +174,24 @@ class CallbackModel
     }
 
     /**
+     * @param PublicEntity $publicEntity
      * @param object $data
      * @param int $startDate
      * @param int $endDate
      */
-    public static function restorePostComment($data, $startDate, $endDate)
+    public static function restorePostComment($publicEntity, $data, $startDate, $endDate)
     {
+        $adminEntity = $publicEntity->getAdmin();
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        if (!$userEntity) {
+            return;
+        }
+
         $actionEntity = ActionModel::checkByActivity(
             ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
             $data->object->id,
             $data->object->post_id,
-            $data->object->user_id
+            $userEntity->id
         );
         if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
             return;
