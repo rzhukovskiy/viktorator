@@ -94,8 +94,10 @@ class CallbackModel
     /**
      * @param PublicEntity $publicEntity
      * @param object $data
+     * @param int $startDate
+     * @param int $endDate
      */
-    public static function newPostComment($publicEntity, $data)
+    public static function newPostComment($publicEntity, $data, $startDate, $endDate)
     {
         if ($data->object->from_id == ('-' . $publicEntity->id)) {
             return;
@@ -117,6 +119,9 @@ class CallbackModel
                 'reposts' => 0,
             ]);
             $postEntity->save();
+        }
+        if ($postEntity->created_at > $endDate || $postEntity->created_at < $startDate) {
+            return;
         }
 
         $commentEntity = new CommentEntity([
@@ -141,8 +146,10 @@ class CallbackModel
 
     /**
      * @param object $data
+     * @param int $startDate
+     * @param int $endDate
      */
-    public static function removePostComment($data)
+    public static function removePostComment($data, $startDate, $endDate)
     {
         $actionEntity = ActionModel::checkByActivity(
             ActivityModel::getByName(ActivityModel::NAME_COMMENT),
@@ -150,6 +157,9 @@ class CallbackModel
             $data->object->post_id,
             $data->object->from_id
         );
+        if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
+            return;
+        }
         
         if ($actionEntity) {
             $actionEntity->deactivate();
@@ -158,8 +168,10 @@ class CallbackModel
 
     /**
      * @param object $data
+     * @param int $startDate
+     * @param int $endDate
      */
-    public static function restorePostComment($data)
+    public static function restorePostComment($data, $startDate, $endDate)
     {
         $actionEntity = ActionModel::checkByActivity(
             ActivityModel::getByName(ActivityModel::NAME_COMMENT),
@@ -167,6 +179,9 @@ class CallbackModel
             $data->object->post_id,
             $data->object->from_id
         );
+        if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
+            return;
+        }
 
         if ($actionEntity) {
             $actionEntity->activate();

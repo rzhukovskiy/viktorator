@@ -9,6 +9,7 @@ class CallbackController extends BaseController
      */
     public function actionVk()
     {
+        list($startDate, $endDate) = $this->getWeekPeriod();
         $data = json_decode(file_get_contents('php://input'));
         
         if (!isset($data->group_id) || !isset($data->type)) {
@@ -32,14 +33,13 @@ class CallbackController extends BaseController
                 CallbackModel::newRepost($publicEntity, $data);
                 break;
             case 'wall_reply_new':
-                CallbackModel::newPostComment($publicEntity,
-                    $data);
+                CallbackModel::newPostComment($publicEntity, $data, $startDate, $endDate);
                 break;
             case 'wall_reply_delete':
-                CallbackModel::removePostComment($data);
+                CallbackModel::removePostComment($data, $startDate, $endDate);
                 break;
             case 'wall_reply_restore':
-                CallbackModel::restorePostComment($data);
+                CallbackModel::restorePostComment($data, $startDate, $endDate);
                 break;
             case 'confirmation':
                 $message = $publicEntity->confirm;
@@ -53,5 +53,31 @@ class CallbackController extends BaseController
     {
         echo $message ? $message : 'ok';
         exit();
+    }
+
+    /**
+     * @return array
+     */
+    private function getWeekPeriod()
+    {
+        //Moscow gmt +3
+        $startDate = new DateTime();
+        $startDate->setTimestamp(strtotime('this week'))->setTime(0, 0, 0);
+        $startDate = $startDate->getTimestamp() - 3 * 3600;
+        if ((7 * 24 * 3600 - time() + $startDate) <= 0) {
+            $startDate = new DateTime();
+            $startDate->setTimestamp(strtotime('next week'))->setTime(0, 0, 0);
+            $startDate = $startDate->getTimestamp() - 3 * 3600;
+
+            $endDate = new DateTime();
+            $endDate->setTimestamp(strtotime('next sunday'))->setTime(20, 59, 59);
+            $endDate = $endDate->getTimestamp();
+        } else {
+            $endDate = new DateTime();
+            $endDate->setTimestamp(time())->setTime(20, 59, 59);
+            $endDate = $endDate->getTimestamp();
+        }
+
+        return [$startDate, $endDate];
     }
 }

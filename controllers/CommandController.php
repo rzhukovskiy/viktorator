@@ -99,11 +99,8 @@ class CommandController extends BaseController
 
         try {
             foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
-                ActionModel::clearAllAfterDate($group_id, $startDate);
-                PostModel::clearAllAfterDate($group_id, $startDate);
-                CommentModel::clearAllEmpty($group_id);
                 ScoreModel::collect($publicEntity, $startDate, $endDate);
-                ScoreModel::collectDaily($publicEntity, $beginOfDay);
+                ScoreModel::collectDaily($publicEntity, $beginOfDay, $beginOfDay + 24 * 3600);
 
                 foreach (UserModel::getTop($group_id, 12) as $topUser) {
                     $topUser->saveToTop($week);
