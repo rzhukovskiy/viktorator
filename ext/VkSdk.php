@@ -292,6 +292,11 @@ class VkSdk
             'group_id' => $group_id,
             'server_id' => $server_id,
             'board_post_new' => 1,
+            'wall_post_new' => 1,
+            'wall_repost' => 1,
+            'wall_reply_new' => 1,
+            'wall_reply_delete' => 1,
+            'wall_reply_restore' => 1,
             'access_token' => $token,
         );
 

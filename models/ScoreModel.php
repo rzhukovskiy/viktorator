@@ -62,12 +62,12 @@ class ScoreModel
                     }
                     $userEntity = $listUser[$user_id];
 
-                    $activity = 'like';
+                    $activity = ActivityModel::NAME_LIKE;
                     if ($likeCount > $offset + count($listLikes) - 11) {
-                        $activity = 'ten_like';
+                        $activity = ActivityModel::NAME_TEN_LIKE;
                     }
                     if ($likeCount == $offset + count($listLikes) - 1) {
-                        $activity = 'first_like';
+                        $activity = ActivityModel::NAME_FIRST_LIKE;
                     }
 
                     $actionEntity = new ActionEntity([
@@ -84,7 +84,7 @@ class ScoreModel
                     }
 
                     if ($postAuthor && $postAuthor->id != $user_id) {
-                        $activity = 'post_like';
+                        $activity = ActivityModel::NAME_POST_LIKE;
                         $actionEntity = new ActionEntity([
                             'group_id'         => $publicEntity->id,
                             'user_id'          => $postAuthor->id,
@@ -132,7 +132,7 @@ class ScoreModel
                             }
                             $activity = 'comment_like';
                             if ($user_id == $post['from_id']) {
-                                $activity = 'author_like';
+                                $activity = ActivityModel::NAME_AUTHOR_LIKE;
                             }
 
                             $actionEntity = new ActionEntity([

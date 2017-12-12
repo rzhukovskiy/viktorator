@@ -24,14 +24,14 @@ class CallbackModel
 
         $data = ActionModel::getScores($userEntity->id);
 
-        $likeScores         = isset($data['like']) ? $data['like'] : 0;
-        $tenLikeScores      = isset($data['ten_like']) ? $data['ten_like'] : 0;
-        $firstLikeScores    = isset($data['first_like']) ? $data['first_like'] : 0;
-        $postLikeScores     = isset($data['post_like']) ? $data['post_like'] : 0;
-        $commentScores      = isset($data['comment']) ? $data['comment'] : 0;
-        $commentLikeScores  = isset($data['comment_like']) ? $data['comment_like'] : 0;
-        $authorLike         = isset($data['author_like']) ? $data['author_like'] : 0;
-        $allLikeScores      = isset($data['all_like']) ? $data['all_like'] : 0;
+        $likeScores         = isset($data[ActivityModel::NAME_LIKE])         ? $data[ActivityModel::NAME_LIKE] : 0;
+        $tenLikeScores      = isset($data[ActivityModel::NAME_TEN_LIKE])     ? $data[ActivityModel::NAME_TEN_LIKE] : 0;
+        $firstLikeScores    = isset($data[ActivityModel::NAME_FIRST_LIKE])   ? $data[ActivityModel::NAME_FIRST_LIKE] : 0;
+        $postLikeScores     = isset($data[ActivityModel::NAME_POST_LIKE])    ? $data[ActivityModel::NAME_POST_LIKE] : 0;
+        $commentScores      = isset($data[ActivityModel::NAME_COMMENT])      ? $data[ActivityModel::NAME_COMMENT] : 0;
+        $commentLikeScores  = isset($data[ActivityModel::NAME_COMMENT_LIKE]) ? $data[ActivityModel::NAME_COMMENT_LIKE] : 0;
+        $authorLike         = isset($data[ActivityModel::NAME_AUTHOR_LIKE])  ? $data[ActivityModel::NAME_AUTHOR_LIKE] : 0;
+        $allLikeScores      = isset($data[ActivityModel::NAME_ALL_LIKE])     ? $data[ActivityModel::NAME_ALL_LIKE] : 0;
 
         if ($userEntity->is_member) {
             $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
@@ -133,7 +133,7 @@ class CallbackModel
             'user_social_id'   => $userEntity->social_id,
             'social_id'        => $data->object->id,
             'parent_social_id' => $data->object->post_id,
-            'activity'         => 'comment',
+            'activity'         => ActivityModel::NAME_COMMENT,
             'content'          => $data->object->text,
         ]);
         $actionEntity->save();
