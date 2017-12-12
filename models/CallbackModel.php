@@ -153,7 +153,7 @@ class CallbackModel
     public static function removePostComment($publicEntity, $data, $startDate, $endDate)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
@@ -182,7 +182,7 @@ class CallbackModel
     public static function restorePostComment($publicEntity, $data, $startDate, $endDate)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
