@@ -130,16 +130,20 @@ class ScoreModel
                             if ($comment['from_id'] == $user_id) {
                                 continue;
                             }
-                            $activity = 'comment_like';
+                            $activity = ActivityModel::NAME_COMMENT_LIKE;
+                            $target_id = $userEntity->id;
+                            $source_id = $user_id;
                             if ($user_id == $post['from_id']) {
                                 $activity = ActivityModel::NAME_AUTHOR_LIKE;
+                                $target_id = $user_id;
+                                $source_id = $userEntity->id;
                             }
 
                             $actionEntity = new ActionEntity([
                                 'group_id'         => $publicEntity->id,
-                                'user_id'          => $userEntity->id,
+                                'user_id'          => $target_id,
                                 'user_social_id'   => $userEntity->social_id,
-                                'social_id'        => $user_id,
+                                'social_id'        => $source_id,
                                 'parent_social_id' => $comment['id'],
                                 'activity'         => $activity,
                             ]);

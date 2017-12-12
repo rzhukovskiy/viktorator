@@ -32,7 +32,7 @@ class ActionModel extends BaseModel
     }
 
     /**
-     * @param $user_id
+     * @param int $user_id
      * @return ActionEntity[]|bool
      */
     public static function getByUser($user_id)
@@ -56,7 +56,34 @@ class ActionModel extends BaseModel
     }
 
     /**
-     * @param $user_id
+     * @param int $activity_id
+     * @param int $user_id
+     * @param int $parent_social_id
+     * @return ActionEntity[]|bool
+     */
+    public static function getActivityByUserAndParent($activity_id, $user_id, $parent_social_id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
+            " WHERE activity_id = :activity_id AND user_id = :user_id AND parent_social_id = :parent_social_id");
+        $stmt->execute([
+            'activity_id' => $activity_id,
+            'user_id'   => $user_id,
+            'parent_social_id' => $parent_social_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new ActionEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param int $user_id
      * @return array|bool
      */
     public static function getScores($user_id)

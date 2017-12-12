@@ -171,6 +171,11 @@ class CallbackModel
         if ($actionEntity) {
             $actionEntity->deactivate();
         }
+
+        $activity_id = ActivityModel::getByName(ActivityModel::NAME_COMMENT_LIKE)['id'];
+        foreach (ActionModel::getActivityByUserAndParent($activity_id, $userEntity->id, $data->object->id) as $actionEntity) {
+            $actionEntity->deactivate();
+        }
     }
 
     /**
@@ -198,6 +203,11 @@ class CallbackModel
         }
 
         if ($actionEntity) {
+            $actionEntity->activate();
+        }
+
+        $activity_id = ActivityModel::getByName(ActivityModel::NAME_COMMENT_LIKE)['id'];
+        foreach (ActionModel::getActivityByUserAndParent($activity_id, $userEntity->id, $data->object->id) as $actionEntity) {
             $actionEntity->activate();
         }
     }
