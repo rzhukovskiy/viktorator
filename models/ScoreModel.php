@@ -108,6 +108,9 @@ class ScoreModel
                 $listComments = VkSdk::getCommentList('-' . $publicEntity->id, $post['id'], $publicEntity->standalone_token);
 
                 foreach ($listComments as $comment) {
+                    if (!isset($listSavedComment[$comment['id']])) {
+                        continue;
+                    }
                     if (!isset($listUser[$comment['from_id']])) {
                         $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
                         if (!$userEntity) {
