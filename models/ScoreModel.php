@@ -38,7 +38,7 @@ class ScoreModel
             $postAuthor = null;
             if ($post['from_id'] != '-' . $publicEntity->id) {
                 if (!isset($listUser[$post['from_id']])) {
-                    $postAuthor = UserModel::createFromSocialId($post['from_id'], $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+                    $postAuthor = UserModel::createFromSocialId($post['from_id'], $publicEntity->id, $adminEntity->token);
                     $listUser[$post['from_id']] = $postAuthor;
                 }
                 $postAuthor = $listUser[$post['from_id']];
@@ -54,7 +54,7 @@ class ScoreModel
                         continue;
                     }
                     if (!isset($listUser[$user_id])) {
-                        $userEntity = UserModel::createFromSocialId($user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+                        $userEntity = UserModel::createFromSocialId($user_id, $publicEntity->id, $adminEntity->token);
                         if (!$userEntity) {
                             continue;
                         }
@@ -112,7 +112,7 @@ class ScoreModel
                         continue;
                     }
                     if (!isset($listUser[$comment['from_id']])) {
-                        $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+                        $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $adminEntity->token);
                         if (!$userEntity) {
                             continue;
                         }

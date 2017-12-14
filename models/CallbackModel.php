@@ -8,6 +8,21 @@ class CallbackModel
      * @param PublicEntity $publicEntity
      * @param object $data
      */
+    public static function newUser($publicEntity, $data)
+    {
+        $adminEntity = $publicEntity->getAdmin();
+        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $adminEntity->token);
+
+        if (!$userEntity->is_member && VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
+            $userEntity->is_member = 1;
+            $userEntity->save();
+        }
+    }
+
+    /**
+     * @param PublicEntity $publicEntity
+     * @param object $data
+     */
     public static function newTopicComment($publicEntity, $data)
     {
         if ($data->object->from_id == ('-' . $publicEntity->id)) {
@@ -15,7 +30,7 @@ class CallbackModel
         }
         $adminEntity = $publicEntity->getAdmin();
 
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $adminEntity->token);
 
         if (!$userEntity->is_member && VkSdk::isMember($userEntity->group_id, $userEntity->social_id)) {
             $userEntity->is_member = 1;
@@ -58,7 +73,7 @@ class CallbackModel
     public static function newPost($publicEntity, $data)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
@@ -80,7 +95,7 @@ class CallbackModel
     public static function newRepost($publicEntity, $data)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
@@ -104,7 +119,7 @@ class CallbackModel
         }
         $adminEntity = $publicEntity->getAdmin();
 
-        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->from_id, $publicEntity->id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
@@ -153,7 +168,7 @@ class CallbackModel
     public static function removePostComment($publicEntity, $data, $startDate, $endDate)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }
@@ -186,7 +201,7 @@ class CallbackModel
     public static function restorePostComment($publicEntity, $data, $startDate, $endDate)
     {
         $adminEntity = $publicEntity->getAdmin();
-        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $publicEntity->post_id, $adminEntity->token);
+        $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $adminEntity->token);
         if (!$userEntity) {
             return;
         }

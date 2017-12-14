@@ -23,6 +23,9 @@ class CallbackController extends BaseController
 
         $message = null;
         switch ($data->type) {
+            case 'group_join':
+                CallbackModel::newUser($publicEntity, $data);
+                break;
             case 'board_post_new':
                 CallbackModel::newTopicComment($publicEntity, $data);
                 break;

@@ -43,11 +43,10 @@ class UserModel extends BaseModel
     /**
      * @param int $social_id
      * @param int $group_id
-     * @param int $post_id
      * @param string $token
      * @return UserEntity
      */
-    public static function createFromSocialId($social_id, $group_id, $post_id, $token)
+    public static function createFromSocialId($social_id, $group_id, $token)
     {
         $stmt = self::$pdo
             ->prepare("SELECT * FROM " . self::$nameTable . " WHERE social_id = :social_id AND group_id = :group_id");
