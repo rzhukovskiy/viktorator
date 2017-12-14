@@ -23,6 +23,9 @@ class ScoreModel
         $listPost = VkSdk::getWallContentAfterDate('-' . $publicEntity->id, $startDate, $adminEntity->token);
 
         foreach ($listPost as $post) {
+            if (!isset($listSavedPost[$post['id']])) {
+                continue;
+            }
             if (!empty($post['is_pinned'])) {
                 continue;
             }
