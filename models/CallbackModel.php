@@ -49,15 +49,19 @@ class CallbackModel
         $allLikeScores      = isset($data[ActivityModel::NAME_ALL_LIKE])     ? $data[ActivityModel::NAME_ALL_LIKE] : 0;
 
         if ($userEntity->is_member) {
-            $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
-                . " - лайк поста - $likeScores\n"
-                . " - лайк поста первым - $firstLikeScores\n"
-                . " - лайк поста среди первых - $tenLikeScores\n"
-                . " - лайки ваших постов - $postLikeScores\n"
-                . " - комментарий по теме поста - $commentScores\n"
-                . " - комментарий, который набирает лайки - $commentLikeScores\n"
-                . " - лайк от автора поста - $authorLike\n"
-                . " - лайки ко всем постам в течение дня - $allLikeScores\n";
+            if(file_exists('lock.lock')) {
+                $message = 'Идет пересчет очков. Повторите запрос позже.';
+            } else {
+                $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
+                    . " - лайк поста - $likeScores\n"
+                    . " - лайк поста первым - $firstLikeScores\n"
+                    . " - лайк поста среди первых - $tenLikeScores\n"
+                    . " - лайки ваших постов - $postLikeScores\n"
+                    . " - комментарий по теме поста - $commentScores\n"
+                    . " - комментарий, который набирает лайки - $commentLikeScores\n"
+                    . " - лайк от автора поста - $authorLike\n"
+                    . " - лайки ко всем постам в течение дня - $allLikeScores\n";
+            }
         } else {
             $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
         }

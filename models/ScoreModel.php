@@ -193,16 +193,12 @@ class ScoreModel
 
         $message = '';
         $place = 1;
-        if(file_exists('lock.lock')) {
-            $message = 'Идет пересчет очков. Повторите запрос позже.';
-        } else {
-            foreach ($data as $user) {
-                $message .= "$place. [id{$user->social_id}|{$user->name}] - {$user->scores}\n";
-                if ($place != count($data) && !($place % 12)) {
-                    $message .= "----------------------------------------------\n";
-                }
-                $place++;
+        foreach ($data as $user) {
+            $message .= "$place. [id{$user->social_id}|{$user->name}] - {$user->scores}\n";
+            if ($place != count($data) && !($place % 12)) {
+                $message .= "----------------------------------------------\n";
             }
+            $place++;
         }
 
         VkSdk::editTopic($publicEntity->id, $publicEntity->topic_id, $message, $publicEntity->standalone_token);
