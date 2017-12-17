@@ -39,6 +39,11 @@ class CommandController extends BaseController
 
     public function actionUpdate()
     {
+        if (file_exists('lock.lock')) {
+            echo "Blocked!\n";
+            die;
+        }
+
         try {
             foreach (PublicModel::getAllActive() as $group_id => $publicEntity) {
                 ScoreModel::updateTable($publicEntity);
