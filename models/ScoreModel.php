@@ -24,8 +24,16 @@ class ScoreModel
 
         foreach ($listPost as $post) {
             if (!isset($listSavedPost[$post['id']])) {
-                continue;
+                $listSavedPost[$post['id']] = new PostEntity([
+                    'group_id'  => $publicEntity->id,
+                    'social_id' => $post['id'],
+                    'likes' => 0,
+                    'comments' => 0,
+                    'reposts' => 0,
+                ]);
+                $listSavedPost[$post['id']]->save();
             }
+
             if (!empty($post['is_pinned'])) {
                 continue;
             }
@@ -112,7 +120,13 @@ class ScoreModel
 
                 foreach ($listComments as $comment) {
                     if (!isset($listSavedComment[$comment['id']])) {
-                        continue;
+                        $listSavedComment[$comment['id']] = new CommentEntity([
+                            'post_id'   => $postEntity->id,
+                            'group_id'  => $publicEntity->id,
+                            'social_id' => $comment['id'],
+                            'likes'     => 0,
+                        ]);
+                        $listSavedComment[$comment['id']]->save();
                     }
                     if (!isset($listUser[$comment['from_id']])) {
                         $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $adminEntity->token);
