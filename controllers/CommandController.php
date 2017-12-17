@@ -69,7 +69,6 @@ class CommandController extends BaseController
                 PostModel::clearAllAfterDate($group_id, $startDate);
                 CommentModel::clearAllEmpty($group_id);
                 UserModel::resetAll($group_id);
-                ActionModel::resetAll($group_id);
             }
 
             echo "Done!\n";
