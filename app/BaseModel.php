@@ -56,4 +56,27 @@ class BaseModel
             return $params['id'];
         }
     }
+
+    /**
+     * @param $params
+     * @return string
+     */
+    public static function delete($params)
+    {
+        $updates = [];
+        foreach ($params as $name => $value) {
+            $updates[] = "`$name` = :$name";
+        }
+        $updates = implode(", ", $updates);
+
+        if (empty($params['id'])) {
+            $stmt = self::$pdo->prepare("DELETE FROM " . static::$nameTable . " WHERE $updates");
+            return $stmt->execute($params);            
+        } else {
+            $stmt = self::$pdo->prepare("DELETE FROM " . static::$nameTable . " WHERE id = :id");
+            return $stmt->execute([
+                'id' => $params['id'],
+            ]);            
+        }
+    }
 }

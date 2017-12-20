@@ -179,6 +179,12 @@ class ScoreModel
             $postEntity->comments = $post['comments']['count'];
             $postEntity->reposts  = $post['reposts']['count'];
             $postEntity->save();
+
+            unset($listSavedPost[$post['id']]);
+        }
+        
+        foreach ($listSavedPost as $savedPost) {
+            $savedPost->delete();
         }
 
         return $totalScores;

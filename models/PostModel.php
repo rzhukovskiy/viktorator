@@ -6,6 +6,20 @@ class PostModel extends BaseModel
 {
     public static $nameTable = 'post';
 
+    public static function getById($id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return new PostEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @param int $group_id
      * @param int $date

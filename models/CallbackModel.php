@@ -162,10 +162,8 @@ class CallbackModel
     /**
      * @param PublicEntity $publicEntity
      * @param object $data
-     * @param int $startDate
-     * @param int $endDate
      */
-    public static function removePostComment($publicEntity, $data, $startDate, $endDate)
+    public static function removePostComment($publicEntity, $data)
     {
         $adminEntity = $publicEntity->getAdmin();
         $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $adminEntity->token);
@@ -173,32 +171,17 @@ class CallbackModel
             return;
         }
 
-        $actionEntity = ActionModel::checkByActivity(
-            ActivityModel::getByName(ActivityModel::NAME_COMMENT)['id'],
-            $data->object->id,
-            $data->object->post_id,
-            $userEntity->id
-        );
-        if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
-            return;
-        }
-        
-        if ($actionEntity) {
-            $actionEntity->deactivate();
-        }
-
-        foreach (ActionModel::getActivityByUserAndParent($userEntity->id, $data->object->id) as $actionEntity) {
-            $actionEntity->deactivate();
+        $commentEntity = CommentModel::getByGroupAndSocialId($publicEntity->id, $data->object->id);
+        if ($commentEntity) {
+            $commentEntity->delete();
         }
     }
 
     /**
      * @param PublicEntity $publicEntity
      * @param object $data
-     * @param int $startDate
-     * @param int $endDate
      */
-    public static function restorePostComment($publicEntity, $data, $startDate, $endDate)
+    public static function restorePostComment($publicEntity, $data)
     {
         $adminEntity = $publicEntity->getAdmin();
         $userEntity = UserModel::createFromSocialId($data->object->user_id, $publicEntity->id, $adminEntity->token);
@@ -212,16 +195,12 @@ class CallbackModel
             $data->object->post_id,
             $userEntity->id
         );
-        if ($actionEntity->created_at > $endDate || $actionEntity->created_at < $startDate) {
-            return;
-        }
 
         if ($actionEntity) {
             $actionEntity->activate();
         }
 
-        $activity_id = ActivityModel::getByName(ActivityModel::NAME_COMMENT_LIKE)['id'];
-        foreach (ActionModel::getActivityByUserAndParent($activity_id, $userEntity->id, $data->object->id) as $actionEntity) {
+        foreach (ActionModel::getActivityByUserAndParent($userEntity->id, $data->object->id) as $actionEntity) {
             $actionEntity->activate();
         }
     }

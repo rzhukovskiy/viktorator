@@ -39,7 +39,9 @@ class ActionEntity extends BaseEntity
     public function save()
     {
         if (ActionModel::checkByActivity($this->activity_id, $this->social_id, $this->parent_social_id, $this->user_id)) {
-            return;
+            if (!$this->is_active) {
+                UserModel::addScores($this->user_id, -1 * $this->scores);
+            }            
         }
         
         unset($this->data['activity']);
@@ -48,6 +50,15 @@ class ActionEntity extends BaseEntity
         UserModel::addScores($this->user_id, $this->scores);
         
         $this->id = $id;
+    }
+
+    public function delete()
+    {
+        if ($this->is_active) {
+            UserModel::addScores($this->user_id, -1 * $this->scores);
+        }
+
+        return parent::delete();
     }
 
     public function deactivate()

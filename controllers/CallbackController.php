@@ -39,10 +39,10 @@ class CallbackController extends BaseController
                 CallbackModel::newPostComment($publicEntity, $data, $startDate, $endDate);
                 break;
             case 'wall_reply_delete':
-                CallbackModel::removePostComment($publicEntity, $data, $startDate, $endDate);
+                CallbackModel::removePostComment($publicEntity, $data);
                 break;
             case 'wall_reply_restore':
-                CallbackModel::restorePostComment($publicEntity, $data, $startDate, $endDate);
+                CallbackModel::restorePostComment($publicEntity, $data);
                 break;
             case 'confirmation':
                 $message = $publicEntity->confirm;

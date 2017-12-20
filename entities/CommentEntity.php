@@ -20,4 +20,14 @@ class CommentEntity extends BaseEntity
         $id = CommentModel::save($this->data);
         $this->id = $id;
     }
+
+    public function delete()
+    {
+        $postEntity = PostModel::getById($this->post_id);
+        foreach (ActionModel::getActivityBySocialAndParent($this->social_id, $postEntity->social_id) as $actionEntity) {
+            $actionEntity->deactivate();
+        }
+        
+        return parent::delete();
+    }
 }

@@ -25,4 +25,17 @@ class PostEntity extends BaseEntity
         $id = PostModel::save($this->data);
         $this->id = $id;
     }
+
+    public function delete()
+    {
+        foreach (ActionModel::getActivityBySocialAndParent($this->social_id, $this->social_id) as $actionEntity) {
+            $actionEntity->deactivate();
+        }
+        
+        foreach (CommentModel::getAllByPost($this->id) as $commentEntity) {
+            $commentEntity->delete();
+        }
+
+        return parent::delete();
+    }
 }
