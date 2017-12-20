@@ -33,6 +33,8 @@ class ScoreModel
                 ]);
                 $listSavedPost[$post['id']]->save();
             }
+            $postEntity = $listSavedPost[$post['id']];
+            unset($listSavedPost[$post['id']]);
 
             if (!empty($post['is_pinned'])) {
                 continue;
@@ -43,8 +45,6 @@ class ScoreModel
             if ($post['date'] < $startDate) {
                 break;
             }
-            
-            $postEntity = $listSavedPost[$post['id']];
 
             $postAuthor = null;
             if ($post['from_id'] != '-' . $publicEntity->id) {
@@ -179,8 +179,6 @@ class ScoreModel
             $postEntity->comments = $post['comments']['count'];
             $postEntity->reposts  = $post['reposts']['count'];
             $postEntity->save();
-
-            unset($listSavedPost[$post['id']]);
         }
         
         foreach ($listSavedPost as $savedPost) {
