@@ -343,7 +343,7 @@ class VkSdk
                 'http' => array(
                     'method'  => 'POST',
                     'header'  => 'Content-type: application/x-www-form-urlencoded',
-                    'timeout' => 1,
+                    'timeout' => 10,
                     'content' => http_build_query($params)
                 )
             ))), true);

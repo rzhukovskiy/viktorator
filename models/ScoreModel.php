@@ -128,6 +128,7 @@ class ScoreModel
                         ]);
                         $listSavedComment[$comment['id']]->save();
                     }
+
                     if (!isset($listUser[$comment['from_id']])) {
                         $userEntity = UserModel::createFromSocialId($comment['from_id'], $publicEntity->id, $adminEntity->token);
                         if (!$userEntity) {
@@ -138,6 +139,20 @@ class ScoreModel
                     
                     $userEntity = $listUser[$comment['from_id']];
                     $commentEntity = $listSavedComment[$comment['id']];
+
+                    $actionEntity = new ActionEntity([
+                        'group_id'         => $publicEntity->id,
+                        'user_id'          => $userEntity->id,
+                        'user_social_id'   => $userEntity->social_id,
+                        'social_id'        => $comment['id'],
+                        'parent_social_id' => $postEntity->social_id,
+                        'activity'         => ActivityModel::NAME_COMMENT,
+                        'content'          => $comment['text'],
+                    ]);
+                    if (!isset($listAction[$actionEntity->user_id][ActivityModel::NAME_COMMENT][$actionEntity->parent_social_id][$actionEntity->social_id])) {
+                        $actionEntity->save();
+                        $totalScores += $actionEntity->scores;
+                    }
 
                     $likeCount = 0;
                     if ($comment['likes']['count'] && $commentEntity->likes != $comment['likes']['count']) {
