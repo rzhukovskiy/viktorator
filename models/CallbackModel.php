@@ -200,7 +200,7 @@ class CallbackModel
             $actionEntity->activate();
         }
 
-        foreach (ActionModel::getActivityByUserAndParent($userEntity->id, $data->object->id) as $actionEntity) {
+        foreach (ActionModel::getNotActiveByUserAndParent($userEntity->id, $data->object->id) as $actionEntity) {
             $actionEntity->activate();
         }
     }

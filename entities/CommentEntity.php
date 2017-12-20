@@ -25,7 +25,7 @@ class CommentEntity extends BaseEntity
     {
         $postEntity = PostModel::getById($this->post_id);
         
-        $listAction = ActionModel::getActivityBySocialAndParent($this->social_id, $postEntity->social_id);
+        $listAction = ActionModel::getActiveBySocialAndParent($this->social_id, $postEntity->social_id);
         if ($listAction) {
             foreach ($listAction as $actionEntity) {
                 $actionEntity->deactivate();

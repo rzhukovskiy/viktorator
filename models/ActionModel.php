@@ -56,14 +56,37 @@ class ActionModel extends BaseModel
     }
 
     /**
+     * @param int $parent_social_id
+     * @return ActionEntity[]|bool
+     */
+    public static function getActiveByParent($parent_social_id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
+            " WHERE parent_social_id = :parent_social_id AND is_active = 1");
+        $stmt->execute([
+            'parent_social_id' => $parent_social_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new ActionEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @param int $social_id
      * @param int $parent_social_id
      * @return ActionEntity[]|bool
      */
-    public static function getActivityBySocialAndParent($social_id, $parent_social_id)
+    public static function getActiveBySocialAndParent($social_id, $parent_social_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
-            " WHERE social_id = :social_id AND parent_social_id = :parent_social_id");
+            " WHERE social_id = :social_id AND parent_social_id = :parent_social_id AND is_active = 1");
         $stmt->execute([
             'social_id'        => $social_id,
             'parent_social_id' => $parent_social_id,
@@ -85,10 +108,10 @@ class ActionModel extends BaseModel
      * @param int $parent_social_id
      * @return ActionEntity[]|bool
      */
-    public static function getActivityByUserAndParent($user_id, $parent_social_id)
+    public static function getNotActiveByUserAndParent($user_id, $parent_social_id)
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
-            " WHERE user_id = :user_id AND parent_social_id = :parent_social_id");
+            " WHERE user_id = :user_id AND parent_social_id = :parent_social_id AND is_active = 0");
         $stmt->execute([
             'user_id'   => $user_id,
             'parent_social_id' => $parent_social_id,

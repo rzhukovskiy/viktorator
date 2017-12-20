@@ -28,7 +28,7 @@ class PostEntity extends BaseEntity
 
     public function delete()
     {
-        foreach (ActionModel::getActivityBySocialAndParent($this->social_id, $this->social_id) as $actionEntity) {
+        foreach (ActionModel::getActiveByParent($this->social_id) as $actionEntity) {
             $actionEntity->deactivate();
         }
         
