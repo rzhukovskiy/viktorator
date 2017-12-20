@@ -29,8 +29,8 @@ class PostModel extends BaseModel
     {
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE created_at >= :date AND group_id = :group_id");
         $stmt->execute([
-            'date'  => $date,
-            'group_id'  => $group_id,
+            'date'     => $date,
+            'group_id' => $group_id,
         ]);
 
         if ($stmt->rowCount()) {
