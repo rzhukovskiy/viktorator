@@ -58,7 +58,7 @@ class ActionEntity extends BaseEntity
             UserModel::addScores($this->user_id, -1 * $this->scores);
         }
 
-        return parent::delete();
+        return ActionModel::delete($this->data);
     }
 
     public function deactivate()

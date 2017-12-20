@@ -6,8 +6,6 @@ class Controller extends BaseController
 {
     /** @var $admin AdminEntity  */
     protected $admin = null;
-    /** @var $admin BotEntity  */
-    protected $bot   = null;
 
     public function init()
     {

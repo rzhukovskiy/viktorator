@@ -36,6 +36,6 @@ class PostEntity extends BaseEntity
             $commentEntity->delete();
         }
 
-        return parent::delete();
+        return PostModel::delete($this->data);
     }
 }

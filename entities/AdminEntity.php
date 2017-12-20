@@ -18,10 +18,5 @@ class AdminEntity extends BaseEntity
     {
         $id = AdminModel::save($this->data);
         $this->id = $id;
-    }
-    
-    public function connectToBot()
-    {
-        AdminModel::connectToBot($this->id);
-    }    
+    } 
 }

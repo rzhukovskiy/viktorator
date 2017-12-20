@@ -28,6 +28,6 @@ class CommentEntity extends BaseEntity
             $actionEntity->deactivate();
         }
         
-        return parent::delete();
+        return CommentModel::delete($this->data);
     }
 }

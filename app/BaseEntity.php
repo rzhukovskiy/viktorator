@@ -28,9 +28,4 @@ class BaseEntity
     {
         $this->data[$name] = $value;
     }
-
-    public function delete()
-    {
-        return BaseModel::delete($this->data);
-    }
 }
