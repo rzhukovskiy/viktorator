@@ -65,7 +65,7 @@ class ActionModel extends BaseModel
         $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable .
             " WHERE social_id = :social_id AND parent_social_id = :parent_social_id");
         $stmt->execute([
-            'user_id'          => $social_id,
+            'social_id'        => $social_id,
             'parent_social_id' => $parent_social_id,
         ]);
 
