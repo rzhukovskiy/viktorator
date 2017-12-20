@@ -195,9 +195,11 @@ class ScoreModel
             $postEntity->reposts  = $post['reposts']['count'];
             $postEntity->save();
         }
-        
-        foreach ($listSavedPost as $savedPost) {
-            $savedPost->delete();
+
+        if (count($listPost) > 5 && count($listSavedPost) < 5) {
+            foreach ($listSavedPost as $savedPost) {
+                $savedPost->delete();
+            }
         }
 
         return $totalScores;
