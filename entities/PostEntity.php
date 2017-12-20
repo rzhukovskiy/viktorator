@@ -32,8 +32,11 @@ class PostEntity extends BaseEntity
             $actionEntity->deactivate();
         }
         
-        foreach (CommentModel::getAllByPost($this->id) as $commentEntity) {
-            $commentEntity->delete();
+        $listComment = CommentModel::getAllByPost($this->id);
+        if ($listComment) {
+            foreach ($listComment as $commentEntity) {
+                $commentEntity->delete();
+            }            
         }
 
         return PostModel::delete($this->data);

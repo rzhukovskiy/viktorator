@@ -24,8 +24,12 @@ class CommentEntity extends BaseEntity
     public function delete()
     {
         $postEntity = PostModel::getById($this->post_id);
-        foreach (ActionModel::getActivityBySocialAndParent($this->social_id, $postEntity->social_id) as $actionEntity) {
-            $actionEntity->deactivate();
+        
+        $listAction = ActionModel::getActivityBySocialAndParent($this->social_id, $postEntity->social_id);
+        if ($listAction) {
+            foreach ($listAction as $actionEntity) {
+                $actionEntity->deactivate();
+            }
         }
         
         return CommentModel::delete($this->data);
