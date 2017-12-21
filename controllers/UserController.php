@@ -31,4 +31,16 @@ class UserController extends Controller
             'listGroup' => $listGroup,
         ]);
     }
+
+    public function actionGive()
+    {
+        $scores = isset($_REQUEST['scores']) ? $_REQUEST['scores'] : false;
+        $user_id = isset($_REQUEST['user_id']) ? $_REQUEST['user_id'] : false;
+        
+        if ($scores && $user_id) {
+            UserModel::addScores($user_id, $scores);
+        }
+
+        $this->redirect('user/list');
+    }
 }

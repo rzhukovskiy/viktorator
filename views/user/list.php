@@ -32,6 +32,7 @@
                     <th scope="col">Member</th>
                     <th scope="col">Repost</th>
                     <th scope="col">Scores</th>
+                    <th scope="col">Добавить</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,17 @@
                         <td><?= $user->is_member?></td>
                         <td><?= $user->is_repost?></td>
                         <td><a href="/action/list?user_id=<?= $user->id ?>"><?= $user->scores?></a></td>
+                        <td>
+                            <form class="form-inline" action="/user/give">
+                                <div class="d-flex form-group">
+                                    <input type="hidden" class="form-control" name="user_id" value="<?= $user->id ?>" />
+                                    <input type="text" class="form-control" name="scores" />
+                                    <div class="d-flex ml-sm-2 form-group">
+                                        <button type="submit" class="btn btn-info">+</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 <?php } ?>
                 </tbody>
