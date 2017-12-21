@@ -45,7 +45,7 @@ class ActivityModel extends BaseModel
         } else {
             $activityEntity = new ActivityEntity([
                 'description' => $name,
-                'scores'      => 1,
+                'price'       => 1,
             ]);
             $activityEntity->save();
             
