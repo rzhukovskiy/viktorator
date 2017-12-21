@@ -47,6 +47,7 @@ class CallbackModel
         $commentLikeScores  = isset($data[ActivityModel::NAME_COMMENT_LIKE]) ? $data[ActivityModel::NAME_COMMENT_LIKE] : 0;
         $authorLike         = isset($data[ActivityModel::NAME_AUTHOR_LIKE])  ? $data[ActivityModel::NAME_AUTHOR_LIKE] : 0;
         $allLikeScores      = isset($data[ActivityModel::NAME_ALL_LIKE])     ? $data[ActivityModel::NAME_ALL_LIKE] : 0;
+        $adminScores        = isset($data[ActivityModel::NAME_ADMIN])        ? $data[ActivityModel::NAME_ADMIN] : 0;
 
         if ($userEntity->is_member) {
             $message = "[id$userEntity->social_id|$userEntity->name], ваши баллы:\n"
@@ -58,7 +59,7 @@ class CallbackModel
                 . " - комментарий, который набирает лайки - $commentLikeScores\n"
                 . " - лайк от автора поста - $authorLike\n"
                 . " - лайки ко всем постам в течение дня - $allLikeScores\n"
-                . " - очки от администрации - $allLikeScores\n";
+                . " - очки от администрации - $adminScores\n";
         } else {
             $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
         }
