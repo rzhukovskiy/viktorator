@@ -104,6 +104,28 @@ class UserModel extends BaseModel
             return false;
         }
     }
+
+    /**
+     * @param int $group_id
+     * @return UserEntity[]|bool
+     */
+    public static function getAllWithScores($group_id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE group_id = :group_id AND scores != 0 ORDER BY scores DESC");
+        $stmt->execute([
+            'group_id'  => $group_id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[$row['social_id']] = new UserEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
     
     public static function addScores($id, $scores)
     {

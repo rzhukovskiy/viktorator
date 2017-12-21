@@ -13,7 +13,7 @@ class UserController extends Controller
         }
 
         $this->render('user/list', [
-            'listUser' => UserModel::getAll($group_id),
+            'listUser' => UserModel::getAllWithScores($group_id),
             'listGroup' => $listGroup,
         ]);
     }
