@@ -19,6 +19,20 @@ class UserModel extends BaseModel
         ]);
     }
 
+    public static function getById($id)
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        if ($stmt->rowCount()) {
+            return new UserEntity($stmt->fetch(PDO::FETCH_ASSOC));
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @param int $socialId
      * @param int $group_id

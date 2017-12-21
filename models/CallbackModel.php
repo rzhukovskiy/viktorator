@@ -57,7 +57,8 @@ class CallbackModel
                 . " - комментарий по теме поста - $commentScores\n"
                 . " - комментарий, который набирает лайки - $commentLikeScores\n"
                 . " - лайк от автора поста - $authorLike\n"
-                . " - лайки ко всем постам в течение дня - $allLikeScores\n";
+                . " - лайки ко всем постам в течение дня - $allLikeScores\n"
+                . " - очки от администрации - $allLikeScores\n";
         } else {
             $message = "[id$userEntity->social_id|$userEntity->name], Вы не являетесь участником сообщества. Данные по количествам баллов недоступны. Сначала вступите :)";
         }

@@ -12,6 +12,7 @@ class ActivityModel extends BaseModel
     const NAME_AUTHOR_LIKE  = 'author_like';
     const NAME_POST_LIKE    = 'post_like';
     const NAME_ALL_LIKE     = 'all_like';
+    const NAME_ADMIN        = 'admin';
     
     public static $listActivity = [
         self::NAME_LIKE,
@@ -22,6 +23,7 @@ class ActivityModel extends BaseModel
         self::NAME_AUTHOR_LIKE,
         self::NAME_POST_LIKE,
         self::NAME_ALL_LIKE,
+        self::NAME_ADMIN,
     ];
 
     public static $nameTable = 'activity';
@@ -41,7 +43,13 @@ class ActivityModel extends BaseModel
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row;
         } else {
-            return false;
+            $activityEntity = new ActivityEntity([
+                'description' => $name,
+                'scores'      => 1,
+            ]);
+            $activityEntity->save();
+            
+            return self::getByName($name);
         }
     }
 

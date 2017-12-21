@@ -36,9 +36,19 @@ class UserController extends Controller
     {
         $scores = isset($_REQUEST['scores']) ? $_REQUEST['scores'] : false;
         $user_id = isset($_REQUEST['user_id']) ? $_REQUEST['user_id'] : false;
-        
+
         if ($scores && $user_id) {
-            UserModel::addScores($user_id, $scores);
+            $userEntity = UserModel::getById($user_id);
+            $actionEntity = new ActionEntity([
+                'group_id'         => $userEntity->group_id,
+                'user_id'          => $userEntity->id,
+                'user_social_id'   => $userEntity->social_id,
+                'social_id'        => time(),
+                'parent_social_id' => time(),
+                'scores'           => $scores,
+                'activity'         => ActivityModel::NAME_ADMIN,
+            ]);
+            $actionEntity->save();
         }
 
         $this->redirect('user/list');

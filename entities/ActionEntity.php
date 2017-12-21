@@ -21,7 +21,7 @@ class ActionEntity extends BaseEntity
         if(empty($data['activity_id'])) {
             $row = ActivityModel::getByName($data['activity']);
             $data['activity_id'] = $row['id'];
-            $data['scores']      = $row['price'];
+            $data['scores']      = !empty($data['scores']) ? $data['scores'] : $row['price'];
         } elseif(empty($data['activity'])) {
             $row = ActivityModel::getById($data['activity_id']);
             $data['activity'] = $row['description'];
