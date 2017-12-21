@@ -14,7 +14,7 @@ class ActivityEntity extends BaseEntity
 {
     public function save()
     {
-        $id = ActionModel::save($this->data);
+        $id = ActivityModel::save($this->data);
         $this->id = $id;
     }
 }
