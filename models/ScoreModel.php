@@ -196,7 +196,7 @@ class ScoreModel
             $postEntity->save();
         }
 
-        if (count($listPost) > 5 && count($listSavedPost) < 5) {
+        if (count($listPost) > 5) {
             foreach ($listSavedPost as $savedPost) {
                 $savedPost->delete();
             }
