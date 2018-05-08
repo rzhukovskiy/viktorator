@@ -12,7 +12,6 @@ class FingerprintController extends BaseController
         if ($hash) {
             $lead = new LeadEntity($_POST['Lead']);
             $lead->ip = $_SERVER['REMOTE_ADDR'];
-            $lead->config = serialize($lead->config);
             $lead->save();
         }
 
