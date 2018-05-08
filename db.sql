@@ -132,4 +132,5 @@ CREATE TABLE `lead` (
   `ip` VARCHAR(255) NOT NULL,
   `hash` VARCHAR(255) NULL,
   `config` VARCHAR(1000) NULL,
+  `created_at` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`));
