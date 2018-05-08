@@ -129,7 +129,7 @@ INSERT INTO `activity` (`description`, `price`) VALUES ('all_like', '50');
 
 CREATE TABLE `lead` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `ip` INT NOT NULL,
+  `ip` VARCHAR(255) NOT NULL,
   `hash` VARCHAR(255) NULL,
   `config` VARCHAR(1000) NULL,
   PRIMARY KEY (`id`));
