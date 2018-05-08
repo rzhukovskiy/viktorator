@@ -8,7 +8,7 @@
     }
 
     function showRes() {
-        new Fingerprint2().get(function(result, components) {
+        new Fingerprint2({excludeDeviceMemory: true }).get(function(result, components) {
             alert(result);
             console.log(components);
         });
