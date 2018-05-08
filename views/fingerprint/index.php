@@ -18,7 +18,7 @@
 
     setTimeout(function(){
         loadJs("https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.8.0/fingerprint2.min.js");
-    },500);
+    },50);
 </script>
 <div class="container">
     <div class="block">
