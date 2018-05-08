@@ -9,6 +9,7 @@
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Дата</th>
                     <th scope="col">ip</th>
                     <th scope="col">Useragent</th>
                     <th scope="col">Hash</th>
