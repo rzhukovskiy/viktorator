@@ -126,3 +126,10 @@ INSERT INTO `activity` (`description`, `price`) VALUES ('comment_like', '1');
 INSERT INTO `activity` (`description`, `price`) VALUES ('author_like', '5');
 INSERT INTO `activity` (`description`, `price`) VALUES ('post_like', '5');
 INSERT INTO `activity` (`description`, `price`) VALUES ('all_like', '50');
+
+CREATE TABLE `lead` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `ip` INT NOT NULL,
+  `hash` VARCHAR(255) NULL,
+  `config` VARCHAR(1000) NULL,
+  PRIMARY KEY (`id`));
