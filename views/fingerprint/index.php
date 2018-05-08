@@ -12,7 +12,7 @@
             var span = document.createElement('span');
             span.innerHTML = result;
             document.getElementById('hash').appendChild(span);
-            $.post("/fingerprint/", { Lead: {hash: result, config: components.user_agent }});
+            $.post("/fingerprint/", { Lead: {hash: result, config: components[0].value }});
         });
     }
 
