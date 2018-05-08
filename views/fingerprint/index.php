@@ -10,12 +10,13 @@
     function showRes() {
         new Fingerprint2().get(function(result, components) {
             alert(result);
+            console.log(components);
         });
     }
 
     setTimeout(function(){
         loadJs("https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.8.0/fingerprint2.min.js");
-    },50);
+    },500);
 </script>
 <div class="container">
     <div class="block">
