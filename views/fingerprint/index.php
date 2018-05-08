@@ -9,7 +9,9 @@
 
     function showRes() {
         new Fingerprint2({excludeDeviceMemory: true }).get(function(result, components) {
-            alert(result);
+            var span = document.createElement('span');
+            span.innerHTML = result;
+            document.getElementById('hash').appendChild(span);
             console.log(components);
         });
     }
@@ -20,5 +22,8 @@
 </script>
 <div class="container">
     <div class="block">
+        <div class="block__body bg-white body_main" id="hash">
+
+        </div>
     </div>
 </div> <!-- /.container -->
