@@ -8,7 +8,7 @@
     }
 
     function showRes() {
-        new Fingerprint2({excludeDeviceMemory: true }).get(function(result, components) {
+        new Fingerprint2({excludeDeviceMemory: true, excludeUserAgent: true }).get(function(result, components) {
             var span = document.createElement('span');
             span.innerHTML = result;
             document.getElementById('hash').appendChild(span);
