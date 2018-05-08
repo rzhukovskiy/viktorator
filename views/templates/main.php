@@ -45,6 +45,9 @@
                         <li class="nav-item <?= "$this->controller/$this->action" == 'site/index' ? 'active' : ''?>">
                             <a class="nav-link" href="/">Home</a>
                         </li>
+                        <li class="nav-item <?= $this->controller == 'lead' ? 'active' : ''?>">
+                            <a class="nav-link" href="/lead/list">Отпечатки</a>
+                        </li>
                         <li class="nav-item <?= $this->controller == 'admin' ? 'active' : ''?>">
                             <a class="nav-link" href="/admin/list">Админы</a>
                         </li>

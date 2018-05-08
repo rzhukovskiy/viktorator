@@ -23,4 +23,23 @@ class LeadModel extends BaseModel
             return false;
         }
     }
+
+    /**
+     * @return LeadEntity[]|bool
+     */
+    public static function getAll()
+    {
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable);
+        $stmt->execute();
+
+        if ($stmt->rowCount()) {
+            $res = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $res[] = new LeadEntity($row);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
 }
