@@ -4,6 +4,7 @@
  * @property integer    $id
  * @property integer    $ip
  * @property integer    $created_at
+ * @property string     $useragent
  * @property string     $hash
  * @property string     $config
  */

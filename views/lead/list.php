@@ -6,10 +6,10 @@
 <div class="container">
     <div class="block">
         <div class="block__body">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" style="font-size: 11px;">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Дата</th>
+                    <th scope="col" style="width: 115px;">Дата</th>
                     <th scope="col">ip</th>
                     <th scope="col">Useragent</th>
                     <th scope="col">Hash</th>
