@@ -29,7 +29,7 @@ class LeadModel extends BaseModel
      */
     public static function getAll()
     {
-        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable);
+        $stmt = self::$pdo->prepare("SELECT * FROM " . self::$nameTable . " ORDER BY hash, created_at DESC");
         $stmt->execute();
 
         if ($stmt->rowCount()) {
