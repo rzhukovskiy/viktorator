@@ -9,10 +9,24 @@
 
     function showRes() {
         new Fingerprint2({ excludeUserAgent: true }).get(function(result, components) {
+            var md = new MobileDetect();
+            var hash = murmurHash3.x64(
+                result +
+                md.mobile() +
+                md.phone() +
+                md.mobileGrade() +
+                md.os() +
+                md.version('Mobile') +
+                md.version('iPhone') +
+                md.version('iOs') +
+                md.version('Safari') +
+                md.version('Webkit') +
+                md.versionStr('Build')
+            );
             var span = document.createElement('span');
-            span.innerHTML = result;
+            span.innerHTML = hash;
             document.getElementById('hash').appendChild(span);
-            $.post("/fingerprint/", { Lead: {hash: result, config: JSON.stringify(components) }});
+            $.post("/fingerprint/", { Lead: {hash: hash, config: JSON.stringify(components) }});
         });
     }
 
