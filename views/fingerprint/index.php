@@ -10,7 +10,7 @@
     function showRes() {
         new Fingerprint2({ excludeUserAgent: true }).get(function(result, components) {
             var md = new MobileDetect();
-            var hash = murmurHash3.x64(
+            var hash = murmurHash3.x64.hash128(
                 result +
                 md.mobile() +
                 md.phone() +
